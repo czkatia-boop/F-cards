@@ -1,0 +1,248 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Polish Cards</title>
+<style>
+:root{font-family:system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;color:#222;background:#f6f6f3}
+*{box-sizing:border-box}body{margin:0}.wrap{max-width:1050px;margin:auto;padding:24px}
+header{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:20px}
+h1{font-size:25px;margin:0}h2{margin-top:0}.muted{color:#777}
+nav,.actions{display:flex;gap:8px;flex-wrap:wrap}button,.filebtn{border:1px solid #ccc;background:white;border-radius:10px;padding:9px 13px;cursor:pointer;font:inherit}
+button.primary{background:#222;color:#fff;border-color:#222}button.danger{color:#a00}
+input,textarea,select{width:100%;padding:10px;border:1px solid #ccc;border-radius:9px;font:inherit;background:#fff}
+textarea{min-height:80px;resize:vertical}.grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.card,.panel{background:#fff;border:1px solid #ddd;border-radius:14px;padding:18px;margin-bottom:14px}
+.statgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}.stat{background:#f1f1ee;padding:15px;border-radius:12px}
+.word{font-size:30px;font-weight:700}.translation{font-size:22px;margin:10px 0}.example{padding:12px;background:#f7f7f5;border-radius:10px;margin-top:12px}
+.row{display:flex;gap:8px;align-items:center}.row>*{flex:1}.hidden{display:none!important}
+.list{display:grid;gap:8px}.item{display:flex;justify-content:space-between;gap:10px;align-items:center;border:1px solid #e1e1de;padding:11px;border-radius:10px;background:#fff}
+.badge{font-size:12px;background:#eee;padding:4px 7px;border-radius:99px}
+.review{text-align:center;padding:30px 15px}.review .word{margin:20px 0 30px}.answer{min-height:150px}
+.small{font-size:13px}
+@media(max-width:700px){.grid{grid-template-columns:1fr}.statgrid{grid-template-columns:1fr 1fr}.wrap{padding:14px}}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header>
+  <h1>Polish Cards</h1>
+  <nav>
+    <button onclick="show('home')">Главная</button>
+    <button onclick="show('cards')">Слова</button>
+    <button onclick="show('review')">Повторение</button>
+    <button onclick="show('import')">Импорт</button>
+  </nav>
+</header>
+
+<section id="home">
+  <div class="panel">
+    <h2>Словарь польского</h2>
+    <p class="muted">Карточки хранятся только в этом браузере.</p>
+    <div class="statgrid">
+      <div class="stat"><b id="total">0</b><br><span class="muted">слов</span></div>
+      <div class="stat"><b id="due">0</b><br><span class="muted">к повторению</span></div>
+      <div class="stat"><b id="newc">0</b><br><span class="muted">новых</span></div>
+    </div>
+    <br><button class="primary" onclick="show('review')">Начать повторение</button>
+  </div>
+</section>
+
+<section id="cards" class="hidden">
+  <div class="panel">
+    <div class="row">
+      <input id="search" placeholder="Поиск по словам, переводам, примерам..." oninput="renderList()">
+      <button class="primary" onclick="editCard()">+ Добавить</button>
+    </div>
+  </div>
+  <div id="list" class="list"></div>
+</section>
+
+<section id="edit" class="hidden">
+  <div class="panel">
+    <h2 id="editTitle">Новая карточка</h2>
+    <div class="grid">
+      <label>Польское слово<input id="word"></label>
+      <label>Перевод<input id="translation"></label>
+      <label>Пример<textarea id="example"></textarea></label>
+      <label>Перевод примера<textarea id="exampleRu"></textarea></label>
+      <label>Заметка<textarea id="note"></textarea></label>
+      <label>Теги<input id="tags" placeholder="literatura, B2"></label>
+    </div><br>
+    <div class="actions">
+      <button class="primary" onclick="saveCard()">Сохранить</button>
+      <button onclick="show('cards')">Отмена</button>
+    </div>
+  </div>
+</section>
+
+<section id="import" class="hidden">
+  <div class="panel">
+    <h2>Импорт</h2>
+    <p>Можно загрузить <b>TXT или PDF</b>, либо вставить текст вручную. Для PDF нужен интернет, чтобы загрузить модуль чтения PDF.</p>
+    <div class="actions">
+      <label class="filebtn">Выбрать TXT/PDF
+        <input id="file" type="file" accept=".txt,.pdf" hidden onchange="readFile(this.files[0])">
+      </label>
+      <button onclick="document.getElementById('paste').value='';">Очистить</button>
+    </div>
+    <br><textarea id="paste" placeholder="Или вставьте текст сюда..."></textarea><br>
+    <button class="primary" onclick="parseText(document.getElementById('paste').value)">Разобрать текст</button>
+    <div id="parsed"></div>
+    <hr>
+    <h3>Резервная копия</h3>
+    <div class="actions">
+      <button onclick="exportDB()">Экспорт базы</button>
+      <label class="filebtn">Импорт базы JSON<input type="file" accept=".json" hidden onchange="importDB(this.files[0])"></label>
+    </div>
+  </div>
+</section>
+
+<section id="review" class="hidden">
+  <div class="panel review">
+    <div id="reviewEmpty"><h2>Нет карточек к повторению</h2><button onclick="show('cards')">Добавить слово</button></div>
+    <div id="reviewCard" class="hidden">
+      <span class="badge" id="rCount"></span>
+      <div class="word" id="rWord"></div>
+      <div id="rAnswer" class="answer hidden">
+        <div class="translation" id="rTranslation"></div>
+        <div class="example" id="rExample"></div>
+        <div class="muted" id="rExampleRu"></div>
+        <p id="rNote"></p>
+      </div>
+      <button id="showAnswer" class="primary" onclick="showAnswer()">Показать ответ</button>
+      <div id="rating" class="actions hidden" style="justify-content:center;margin-top:18px">
+        <button onclick="rate(0)">Again</button><button onclick="rate(1)">Hard</button>
+        <button class="primary" onclick="rate(2)">Good</button><button onclick="rate(3)">Easy</button>
+      </div>
+    </div>
+  </div>
+</section>
+</div>
+
+<script>
+const KEY='polishCards_v1';
+let db=JSON.parse(localStorage.getItem(KEY)||'[]'), editing=null, queue=[], current=null;
+const $=id=>document.getElementById(id);
+function save(){localStorage.setItem(KEY,JSON.stringify(db));updateStats()}
+function updateStats(){
+ $('total').textContent=db.length;$('newc').textContent=db.filter(x=>!x.reps).length;
+ $('due').textContent=db.filter(x=>!x.next||x.next<=Date.now()).length;
+}
+function show(id){
+ ['home','cards','edit','import','review'].forEach(x=>$(x).classList.toggle('hidden',x!==id));
+ if(id==='cards')renderList(); if(id==='home')updateStats(); if(id==='review')startReview();
+}
+function editCard(id=null){
+ editing=id; let c=id?db.find(x=>x.id===id):{};
+ $('editTitle').textContent=id?'Редактировать карточку':'Новая карточка';
+ ['word','translation','example','exampleRu','note','tags'].forEach(k=>$(k).value=c[k]||'');
+ show('edit');
+}
+function saveCard(){
+ let c=editing?db.find(x=>x.id===editing):{id:crypto.randomUUID(),created:Date.now(),reps:0};
+ ['word','translation','example','exampleRu','note','tags'].forEach(k=>c[k]=$(k).value.trim());
+ if(!c.word){alert('Введите польское слово');return}
+ if(!editing)db.unshift(c);save();show('cards');
+}
+function renderList(){
+ let q=$('search').value.toLowerCase(), a=db.filter(c=>Object.values(c).join(' ').toLowerCase().includes(q));
+ $('list').innerHTML=a.map(c=>`<div class="item"><div><b>${esc(c.word)}</b> — ${esc(c.translation||'')}<br><span class="muted small">${esc(c.example||'')}</span></div><div class="actions"><button onclick="editCard('${c.id}')">Изменить</button><button class="danger" onclick="del('${c.id}')">×</button></div></div>`).join('')||'<div class="muted">Пока нет слов.</div>';
+}
+function del(id){if(confirm('Удалить карточку?')){db=db.filter(x=>x.id!==id);save();renderList()}}
+function startReview(){
+ queue=db.filter(x=>!x.next||x.next<=Date.now()).sort((a,b)=>(a.next||0)-(b.next||0));
+ $('reviewEmpty').classList.toggle('hidden',queue.length>0);$('reviewCard').classList.toggle('hidden',!queue.length);
+ if(queue.length)nextCard();
+}
+function nextCard(){
+ current=queue[0];$('rWord').textContent=current.word;$('rCount').textContent=`Осталось ${queue.length}`;
+ $('rAnswer').classList.add('hidden');$('rating').classList.add('hidden');$('showAnswer').classList.remove('hidden');
+ $('rTranslation').textContent=current.translation||'';$('rExample').textContent=current.example||'';$('rExampleRu').textContent=current.exampleRu||'';
+ $('rNote').textContent=current.note||'';
+}
+function showAnswer(){$('rAnswer').classList.remove('hidden');$('rating').classList.remove('hidden');$('showAnswer').classList.add('hidden')}
+function rate(level){
+ let days=[0.04,1,3,14][level];current.reps=(current.reps||0)+1;current.last=Date.now();
+ if(level===0)current.next=Date.now()+30*60*1000; else current.next=Date.now()+days*86400000;
+ save();queue.shift();queue.length?nextCard():startReview();
+}
+async function readFile(file){
+  if(!file) return;
+  const status = document.createElement('p');
+  status.id='importStatus';
+  status.className='muted';
+  status.textContent='Читаю файл…';
+  const oldStatus=document.getElementById('importStatus');
+  if(oldStatus) oldStatus.remove();
+  document.getElementById('parsed').prepend(status);
+
+  try {
+    const name=file.name.toLowerCase();
+
+    if(name.endsWith('.txt') || file.type === 'text/plain'){
+      const text=await file.text();
+      document.getElementById('paste').value=text;
+      status.textContent=`TXT прочитан: ${text.length} символов.`;
+      parseText(text);
+      return;
+    }
+
+    if(name.endsWith('.pdf') || file.type === 'application/pdf'){
+      if(!window.pdfjsLib){
+        status.textContent='PDF-модуль не загрузился. Проверь интернет-соединение и обнови страницу.';
+        return;
+      }
+
+      const buf=await file.arrayBuffer();
+      const pdf=await window.pdfjsLib.getDocument({data:buf}).promise;
+      let textParts=[];
+
+      for(let i=1;i<=pdf.numPages;i++){
+        status.textContent=`Читаю PDF: страница ${i} из ${pdf.numPages}…`;
+        const page=await pdf.getPage(i);
+        const content=await page.getTextContent();
+        textParts.push(content.items.map(item=>item.str).join(' '));
+      }
+
+      const text=textParts.join('\\n');
+      document.getElementById('paste').value=text;
+      status.textContent=`PDF прочитан: ${pdf.numPages} стр., ${text.length} символов.`;
+      parseText(text);
+      return;
+    }
+
+    status.textContent='Поддерживаются только TXT и PDF.';
+  } catch(err) {
+    console.error(err);
+    status.textContent='Ошибка импорта: '+(err.message || err);
+  }
+}
+function parseText(text){
+ let lines=text.split(/\\n|\\r/).map(x=>x.trim()).filter(Boolean), candidates=[];
+ for(let line of lines){
+   let m=line.match(/^(.+?)\\s*(?:—|–|-|:|\\t)\\s*(.+)$/);
+   if(m)candidates.push({word:m[1].trim(),translation:m[2].trim()});
+ }
+ if(!candidates.length)candidates=text.match(/\\b[\\p{L}ąćęłńóśźżĄĆĘŁŃÓŚŹŻ-]{3,}\\b/gu)?.slice(0,100).map(w=>({word:w,translation:''}))||[];
+ $('parsed').innerHTML=`<h3>Найдено: ${candidates.length}</h3>`+candidates.slice(0,100).map((c,i)=>`<div class="item"><label><input type="checkbox" id="p${i}" checked> <b>${esc(c.word)}</b> — ${esc(c.translation)}</label></div>`).join('')+`<br><button class="primary" onclick='addParsed(${JSON.stringify(candidates)})'>Добавить выбранные</button>`;
+ window.candidates=candidates;
+}
+function addParsed(a){a.forEach((c,i)=>{if($('p'+i)?.checked)db.unshift({id:crypto.randomUUID(),word:c.word,translation:c.translation,created:Date.now(),reps:0})});save();alert('Карточки добавлены');show('cards')}
+function exportDB(){
+ let blob=new Blob([JSON.stringify(db,null,2)],{type:'application/json'}),a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='polish-cards-backup.json';a.click();
+}
+async function importDB(file){try{let x=JSON.parse(await file.text());if(!Array.isArray(x))throw 0;db=x;save();alert('База импортирована');show('cards')}catch(e){alert('Не удалось прочитать файл')}}
+function esc(s){return String(s??'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]))}
+updateStats();
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+<script>
+  if (window.pdfjsLib) {
+    pdfjsLib.GlobalWorkerOptions.workerSrc =
+      'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+  }
+</script>
+</body>
+</html>
