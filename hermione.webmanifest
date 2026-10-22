@@ -1,0 +1,15 @@
+{
+ "name": "Hermione's Spellbook",
+ "short_name": "Spellbook",
+ "start_url": "./hermione.html",
+ "scope": "./",
+ "display": "standalone",
+ "orientation": "portrait",
+ "background_color": "#f3f2f2",
+ "theme_color": "#2d2b2b",
+ "lang": "pl",
+ "icons": [
+  {"src": "assets/icon-hermione-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any maskable"},
+  {"src": "assets/icon-hermione-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any maskable"}
+ ]
+}
