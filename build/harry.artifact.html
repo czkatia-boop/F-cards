@@ -82,6 +82,7 @@ nav svg{width:22px;height:22px;fill:none;stroke:currentColor;stroke-width:1.5;st
 .cardrow div{flex:1;min-width:0}.cardrow b{font:600 18px var(--font-heading)}.cardrow small{display:block;color:var(--n700)}
 .x{width:36px;height:36px;border-radius:50%;border:1px solid var(--color-divider);background:none;color:var(--n700);font-size:18px}
 .row{display:flex;gap:10px;flex-wrap:wrap;margin:10px 0}
+.row.eq{flex-wrap:nowrap;align-items:stretch}.row.eq .outline{display:flex;align-items:center;justify-content:center;padding:0 18px;font-size:17px}
 .toast{position:absolute;left:50%;bottom:90px;transform:translateX(-50%);background:var(--n900);color:var(--a200);padding:10px 18px;border-radius:999px;font:600 16px var(--font-heading);z-index:30;box-shadow:var(--shadow-md)}
 
 /* study */
@@ -168,8 +169,15 @@ nav svg{width:22px;height:22px;fill:none;stroke:currentColor;stroke-width:1.5;st
   <label class="field"><span>Tłumaczenie</span><input id="fBack" autocomplete="off" placeholder="smok"></label>
   <label class="field"><span>Przykład (opcjonalnie)</span><textarea id="fEx" placeholder="The dragon slept. — Smok spał."></textarea></label>
   <button class="wine mid" id="saveCard"><span class="st l">✦</span>Dodaj kartę<span class="st r">✦</span></button>
+  <h6 style="margin:30px 0 8px">Wiele kart naraz</h6>
+  <p class="lead">Jedna karta w linii: słowo — tłumaczenie — przykład (przykład opcjonalny). Możesz też rozdzielić tabulatorem lub średnikiem.</p>
+  <label class="field"><span>Zestaw</span><select id="bDeck"></select></label>
+  <label class="field" id="bNewWrap" hidden><span>Nazwa nowego zestawu</span><input id="bNew" autocomplete="off" placeholder="np. Zaklęcia"></label>
+  <label class="field"><span>Karty</span><textarea id="bText" style="min-height:150px" placeholder="dragon — smok&#10;feather — pióro — She found a feather. — Znalazła pióro.&#10;cloak — peleryna"></textarea></label>
+  <p class="lead" id="bCount"></p>
+  <button class="wine mid" id="saveBatch"><span class="st l">✦</span>Dodaj wszystkie<span class="st r">✦</span></button>
   <h6 style="margin:30px 0 8px">Nowy zestaw</h6>
-  <div class="row"><input id="newDeck" class="field" style="flex:1;padding:11px 12px;border:1px solid var(--n300);border-radius:4px;background:#fbf8f1;font-size:16px;min-width:0" placeholder="Nazwa zestawu"><button class="outline" id="addDeck">Utwórz</button></div>
+  <div class="row eq"><input id="newDeck" style="flex:1;padding:11px 12px;border:1px solid var(--n300);border-radius:4px;background:#fbf8f1;font-size:16px;min-width:0" placeholder="Nazwa zestawu"><button class="outline" id="addDeck">Utwórz</button></div>
  </div></div>
 </div>
 
@@ -203,7 +211,6 @@ nav svg{width:22px;height:22px;fill:none;stroke:currentColor;stroke-width:1.5;st
      <span class="tag" id="cLang"></span>
     </div></div>
     <div class="face bk"><div class="inner c">
-     <div class="back-ico" id="cIco"></div>
      <div class="back-w" id="cBack"></div>
      <div class="back-f" id="cFront2"></div>
      <p class="back-ex" id="cEx"></p>
@@ -320,7 +327,35 @@ document.addEventListener('click',e=>{
 $('startAll').onclick=e=>{magic(e,{n:22,dist:120});startSession(null)};
 
 /* ---------- add ---------- */
-function renderAdd(){$('fDeck').innerHTML=S.decks.map(d=>`<option value="${d.id}">${esc(d.name)}</option>`).join('')}
+function renderAdd(){
+ const o=S.decks.map(d=>`<option value="${d.id}">${esc(d.name)}</option>`).join('');
+ $('fDeck').innerHTML=o;$('bDeck').innerHTML=o+'<option value="__new">+ Nowy zestaw…</option>';
+ $('bNewWrap').hidden=$('bDeck').value!=='__new';countBatch();
+}
+function parseBatch(txt){
+ return txt.split(/\r?\n/).map(l=>l.trim()).filter(Boolean).map(l=>{
+  const p=l.split(/\t|\s[—–-]\s|\s*;\s*/).map(x=>x.trim()).filter(Boolean);
+  return p.length>=2?{front:p[0],back:p[1],ex:p.slice(2).join(' — ')}:null;
+ });
+}
+function countBatch(){
+ const a=parseBatch($('bText').value),ok=a.filter(Boolean).length,bad=a.length-ok;
+ $('bCount').textContent=a.length?`Gotowe do dodania: ${ok}`+(bad?` · pominięte linie bez tłumaczenia: ${bad}`:''):'';
+}
+$('bText').oninput=countBatch;
+$('bDeck').onchange=()=>{$('bNewWrap').hidden=$('bDeck').value!=='__new'};
+$('saveBatch').onclick=e=>{
+ const rows=parseBatch($('bText').value).filter(Boolean);
+ if(!rows.length){toast('Wpisz karty: słowo — tłumaczenie');return}
+ let id=$('bDeck').value;
+ if(id==='__new'){
+  const name=$('bNew').value.trim();if(!name){toast('Wpisz nazwę zestawu');return}
+  id='d'+Date.now();S.decks.push({id,name,pair:'—',lang:'',img:['books','scroll','cauldron'][S.decks.length%3]});
+ }
+ S.cards.unshift(...rows.map(r=>({id:crypto.randomUUID(),deck:id,front:r.front,ipa:'',back:r.back,ex:r.ex,reps:0,next:0})));
+ save();$('bText').value='';$('bNew').value='';renderAdd();$('bDeck').value=id;
+ magic(e,{n:24,dist:110});toast(`Dodano ${rows.length} ✦`);
+};
 function toast(t){const el=document.createElement('div');el.className='toast';el.textContent=t;$('app').appendChild(el);setTimeout(()=>el.remove(),1800)}
 $('saveCard').onclick=e=>{
  const front=$('fFront').value.trim(),back=$('fBack').value.trim();
@@ -371,7 +406,6 @@ function showCard(first){
  $('cBack').textContent=rev?cur.front:cur.back;
  $('cFront2').textContent=rev?cur.back:cur.front;
  $('cEx').textContent=cur.ex||'';
- $('cIco').style.backgroundImage=`url(${ASSET[d.img]||ASSET.scroll})`;
  $('pile1').hidden=Q.length<2;$('pile2').hidden=Q.length<3;
  $('pos').textContent=Math.min(finished+1,total)+' / '+total;
  $('pbar').style.width=(finished/total*100)+'%';
