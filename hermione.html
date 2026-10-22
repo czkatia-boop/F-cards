@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#e9dfcb">
-<title>Spellbook — Hermione</title>
+<title>Hermione's Spellbook</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400;1,600&family=Lora:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
 <style>
@@ -187,8 +187,6 @@ nav svg{width:22px;height:22px;fill:none;stroke:currentColor;stroke-width:1.5;st
   <p class="lead">Postępy zapisują się w tej przeglądarce, na tym urządzeniu.</p>
   <label class="field"><span>Kierunek nauki</span><select id="dir"><option value="fb">Słowo → tłumaczenie</option><option value="bf">Tłumaczenie → słowo</option></select></label>
   <label class="field"><span>Kart w jednej sesji</span><select id="size"><option>5</option><option>10</option><option>15</option><option>20</option></select></label>
-  <h6 style="margin:24px 0 4px">Kopia zapasowa</h6>
-  <div class="row"><button class="outline" id="exp">Eksportuj JSON</button><label class="outline" style="cursor:pointer">Importuj JSON<input id="imp" type="file" accept=".json" hidden></label></div>
   <h6 style="margin:24px 0 4px">Zacznij od nowa</h6>
   <div class="row"><button class="outline" id="reset" style="color:#8b1e2b;border-color:#8b1e2b">Przywróć zestawy i wyzeruj postępy</button></div>
  </div></div>
@@ -304,6 +302,11 @@ function renderNav(){
 }
 $('nav').onclick=e=>{const b=e.target.closest('[data-go]');if(b)go(b.dataset.go)};
 
+function ask(btn,label,fn){
+ if(btn.dataset.armed){clearTimeout(+btn.dataset.armed);delete btn.dataset.armed;btn.textContent=btn.dataset.orig;fn();return}
+ btn.dataset.orig=btn.textContent;btn.textContent=label;
+ btn.dataset.armed=setTimeout(()=>{delete btn.dataset.armed;btn.textContent=btn.dataset.orig},3000);
+}
 /* ---------- decks ---------- */
 const inDeck=id=>S.cards.filter(c=>c.deck===id);
 const learned=id=>{const a=inDeck(id);return a.length?Math.round(a.filter(c=>c.next>Date.now()).length/a.length*100):0};
@@ -319,7 +322,7 @@ function renderDecks(){
 }
 document.addEventListener('click',e=>{
  const d=e.target.closest('[data-deck]');if(d){magic(e,{n:12,dist:70});startSession(d.dataset.deck);return}
- const x=e.target.closest('[data-del]');if(x&&confirm('Usunąć kartę?')){S.cards=S.cards.filter(c=>c.id!==x.dataset.del);save();renderDecks()}
+ const x=e.target.closest('[data-del]');if(x)ask(x,'?',()=>{S.cards=S.cards.filter(c=>c.id!==x.dataset.del);save();renderDecks()})
 });
 $('startAll').onclick=e=>{magic(e,{n:22,dist:120});startSession(null)};
 
@@ -342,17 +345,7 @@ $('addDeck').onclick=()=>{
 function renderSet(){$('dir').value=S.settings.dir;$('size').value=S.settings.size}
 $('dir').onchange=()=>{S.settings.dir=$('dir').value;save()};
 $('size').onchange=()=>{S.settings.size=+$('size').value;save()};
-$('exp').onclick=()=>{
- const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([JSON.stringify(S,null,2)],{type:'application/json'}));
- a.download='spellbook-backup.json';a.click();setTimeout(()=>URL.revokeObjectURL(a.href),1000);
-};
-$('imp').onchange=async function(){
- const f=this.files[0];if(!f)return;
- try{const x=JSON.parse(await f.text());if(!Array.isArray(x.cards)||!Array.isArray(x.decks))throw 0;S=x;S.settings=Object.assign({dir:'fb',size:5},S.settings||{});save();renderSet();toast('Zaimportowano ✦')}
- catch(e){alert('Nieprawidłowy plik kopii zapasowej.')}
- this.value='';
-};
-$('reset').onclick=()=>{if(confirm('Przywrócić domyślne zestawy i wyzerować postępy? Własne karty zostaną usunięte.')){S=seed();save();renderSet();toast('Gotowe ✦')}};
+$('reset').onclick=function(){ask(this,'Na pewno? Dotknij ponownie',()=>{S=seed();save();renderSet();toast('Gotowe ✦')})};
 
 /* ---------- study ---------- */
 let Q=[],total=0,finished=0,flipped=false,tallyN=[0,0,0,0],curDeck=null,cur=null;
