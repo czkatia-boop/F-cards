@@ -163,6 +163,7 @@ nav svg{width:22px;height:22px;fill:none;stroke:currentColor;stroke-width:1.5;st
 .uml button{min-width:44px;height:44px;border:1px solid var(--a400);border-radius:var(--radius-md);background:color-mix(in srgb,var(--color-accent) 10%,transparent);font:600 22px var(--font-heading);color:var(--a700)}
 .uml button.on{background:var(--a300)}
 .done{overflow-y:auto;min-height:0}
+.bkwarn{margin:18px 0 0;padding:10px 14px;border:1px solid var(--a400);border-radius:var(--radius-md);background:color-mix(in srgb,var(--color-accent) 12%,transparent);font:600 16px var(--font-heading);color:var(--a700);text-align:center;cursor:pointer;width:100%}
 @media (max-height:640px){.hero{height:340px}.study{padding:18px 26px 20px}.front-w{font-size:40px}}
 @media (prefers-reduced-motion:reduce){.flipper{transition:none!important}}
 </style>
@@ -185,6 +186,7 @@ nav svg{width:22px;height:22px;fill:none;stroke:currentColor;stroke-width:1.5;st
     Zacznij naukę
     <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="m9 18 6-6-6-6"/></svg>
     <span class="st r">✦</span></button>
+   <button class="bkwarn" id="bkWarn" hidden></button>
    <div class="decks" id="homeDecks"></div>
    <div style="height:24px"></div>
   </div>
@@ -242,6 +244,12 @@ nav svg{width:22px;height:22px;fill:none;stroke:currentColor;stroke-width:1.5;st
   <label class="field"><span>Kierunek nauki</span><select id="dir"><option value="fb">Słowo → tłumaczenie</option><option value="bf">Tłumaczenie → słowo</option></select></label>
   <label class="field"><span>Tryb nauki</span><select id="mode"><option value="flip">Odwracanie kart</option><option value="type">Pisanie słów (tłumaczenie → słowo)</option></select></label>
   <label class="field"><span>Kart w jednej sesji</span><select id="size"><option>5</option><option>10</option><option>15</option><option>20</option></select></label>
+  <h6 style="margin:24px 0 4px">Kopia zapasowa</h6>
+  <p class="lead" id="bkInfo"></p>
+  <div class="row"><button class="outline" id="bkSave">Zapisz kopię</button><button class="outline" id="bkLoad">Przywróć z kopii</button></div>
+  <input type="file" id="bkFile" accept="application/json,.json" hidden>
+  <div class="row"><button class="outline" id="bkApply" hidden style="color:#8b1e2b;border-color:#8b1e2b"></button></div>
+  <p class="lead">Dane są tylko w tej przeglądarce. Dodaj aplikację do ekranu głównego, a plik kopii zapisz w bezpiecznym miejscu (poczta, iCloud, Dysk).</p>
   <h6 style="margin:24px 0 4px">Zacznij od nowa</h6>
   <div class="row"><button class="outline" id="reset" style="color:#8b1e2b;border-color:#8b1e2b">Przywróć zestawy i wyzeruj postępy</button></div>
  </div></div>
@@ -387,8 +395,13 @@ function load(){try{const x=JSON.parse(localStorage.getItem(KEY)||'null');if(x&&
   return x}}catch(e){}return seed()}
 let S=load();
 function save(){try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){}}
-S.settings=Object.assign({dir:'fb',size:5,mode:'flip'},S.settings||{});
-if(!Array.isArray(S.units))S.units=[];
+function fixS(){
+ S.settings=Object.assign({dir:'fb',size:5,mode:'flip'},S.settings||{});
+ if(!Array.isArray(S.units))S.units=[];
+ if(!S.since){S.since=Date.now();save()}
+}
+fixS();
+try{navigator.storage&&navigator.storage.persist&&navigator.storage.persist()}catch(e){}
 
 /* ---------- navigation ---------- */
 let page='home';
@@ -425,6 +438,7 @@ function byUnit(fn){
 }
 const noTopics='<small class="lead">Brak tematów.</small>';
 function renderHome(){
+ renderWarn();
  $('homeDecks').innerHTML=byUnit((u,ds)=>`<div class="uh"><h6>${esc(u.name)}</h6>${u.id?`<button class="outline sm" data-test="${u.id}">Sprawdzian</button>`:''}</div>${ds.map(deckRow).join('')||noTopics}`);
 }
 function renderDecks(){
@@ -537,8 +551,50 @@ $('addUnit').onclick=()=>{
  $('newUnit').value='';save();renderAdd();toast('Unit utworzony ✦');
 };
 
+/* ---------- backup ---------- */
+const BK_DAYS=14;
+const bkAge=()=>S.lastBackup?Math.floor((Date.now()-S.lastBackup)/DAY):null;
+function renderBk(){const a=bkAge();$('bkInfo').textContent=a===null?'Kopii jeszcze nie robiono.':a===0?'Ostatnia kopia: dziś.':`Ostatnia kopia: ${a} d. temu.`}
+function renderWarn(){
+ const a=bkAge(),stale=a===null?Date.now()-S.since>3*DAY:a>=BK_DAYS;
+ $('bkWarn').hidden=!stale;
+ $('bkWarn').textContent=a===null?'✦ Zrób kopię zapasową — dotknij':`✦ Ostatnia kopia ${a} d. temu — dotknij`;
+}
+$('bkWarn').onclick=()=>go('setP');
+$('bkSave').onclick=async e=>{
+ const prev=S.lastBackup;S.lastBackup=Date.now();
+ const name=`${KEY}-${new Date().toISOString().slice(0,10)}.json`;
+ const body=JSON.stringify({app:KEY,exported:S.lastBackup,data:S});
+ let done=false;
+ try{
+  const file=new File([body],name,{type:'application/json'});
+  if(navigator.canShare&&navigator.canShare({files:[file]})){await navigator.share({files:[file],title:name});done=true}
+ }catch(err){if(err&&err.name==='AbortError'){S.lastBackup=prev;return}}
+ if(!done){
+  const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([body],{type:'application/json'}));a.download=name;
+  document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(a.href),4000);
+ }
+ save();renderBk();magic(e,{n:20,dist:100});toast('Kopia zapisana ✦');
+};
+let pendingBk=null;
+$('bkLoad').onclick=()=>{$('bkFile').value='';$('bkFile').click()};
+$('bkFile').onchange=async()=>{
+ const f=$('bkFile').files[0];if(!f)return;
+ try{
+  const o=JSON.parse(await f.text());
+  if(!o||o.app!==KEY||!o.data||!Array.isArray(o.data.cards)||!Array.isArray(o.data.decks)){toast(o&&o.app&&o.app!==KEY?'To kopia innej osoby':'To nie jest plik kopii');return}
+  pendingBk=o.data;
+  const b=$('bkApply');b.textContent=`Zastąp dane kopią (${o.data.cards.length} kart)`;b.hidden=false;
+ }catch(err){toast('Nie można odczytać pliku')}
+};
+$('bkApply').onclick=function(){ask(this,'Na pewno? Dotknij ponownie',()=>{
+ try{localStorage.setItem(KEY+'_prev',JSON.stringify(S))}catch(e){}   // safety net: current data stays under *_prev
+ try{localStorage.setItem(KEY,JSON.stringify(pendingBk))}catch(e){toast('Nie udało się zapisać');return}
+ S=load();fixS();pendingBk=null;this.hidden=true;renderSet();toast('Przywrócono ✦');
+})};
+
 /* ---------- settings ---------- */
-function renderSet(){$('mode').value=S.settings.mode;$('dir').value=S.settings.dir;$('size').value=S.settings.size}
+function renderSet(){renderBk();$('mode').value=S.settings.mode;$('dir').value=S.settings.dir;$('size').value=S.settings.size}
 $('mode').onchange=()=>{S.settings.mode=$('mode').value;save()};
 $('dir').onchange=()=>{S.settings.dir=$('dir').value;save()};
 $('size').onchange=()=>{S.settings.size=+$('size').value;save()};
