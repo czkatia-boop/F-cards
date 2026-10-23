@@ -317,6 +317,7 @@ button{cursor:pointer}
 
 <script>
 const KEY='spellbook_harry';
+const KID_LANGS=['Angielski','Niemiecki'];   // languages this child studies; decks in other languages are not offered
 const ASSET={books:'assets/books.webp',scroll:'assets/scroll.webp',cauldron:'assets/cauldron.webp'};
 const GR=[['Znowu','< 1 min',0,22],['Trudne','1 d',1,60],['Dobre','3 d',3,150],['Łatwe','6 d',6,255]];
 const ROMAN=['I','II','III','IV','V','VI','VII','VIII','IX','X','XI','XII','XIII','XIV','XV','XVI','XVII','XVIII','XIX','XX'];
@@ -348,7 +349,7 @@ function ritualSeed(){
   gap('Ich bleibe zu Hause, ___ ich krank bin.','weil','Zostaję w domu, bo jestem chory. — szyk końcowy'),
   gap('Ich gehe ___ ___ Schule. (die Schule)','in; die','Idę do szkoły. — biernik po in (kierunek)')]};
 }
-function seed(){
+function seedAll(){
  const mk=(deck,arr)=>arr.map(([front,ipa,back,ex])=>({id:crypto.randomUUID(),deck,front,ipa,back,ex,reps:0,next:0}));
  return {
   settings:{dir:'fb',size:5,mode:'flip'},
@@ -389,9 +390,20 @@ function seed(){
    ...ritualSeed().cards
   ]};
 }
+function seed(){
+ const s=seedAll(),ok=new Set(s.decks.filter(d=>KID_LANGS.includes(d.lang)).map(d=>d.id));
+ s.decks=s.decks.filter(d=>ok.has(d.id));s.cards=s.cards.filter(c=>ok.has(c.deck));
+ s.units=s.units.filter(u=>KID_LANGS.includes(u.lang));
+ return s;
+}
 function load(){try{const x=JSON.parse(localStorage.getItem(KEY)||'null');if(x&&Array.isArray(x.cards)&&Array.isArray(x.decks)){
-  if(!x.v){const r=ritualSeed();x.decks.push(r.deck);x.cards.push(...r.cards);x.v=2}
+  if(!x.v&&KID_LANGS.includes('Niemiecki')){const r=ritualSeed();x.decks.push(r.deck);x.cards.push(...r.cards)}
+  if(!x.v)x.v=2;
   if(x.v<3){
+   // drop untouched starter decks in languages this child does not study (decks with progress or own cards stay)
+   const touched=id=>x.cards.some(c=>c.deck===id&&(c.reps||c.added));
+   const gone=new Set(x.decks.filter(d=>d.lang&&!KID_LANGS.includes(d.lang)&&!touched(d.id)).map(d=>d.id));
+   x.decks=x.decks.filter(d=>!gone.has(d.id));x.cards=x.cards.filter(c=>!gone.has(c.deck));
    x.units=Array.isArray(x.units)?x.units:[];
    x.decks.forEach(d=>{
     if(x.units.some(u=>u.id===d.unit))return;
@@ -476,7 +488,7 @@ function renderAdd(){
  $('fDeck').innerHTML=o;$('bDeck').innerHTML=o+'<option value="__new">+ Nowy zestaw…</option>';
  const uo=S.units.map(u=>`<option value="${u.id}">${esc(u.name)}</option>`).join('');
  uids.forEach((i,k)=>{$(i).innerHTML=uo;if(S.units.some(u=>u.id===keep[k]))$(i).value=keep[k]});
- $('nuLang').innerHTML=Object.keys(LABELS).map(k=>`<option>${k}</option>`).join('');
+ $('nuLang').innerHTML=KID_LANGS.map(k=>`<option>${k}</option>`).join('');
  countBatch();
  const rl=$('rLang').value;
  $('rDeck').innerHTML=o+'<option value="__new">+ Nowy zestaw…</option>';
