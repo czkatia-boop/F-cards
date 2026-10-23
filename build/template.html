@@ -75,14 +75,17 @@ button{cursor:pointer}
 .deck .nm span{display:block;font-size:12px;color:var(--n700);margin-top:2px}
 .deck .pc{font:400 22px var(--font-heading);font-feature-settings:'tnum';color:var(--a700)}
 
-/* nav */
-nav{display:grid;grid-template-columns:repeat(4,1fr);border-top:1px solid var(--color-divider);padding:10px 4px calc(10px + env(safe-area-inset-bottom));background:var(--color-bg);flex:none}
-nav button{background:none;border:0;display:flex;flex-direction:column;align-items:center;gap:4px;font-size:11px;color:var(--n700)}
-nav button.on{color:var(--a700)}
-nav svg{width:22px;height:22px;fill:none;stroke:currentColor;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round}
+/* manage header + gear */
+.gear{position:absolute;top:calc(env(safe-area-inset-top) + 14px);right:16px;z-index:2;width:44px;height:44px;border-radius:50%;border:1px solid var(--a400);background:rgba(27,25,22,.5);color:var(--a300);display:grid;place-items:center;-webkit-backdrop-filter:blur(4px);backdrop-filter:blur(4px)}
+.gear svg{width:22px;height:22px;fill:none;stroke:currentColor;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round}
+.mgtop{display:flex;align-items:center;gap:12px;padding:calc(env(safe-area-inset-top) + 14px) 18px 6px;flex:none}
+.seg{flex:1;display:grid;grid-template-columns:repeat(3,1fr);border:1px solid var(--a400);border-radius:999px;overflow:hidden}
+.seg button{background:none;border:0;padding:10px 4px;font:600 16px var(--font-heading);color:var(--a700)}
+.seg button.on{background:var(--a300);color:var(--n900)}
+.startsub{text-align:center;margin:10px 0 0;font:italic 15px var(--font-heading);color:var(--n700)}
 
 /* simple pages */
-.page{padding:calc(env(safe-area-inset-top) + 24px) 22px 24px}
+.page{padding:16px 22px 24px}
 .page h2{font-size:34px;font-weight:400;margin-bottom:6px}
 .lead{color:var(--n700);margin:0 0 16px;font-size:14px}
 .field{display:block;margin:0 0 14px}
@@ -177,6 +180,7 @@ nav svg{width:22px;height:22px;fill:none;stroke:currentColor;stroke-width:1.5;st
   <div class="hero">
    <div class="shade"></div>
    <div class="tear"><div class="back"></div><div class="front"></div></div>
+   <button class="gear" id="gear" aria-label="Dodawanie i ustawienia"><svg viewBox="0 0 24 24"><path d="M20 7h-9M14 17H5M17 14a3 3 0 1 0 0 6 3 3 0 1 0 0-6M7 4a3 3 0 1 0 0 6 3 3 0 1 0 0-6"/></svg></button>
    <div class="orn"><i></i>✦<i></i></div>
    <h1>Spellbook</h1>
   </div>
@@ -186,6 +190,7 @@ nav svg{width:22px;height:22px;fill:none;stroke:currentColor;stroke-width:1.5;st
     Zacznij naukę
     <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="m9 18 6-6-6-6"/></svg>
     <span class="st r">✦</span></button>
+   <p class="startsub" id="startSub"></p>
    <button class="bkwarn" id="bkWarn" hidden></button>
    <div class="decks" id="homeDecks"></div>
    <div style="height:24px"></div>
@@ -193,10 +198,16 @@ nav svg{width:22px;height:22px;fill:none;stroke:currentColor;stroke-width:1.5;st
  </div>
 </div>
 
+<!-- MANAGE HEADER (shared by Dodaj / Karty / Ustawienia) -->
+<div id="mgTop" class="mgtop" hidden>
+ <button class="circ" id="mgBack" aria-label="Wróć"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg></button>
+ <div class="seg" id="seg"><button data-go="addP">Dodaj</button><button data-go="decksP">Karty</button><button data-go="setP">Ustawienia</button></div>
+</div>
+
 <!-- DECKS -->
 <div id="decksP" class="screen" hidden>
  <div class="scroll"><div class="page">
-  <h2>Zestawy</h2><p class="lead">Dotknij zestawu, aby się uczyć. Tutaj możesz też usuwać karty.</p>
+  <h2>Karty</h2><p class="lead">Dotknij zestawu, aby się uczyć. Tutaj możesz też usuwać karty.</p>
   <div id="deckList"></div>
  </div></div>
 </div>
@@ -302,14 +313,11 @@ nav svg{width:22px;height:22px;fill:none;stroke:currentColor;stroke-width:1.5;st
  </div>
 </div>
 
-<nav id="nav"></nav>
 </div>
 
 <script>
 const KEY='__KEY__';
 const ASSET={books:'assets/books.webp',scroll:'assets/scroll.webp',cauldron:'assets/cauldron.webp'};
-const ICON={home:'M3 10.2 12 3l9 7.2V20a1 1 0 0 1-1 1h-5v-7h-6v7H4a1 1 0 0 1-1-1z',decks:'M12.83 2.18a2 2 0 0 0-1.66 0L2.6 6.08a1 1 0 0 0 0 1.83l8.58 3.91a2 2 0 0 0 1.66 0l8.58-3.9a1 1 0 0 0 0-1.83ZM22 17.65l-9.17 4.16a2 2 0 0 1-1.66 0L2 17.65M22 12.65l-9.17 4.16a2 2 0 0 1-1.66 0L2 12.65',add:'M12 2a10 10 0 1 0 0 20 10 10 0 1 0 0-20M8 12h8M12 8v8',set:'M20 7h-9M14 17H5M17 14a3 3 0 1 0 0 6 3 3 0 1 0 0-6M7 4a3 3 0 1 0 0 6 3 3 0 1 0 0-6'};
-const NAV=[['home','Start','home'],['decksP','Zestawy','decks'],['addP','Dodaj','add'],['setP','Ustawienia','set']];
 const GR=[['Znowu','< 1 min',0,22],['Trudne','1 d',1,60],['Dobre','3 d',3,150],['Łatwe','6 d',6,255]];
 const ROMAN=['I','II','III','IV','V','VI','VII','VIII','IX','X','XI','XII','XIII','XIV','XV','XVI','XVII','XVIII','XIX','XX'];
 const DAY=86400000;
@@ -405,17 +413,17 @@ try{navigator.storage&&navigator.storage.persist&&navigator.storage.persist()}ca
 
 /* ---------- navigation ---------- */
 let page='home';
+const MG=['addP','decksP','setP'];
 function go(p){
  page=p;
  ['home','decksP','addP','setP','studyP'].forEach(x=>$(x).hidden=x!==p);
- $('nav').hidden=p==='studyP';
- renderNav();
+ $('mgTop').hidden=!MG.includes(p);
+ document.querySelectorAll('#seg button').forEach(b=>b.classList.toggle('on',b.dataset.go===p));
  if(p==='home')renderHome(); if(p==='decksP')renderDecks(); if(p==='addP')renderAdd(); if(p==='setP')renderSet();
 }
-function renderNav(){
- $('nav').innerHTML=NAV.map(([id,l,i])=>`<button data-go="${id}" class="${id===page?'on':''}"><svg viewBox="0 0 24 24"><path d="${ICON[i]}"/></svg>${l}</button>`).join('');
-}
-$('nav').onclick=e=>{const b=e.target.closest('[data-go]');if(b)go(b.dataset.go)};
+$('seg').onclick=e=>{const b=e.target.closest('[data-go]');if(b)go(b.dataset.go)};
+$('mgBack').onclick=()=>go('home');
+$('gear').onclick=()=>go('addP');
 
 function ask(btn,label,fn){
  if(btn.dataset.armed){clearTimeout(+btn.dataset.armed);delete btn.dataset.armed;btn.textContent=btn.dataset.orig;fn();return}
@@ -425,6 +433,14 @@ function ask(btn,label,fn){
 /* ---------- decks ---------- */
 const inDeck=id=>S.cards.filter(c=>c.deck===id);
 const learned=id=>{const a=inDeck(id);return a.length?Math.round(a.filter(c=>c.next>Date.now()).length/a.length*100):0};
+const HOUR=3600000;
+// newest group = every card added within an hour of the most recent addition
+function newestGroup(){
+ const a=S.cards.filter(c=>c.added);if(!a.length)return[];
+ const last=Math.max(...a.map(c=>c.added));
+ return a.filter(c=>c.added>=last-HOUR);
+}
+const dueNewest=()=>newestGroup().filter(c=>c.next<=Date.now());
 const plural=n=>n===1?'karta':(n%10>=2&&n%10<=4&&(n%100<10||n%100>=20))?'karty':'kart';
 function deckRow(d){
  const n=inDeck(d.id).length;
@@ -439,6 +455,7 @@ function byUnit(fn){
 const noTopics='<small class="lead">Brak tematów.</small>';
 function renderHome(){
  renderWarn();
+ const n=dueNewest().length;$('startSub').textContent=n?`Najnowsze karty · ${n}`:'Powtórka ogólna';
  $('homeDecks').innerHTML=byUnit((u,ds)=>`<div class="uh"><h6>${esc(u.name)}</h6>${u.id?`<button class="outline sm" data-test="${u.id}">Sprawdzian</button>`:''}</div>${ds.map(deckRow).join('')||noTopics}`);
 }
 function renderDecks(){
@@ -450,7 +467,7 @@ document.addEventListener('click',e=>{
  const du=e.target.closest('[data-delunit]');if(du){ask(du,'?',()=>{S.units=S.units.filter(u=>u.id!==du.dataset.delunit);save();renderDecks()});return}
  const x=e.target.closest('[data-del]');if(x)ask(x,'?',()=>{S.cards=S.cards.filter(c=>c.id!==x.dataset.del);save();renderDecks()})
 });
-$('startAll').onclick=e=>{magic(e,{n:22,dist:120});startSession(null)};
+$('startAll').onclick=e=>{magic(e,{n:22,dist:120});startSession(null,null,true)};
 
 /* ---------- add ---------- */
 function renderAdd(){
@@ -509,7 +526,7 @@ $('saveBatch').onclick=e=>{
   if(!$('bUnit').value){toast('Najpierw utwórz unit');return}
   id=mkDeck(name,$('bUnit').value);
  }
- S.cards.unshift(...rows.map(r=>({id:crypto.randomUUID(),deck:id,front:r.front,ipa:'',back:r.back,ex:r.ex,reps:0,next:0})));
+ S.cards.unshift(...rows.map(r=>({id:crypto.randomUUID(),deck:id,front:r.front,ipa:'',back:r.back,ex:r.ex,reps:0,next:0,added:Date.now()})));
  save();$('bText').value='';$('bNew').value='';renderAdd();$('bDeck').value=id;
  magic(e,{n:24,dist:110});toast(`Dodano ${rows.length} ✦`);
 };
@@ -528,7 +545,7 @@ $('saveRitual').onclick=e=>{
   if(!$('rUnit').value){toast('Najpierw utwórz unit');return}
   id=mkDeck(name,$('rUnit').value);
  }
- S.cards.unshift(...rows.map(r=>({id:crypto.randomUUID(),deck:id,ipa:'',reps:0,next:0,...r})));
+ S.cards.unshift(...rows.map(r=>({id:crypto.randomUUID(),deck:id,ipa:'',reps:0,next:0,added:Date.now(),...r})));
  save();$('rText').value='';$('rNew').value='';renderAdd();$('rDeck').value=id;
  magic(e,{n:24,dist:110});toast(`Dodano ${rows.length} ✦`);
 };
@@ -536,7 +553,7 @@ function toast(t){const el=document.createElement('div');el.className='toast';el
 $('saveCard').onclick=e=>{
  const front=$('fFront').value.trim(),back=$('fBack').value.trim();
  if(!front||!back){toast('Wpisz słowo i tłumaczenie');return}
- S.cards.unshift({id:crypto.randomUUID(),deck:$('fDeck').value,front,ipa:$('fIpa').value.trim(),back,ex:$('fEx').value.trim(),reps:0,next:0});
+ S.cards.unshift({id:crypto.randomUUID(),deck:$('fDeck').value,front,ipa:$('fIpa').value.trim(),back,ex:$('fEx').value.trim(),reps:0,next:0,added:Date.now()});
  save();['fFront','fIpa','fBack','fEx'].forEach(i=>$(i).value='');magic(e,{n:18,dist:90});toast('Dodano ✦');
 };
 $('addDeck').onclick=()=>{
@@ -601,15 +618,20 @@ $('size').onchange=()=>{S.settings.size=+$('size').value;save()};
 $('reset').onclick=function(){ask(this,'Na pewno? Dotknij ponownie',()=>{S=seed();save();renderSet();toast('Gotowe ✦')})};
 
 /* ---------- study ---------- */
-let Q=[],total=0,finished=0,flipped=false,tallyN=[0,0,0,0],curDeck=null,curUnit=null,cur=null,testMode=false,testRes={ok:0,bad:[]};
-function startSession(deckId,unitId){
- curDeck=deckId;curUnit=unitId||null;testMode=!!unitId;
+let Q=[],total=0,finished=0,flipped=false,tallyN=[0,0,0,0],curDeck=null,curUnit=null,curNewest=false,cur=null,testMode=false,testRes={ok:0,bad:[]};
+function startSession(deckId,unitId,newest){
+ curDeck=deckId;curUnit=unitId||null;testMode=!!unitId;curNewest=!!newest&&!testMode;
  if(testMode){
   // unit test: every card of every topic in the unit, no scheduling side effects
   const ids=new Set(S.decks.filter(d=>d.unit===unitId).map(d=>d.id));
   Q=S.cards.filter(c=>ids.has(c.deck)).sort(()=>Math.random()-.5);
   if(!Q.length){toast('Ten unit nie ma jeszcze kart');return}
  }else{
+  if(curNewest){   // "Zacznij naukę": the whole newest group, only cards that are due
+   Q=dueNewest().sort(()=>Math.random()-.5);
+   if(!Q.length){curNewest=false;if(S.cards.some(c=>c.added))toast('Najnowsze karty opanowane — powtórka ogólna')}
+  }
+  if(!curNewest){
   let pool=S.cards.filter(c=>!deckId||c.deck===deckId);
   const now=Date.now();
   let due=pool.filter(c=>c.next<=now).sort((a,b)=>a.next-b.next);
@@ -617,6 +639,7 @@ function startSession(deckId,unitId){
   // light shuffle within the chosen slice so order is not always the same
   Q=due.slice(0,S.settings.size).sort(()=>Math.random()-.5);
   if(!Q.length){toast('Ten zestaw jest pusty');return}
+  }
  }
  total=Q.length;finished=0;tallyN=[0,0,0,0];testRes={ok:0,bad:[]};
  go('studyP');showCard(true);
@@ -777,7 +800,7 @@ function finish(){
  $('summary').textContent=`Powtórzono ${total} ${plural(total)}, ${ok} z nich poprawnie. Najbliższa powtórka jutro.`;
  magic({currentTarget:$('tally'),clientX:0,clientY:0},{n:30,dist:160});
 }
-$('again').onclick=e=>{magic(e,{n:22,dist:120});startSession(curDeck,curUnit)};
+$('again').onclick=e=>{magic(e,{n:22,dist:120});startSession(curDeck,curUnit,curNewest)};
 $('back2decks').onclick=()=>go('home');
 $('closeStudy').onclick=()=>go('home');
 
