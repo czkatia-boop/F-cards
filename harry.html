@@ -75,14 +75,17 @@ button{cursor:pointer}
 .deck .nm span{display:block;font-size:12px;color:var(--n700);margin-top:2px}
 .deck .pc{font:400 22px var(--font-heading);font-feature-settings:'tnum';color:var(--a700)}
 
-/* nav */
-nav{display:grid;grid-template-columns:repeat(4,1fr);border-top:1px solid var(--color-divider);padding:10px 4px calc(10px + env(safe-area-inset-bottom));background:var(--color-bg);flex:none}
-nav button{background:none;border:0;display:flex;flex-direction:column;align-items:center;gap:4px;font-size:11px;color:var(--n700)}
-nav button.on{color:var(--a700)}
-nav svg{width:22px;height:22px;fill:none;stroke:currentColor;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round}
+/* manage header + gear */
+.gear{position:absolute;top:calc(env(safe-area-inset-top) + 14px);right:16px;z-index:2;width:44px;height:44px;border-radius:50%;border:1px solid var(--a400);background:rgba(27,25,22,.5);color:var(--a300);display:grid;place-items:center;-webkit-backdrop-filter:blur(4px);backdrop-filter:blur(4px)}
+.gear svg{width:22px;height:22px;fill:none;stroke:currentColor;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round}
+.mgtop{display:flex;align-items:center;gap:12px;padding:calc(env(safe-area-inset-top) + 14px) 18px 6px;flex:none}
+.seg{flex:1;display:grid;grid-template-columns:repeat(3,1fr);border:1px solid var(--a400);border-radius:999px;overflow:hidden}
+.seg button{background:none;border:0;padding:10px 4px;font:600 16px var(--font-heading);color:var(--a700)}
+.seg button.on{background:var(--a300);color:var(--n900)}
+.startsub{text-align:center;margin:10px 0 0;font:italic 15px var(--font-heading);color:var(--n700)}
 
 /* simple pages */
-.page{padding:calc(env(safe-area-inset-top) + 24px) 22px 24px}
+.page{padding:16px 22px 24px}
 .page h2{font-size:34px;font-weight:400;margin-bottom:6px}
 .lead{color:var(--n700);margin:0 0 16px;font-size:14px}
 .field{display:block;margin:0 0 14px}
@@ -136,6 +139,34 @@ nav svg{width:22px;height:22px;fill:none;stroke:currentColor;stroke-width:1.5;st
 .tally b{font:400 28px/1 var(--font-heading);font-feature-settings:'tnum'}.tally span{font-size:11px;color:var(--n700)}
 .done h2{font:italic 400 42px/1.05 var(--font-heading);margin-top:30px}
 .done p{margin:12px 0 0;font-size:15px;color:var(--n700);max-width:290px}
+/* rituals: gap-fill and conjugation drills */
+.dr-in{justify-content:space-between}
+.dr-body{flex:1;min-height:0;width:100%;overflow-y:auto;display:flex;flex-direction:column;-webkit-overflow-scrolling:touch}
+.dr-body>div{margin:auto 0;width:100%;text-align:center;padding:6px 0}
+.dr-t{font:400 40px/1.05 var(--font-heading);overflow-wrap:anywhere}
+.dr-s{font:italic 16px var(--font-heading);color:var(--n700);margin-top:4px}
+.dr-sent{font:400 24px/2 var(--font-heading)}
+.gap{width:6.5em;max-width:46%;border:0;border-bottom:2px solid var(--a400);background:color-mix(in srgb,var(--color-accent) 8%,transparent);text-align:center;font:600 22px var(--font-heading);padding:2px 4px;border-radius:3px 3px 0 0;margin:0 3px;color:var(--color-text)}
+.gap:focus{outline:none;border-bottom-color:var(--wine1);background:color-mix(in srgb,var(--color-accent) 16%,transparent)}
+.gap.ok{border-bottom-color:#3d7a4a;background:color-mix(in srgb,#3d7a4a 14%,transparent)}
+.gap.near{border-bottom-color:var(--a500);background:color-mix(in srgb,var(--a400) 26%,transparent)}
+.gap.no{border-bottom-color:#8b1e2b;background:color-mix(in srgb,#8b1e2b 12%,transparent)}
+.conj{display:grid;grid-template-columns:auto 1fr;gap:8px 12px;align-items:start;margin-top:14px;text-align:left}
+.conj label{font:italic 18px/1.9 var(--font-heading);color:var(--a700);text-align:right}
+.conj .gap{display:block;width:100%;max-width:none;text-align:left;margin:0;font-size:20px;padding:2px 8px}
+.ans{display:block;font:600 14px var(--font-body);color:#8b1e2b;min-height:0}
+.ans-line{white-space:pre-line;margin-top:10px;font:600 15px var(--font-body);color:#8b1e2b}
+.grade.sug .gem-b{outline:2px solid var(--a300);outline-offset:3px}
+/* units, typed answers, umlaut row */
+.uh{display:flex;align-items:center;justify-content:space-between;gap:10px;margin:26px 0 2px}
+.uh h6{margin:0}
+.outline.sm{padding:4px 12px;font-size:14px}
+.gap.wide{display:block;width:100%;max-width:none;margin:18px 0 0;font-size:26px}
+.uml{display:flex;gap:8px;justify-content:center;margin:8px 0;flex:none}
+.uml button{min-width:44px;height:44px;border:1px solid var(--a400);border-radius:var(--radius-md);background:color-mix(in srgb,var(--color-accent) 10%,transparent);font:600 22px var(--font-heading);color:var(--a700)}
+.uml button.on{background:var(--a300)}
+.done{overflow-y:auto;min-height:0}
+.bkwarn{margin:18px 0 0;padding:10px 14px;border:1px solid var(--a400);border-radius:var(--radius-md);background:color-mix(in srgb,var(--color-accent) 12%,transparent);font:600 16px var(--font-heading);color:var(--a700);text-align:center;cursor:pointer;width:100%}
 @media (max-height:640px){.hero{height:340px}.study{padding:18px 26px 20px}.front-w{font-size:40px}}
 @media (prefers-reduced-motion:reduce){.flipper{transition:none!important}}
 </style>
@@ -149,6 +180,7 @@ nav svg{width:22px;height:22px;fill:none;stroke:currentColor;stroke-width:1.5;st
   <div class="hero">
    <div class="shade"></div>
    <div class="tear"><div class="back"></div><div class="front"></div></div>
+   <button class="gear" id="gear" aria-label="Dodawanie i ustawienia"><svg viewBox="0 0 24 24"><path d="M20 7h-9M14 17H5M17 14a3 3 0 1 0 0 6 3 3 0 1 0 0-6M7 4a3 3 0 1 0 0 6 3 3 0 1 0 0-6"/></svg></button>
    <div class="orn"><i></i>✦<i></i></div>
    <h1>Spellbook</h1>
   </div>
@@ -158,16 +190,24 @@ nav svg{width:22px;height:22px;fill:none;stroke:currentColor;stroke-width:1.5;st
     Zacznij naukę
     <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="m9 18 6-6-6-6"/></svg>
     <span class="st r">✦</span></button>
-   <div class="decks"><h6>Zestawy</h6><div id="homeDecks"></div></div>
+   <p class="startsub" id="startSub"></p>
+   <button class="bkwarn" id="bkWarn" hidden></button>
+   <div class="decks" id="homeDecks"></div>
    <div style="height:24px"></div>
   </div>
  </div>
 </div>
 
+<!-- MANAGE HEADER (shared by Dodaj / Karty / Ustawienia) -->
+<div id="mgTop" class="mgtop" hidden>
+ <button class="circ" id="mgBack" aria-label="Wróć"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg></button>
+ <div class="seg" id="seg"><button data-go="addP">Dodaj</button><button data-go="decksP">Karty</button><button data-go="setP">Ustawienia</button></div>
+</div>
+
 <!-- DECKS -->
 <div id="decksP" class="screen" hidden>
  <div class="scroll"><div class="page">
-  <h2>Zestawy</h2><p class="lead">Dotknij zestawu, aby się uczyć. Tutaj możesz też usuwać karty.</p>
+  <h2>Karty</h2><p class="lead">Dotknij zestawu, aby się uczyć. Tutaj możesz też usuwać karty.</p>
   <div id="deckList"></div>
  </div></div>
 </div>
@@ -186,10 +226,23 @@ nav svg{width:22px;height:22px;fill:none;stroke:currentColor;stroke-width:1.5;st
   <p class="lead">Jedna karta w linii: słowo — tłumaczenie — przykład (przykład opcjonalny). Możesz też rozdzielić tabulatorem lub średnikiem.</p>
   <label class="field"><span>Zestaw</span><select id="bDeck"></select></label>
   <label class="field" id="bNewWrap" hidden><span>Nazwa nowego zestawu</span><input id="bNew" autocomplete="off" placeholder="np. Zaklęcia"></label>
+  <label class="field" id="bUnitWrap" hidden><span>Unit</span><select id="bUnit"></select></label>
   <label class="field"><span>Karty</span><textarea id="bText" style="min-height:150px" placeholder="dragon — smok&#10;feather — pióro — She found a feather. — Znalazła pióro.&#10;cloak — peleryna"></textarea></label>
   <p class="lead" id="bCount"></p>
   <button class="wine mid" id="saveBatch"><span class="st l">✦</span>Dodaj wszystkie<span class="st r">✦</span></button>
-  <h6 style="margin:30px 0 8px">Nowy zestaw</h6>
+  <h6 style="margin:30px 0 8px">Ćwiczenia: odmiana i luki</h6>
+  <p class="lead">Jedna karta w linii, części oddziela kreska pionowa <b>|</b>.<br>Odmiana: <i>bezokolicznik | czas | formy po przecinku | tłumaczenie</i>.<br>Luka (wpisz <b>___</b> w miejscu luki): <i>zdanie | odpowiedź | tłumaczenie</i>. Kilka luk: odpowiedzi rozdziel średnikiem.</p>
+  <label class="field"><span>Zestaw</span><select id="rDeck"></select></label>
+  <label class="field" id="rNewWrap" hidden><span>Nazwa nowego zestawu</span><input id="rNew" autocomplete="off" placeholder="np. Czasowniki"></label>
+  <label class="field" id="rUnitWrap" hidden><span>Unit</span><select id="rUnit"></select></label>
+  <label class="field"><span>Zaimki do odmiany</span><select id="rLang"></select></label>
+  <label class="field"><span>Ćwiczenia</span><textarea id="rText" style="min-height:150px" placeholder="gehen | Präsens | gehe, gehst, geht, gehen, geht, gehen | iść&#10;Ich ___ nach Hause. | gehe | Idę do domu."></textarea></label>
+  <p class="lead" id="rCount"></p>
+  <button class="wine mid" id="saveRitual"><span class="st l">✦</span>Dodaj ćwiczenia<span class="st r">✦</span></button>
+  <h6 style="margin:30px 0 8px">Nowy unit</h6>
+  <div class="row eq"><input id="newUnit" style="flex:1;padding:11px 12px;border:1px solid var(--n300);border-radius:4px;background:#fbf8f1;font-size:16px;min-width:0" placeholder="np. Unit 3"><select id="nuLang" style="padding:0 8px;border:1px solid var(--n300);border-radius:4px;background:#fbf8f1;font-size:16px"></select><button class="outline" id="addUnit">Utwórz</button></div>
+  <h6 style="margin:30px 0 8px">Nowy zestaw (temat w unicie)</h6>
+  <label class="field"><span>Unit</span><select id="ndUnit"></select></label>
   <div class="row eq"><input id="newDeck" style="flex:1;padding:11px 12px;border:1px solid var(--n300);border-radius:4px;background:#fbf8f1;font-size:16px;min-width:0" placeholder="Nazwa zestawu"><button class="outline" id="addDeck">Utwórz</button></div>
  </div></div>
 </div>
@@ -200,7 +253,14 @@ nav svg{width:22px;height:22px;fill:none;stroke:currentColor;stroke-width:1.5;st
   <h2>Ustawienia</h2>
   <p class="lead">Postępy zapisują się w tej przeglądarce, na tym urządzeniu.</p>
   <label class="field"><span>Kierunek nauki</span><select id="dir"><option value="fb">Słowo → tłumaczenie</option><option value="bf">Tłumaczenie → słowo</option></select></label>
+  <label class="field"><span>Tryb nauki</span><select id="mode"><option value="flip">Odwracanie kart</option><option value="type">Pisanie słów (tłumaczenie → słowo)</option></select></label>
   <label class="field"><span>Kart w jednej sesji</span><select id="size"><option>5</option><option>10</option><option>15</option><option>20</option></select></label>
+  <h6 style="margin:24px 0 4px">Kopia zapasowa</h6>
+  <p class="lead" id="bkInfo"></p>
+  <div class="row"><button class="outline" id="bkSave">Zapisz kopię</button><button class="outline" id="bkLoad">Przywróć z kopii</button></div>
+  <input type="file" id="bkFile" accept="application/json,.json" hidden>
+  <div class="row"><button class="outline" id="bkApply" hidden style="color:#8b1e2b;border-color:#8b1e2b"></button></div>
+  <p class="lead">Dane są tylko w tej przeglądarce. Dodaj aplikację do ekranu głównego, a plik kopii zapisz w bezpiecznym miejscu (poczta, iCloud, Dysk).</p>
   <h6 style="margin:24px 0 4px">Zacznij od nowa</h6>
   <div class="row"><button class="outline" id="reset" style="color:#8b1e2b;border-color:#8b1e2b">Przywróć zestawy i wyzeruj postępy</button></div>
  </div></div>
@@ -229,9 +289,17 @@ nav svg{width:22px;height:22px;fill:none;stroke:currentColor;stroke-width:1.5;st
      <p class="back-ex" id="cEx"></p>
     </div></div>
    </div></div>
+   <div class="face dr" id="drill" hidden><div class="inner dr-in">
+    <span class="roman" id="dRoman"></span>
+    <div class="dr-body noscroll" id="dBody"></div>
+    <div class="uml" id="uml" hidden></div>
+    <span class="tag" id="dTag"></span>
+   </div></div>
   </div>
   <div class="actions">
    <button class="wine mid" id="flipBtn" style="height:58px;font-size:22px"><span class="st l">✦</span>Odwróć kartę<span class="st r">✦</span></button>
+   <button class="wine mid" id="checkBtn" hidden style="height:58px;font-size:22px"><span class="st l">✦</span>Sprawdź<span class="st r">✦</span></button>
+   <button class="wine mid" id="nextBtn" hidden style="height:58px;font-size:22px"><span class="st l">✦</span>Dalej<span class="st r">✦</span></button>
    <div class="grades" id="grades" hidden></div>
   </div>
  </div>
@@ -245,28 +313,53 @@ nav svg{width:22px;height:22px;fill:none;stroke:currentColor;stroke-width:1.5;st
  </div>
 </div>
 
-<nav id="nav"></nav>
 </div>
 
 <script>
 const KEY='spellbook_harry';
+const KID_LANGS=['Angielski','Niemiecki'];   // languages this child studies; decks in other languages are not offered
 const ASSET={books:'assets/books.webp',scroll:'assets/scroll.webp',cauldron:'assets/cauldron.webp'};
-const ICON={home:'M3 10.2 12 3l9 7.2V20a1 1 0 0 1-1 1h-5v-7h-6v7H4a1 1 0 0 1-1-1z',decks:'M12.83 2.18a2 2 0 0 0-1.66 0L2.6 6.08a1 1 0 0 0 0 1.83l8.58 3.91a2 2 0 0 0 1.66 0l8.58-3.9a1 1 0 0 0 0-1.83ZM22 17.65l-9.17 4.16a2 2 0 0 1-1.66 0L2 17.65M22 12.65l-9.17 4.16a2 2 0 0 1-1.66 0L2 12.65',add:'M12 2a10 10 0 1 0 0 20 10 10 0 1 0 0-20M8 12h8M12 8v8',set:'M20 7h-9M14 17H5M17 14a3 3 0 1 0 0 6 3 3 0 1 0 0-6M7 4a3 3 0 1 0 0 6 3 3 0 1 0 0-6'};
-const NAV=[['home','Start','home'],['decksP','Zestawy','decks'],['addP','Dodaj','add'],['setP','Ustawienia','set']];
 const GR=[['Znowu','< 1 min',0,22],['Trudne','1 d',1,60],['Dobre','3 d',3,150],['Łatwe','6 d',6,255]];
 const ROMAN=['I','II','III','IV','V','VI','VII','VIII','IX','X','XI','XII','XIII','XIV','XV','XVI','XVII','XVIII','XIX','XX'];
 const DAY=86400000;
 const $=id=>document.getElementById(id);
 const esc=s=>String(s??'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
 
-function seed(){
+const LABELS={
+ Niemiecki:['ich','du','er/sie/es','wir','ihr','sie/Sie'],
+ Angielski:['I','you','he/she/it','we','you','they'],
+ Polski:['ja','ty','on/ona/ono','my','wy','oni/one'],
+ Francuski:['je','tu','il/elle','nous','vous','ils/elles'],
+ Hiszpański:['yo','tú','él/ella','nosotros','vosotros','ellos/ellas'],
+ Włoski:['io','tu','lui/lei','noi','voi','loro']};
+function ritualSeed(){
+ const L=LABELS.Niemiecki,id=()=>crypto.randomUUID();
+ const conj=(front,tense,back,forms)=>({id:id(),deck:'d4',kind:'conj',front,tense,back,forms:forms.split(', ').map((a,i)=>({l:L[i],a})),ipa:'',ex:'',reps:0,next:0});
+ const gap=(front,back,ex)=>({id:id(),deck:'d4',kind:'cloze',front,back,ex,ipa:'',reps:0,next:0});
+ return {deck:{id:'d4',name:'Niemiecki — odmiana i zdania',pair:'DE → PL',lang:'Niemiecki',unit:'u_Niemiecki',img:'scroll'},cards:[
+  conj('sein','Präsens','być','bin, bist, ist, sind, seid, sind'),
+  conj('haben','Präsens','mieć','habe, hast, hat, haben, habt, haben'),
+  conj('gehen','Präsens','iść','gehe, gehst, geht, gehen, geht, gehen'),
+  conj('fahren','Präsens','jechać','fahre, fährst, fährt, fahren, fahrt, fahren'),
+  conj('gehen','Perfekt','iść','bin gegangen, bist gegangen, ist gegangen, sind gegangen, seid gegangen, sind gegangen'),
+  gap('Ich ___ den Zug nach Berlin.','nehme','Biorę pociąg do Berlina.'),
+  gap('Er ___ jeden Tag Kaffee.','trinkt','On pije kawę codziennie.'),
+  gap('Wir ___ gestern im Kino.','waren','Wczoraj byliśmy w kinie.'),
+  gap('Ich sehe ___ Hund. (der Hund)','den','Widzę psa. — biernik'),
+  gap('Ich bleibe zu Hause, ___ ich krank bin.','weil','Zostaję w domu, bo jestem chory. — szyk końcowy'),
+  gap('Ich gehe ___ ___ Schule. (die Schule)','in; die','Idę do szkoły. — biernik po in (kierunek)')]};
+}
+function seedAll(){
  const mk=(deck,arr)=>arr.map(([front,ipa,back,ex])=>({id:crypto.randomUUID(),deck,front,ipa,back,ex,reps:0,next:0}));
  return {
-  settings:{dir:'fb',size:5},
+  settings:{dir:'fb',size:5,mode:'flip'},
+  units:[{id:'u_Angielski',name:'Angielski — start',lang:'Angielski'},{id:'u_Niemiecki',name:'Niemiecki — start',lang:'Niemiecki'}],
   decks:[
-   {id:'d1',name:'Angielski — podstawy',pair:'EN → PL',lang:'Angielski',img:'books'},
-   {id:'d2',name:'Niemiecki — w podróży',pair:'DE → PL',lang:'Niemiecki',img:'scroll'},
-   {id:'d3',name:'Angielski — idiomy',pair:'EN → PL',lang:'Angielski',img:'cauldron'}],
+   {id:'d1',name:'Angielski — podstawy',pair:'EN → PL',lang:'Angielski',unit:'u_Angielski',img:'books'},
+   {id:'d2',name:'Niemiecki — w podróży',pair:'DE → PL',lang:'Niemiecki',unit:'u_Niemiecki',img:'scroll'},
+   {id:'d3',name:'Angielski — idiomy',pair:'EN → PL',lang:'Angielski',unit:'u_Angielski',img:'cauldron'},
+   ritualSeed().deck],
+  v:3,
   cards:[
    ...mk('d1',[
     ['spell','/spɛl/','zaklęcie','She cast a simple spell. — Rzuciła proste zaklęcie.'],
@@ -293,27 +386,56 @@ function seed(){
     ['under the weather','','kiepsko się czuć','I feel under the weather. — Kiepsko się czuję.'],
     ['once in a blue moon','','raz na ruski rok','We meet once in a blue moon. — Spotykamy się raz na ruski rok.'],
     ['spill the beans','','wygadać sekret','Don\'t spill the beans! — Nie wygadaj sekretu!'],
-    ['it\'s raining cats and dogs','','leje jak z cebra','It\'s raining cats and dogs. — Leje jak z cebra.']])
+    ['it\'s raining cats and dogs','','leje jak z cebra','It\'s raining cats and dogs. — Leje jak z cebra.']]),
+   ...ritualSeed().cards
   ]};
 }
-function load(){try{const x=JSON.parse(localStorage.getItem(KEY)||'null');if(x&&Array.isArray(x.cards)&&Array.isArray(x.decks))return x}catch(e){}return seed()}
+function seed(){
+ const s=seedAll(),ok=new Set(s.decks.filter(d=>KID_LANGS.includes(d.lang)).map(d=>d.id));
+ s.decks=s.decks.filter(d=>ok.has(d.id));s.cards=s.cards.filter(c=>ok.has(c.deck));
+ s.units=s.units.filter(u=>KID_LANGS.includes(u.lang));
+ return s;
+}
+function load(){try{const x=JSON.parse(localStorage.getItem(KEY)||'null');if(x&&Array.isArray(x.cards)&&Array.isArray(x.decks)){
+  if(!x.v&&KID_LANGS.includes('Niemiecki')){const r=ritualSeed();x.decks.push(r.deck);x.cards.push(...r.cards)}
+  if(!x.v)x.v=2;
+  if(x.v<3){
+   // drop untouched starter decks in languages this child does not study (decks with progress or own cards stay)
+   const touched=id=>x.cards.some(c=>c.deck===id&&(c.reps||c.added));
+   const gone=new Set(x.decks.filter(d=>d.lang&&!KID_LANGS.includes(d.lang)&&!touched(d.id)).map(d=>d.id));
+   x.decks=x.decks.filter(d=>!gone.has(d.id));x.cards=x.cards.filter(c=>!gone.has(c.deck));
+   x.units=Array.isArray(x.units)?x.units:[];
+   x.decks.forEach(d=>{
+    if(x.units.some(u=>u.id===d.unit))return;
+    const lang=d.lang||'Inne',uid='u_'+lang;
+    if(!x.units.some(u=>u.id===uid))x.units.push({id:uid,name:lang+' — start',lang});
+    d.unit=uid;
+   });
+   x.v=3}
+  return x}}catch(e){}return seed()}
 let S=load();
 function save(){try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){}}
-S.settings=Object.assign({dir:'fb',size:5},S.settings||{});
+function fixS(){
+ S.settings=Object.assign({dir:'fb',size:5,mode:'flip'},S.settings||{});
+ if(!Array.isArray(S.units))S.units=[];
+ if(!S.since){S.since=Date.now();save()}
+}
+fixS();
+try{navigator.storage&&navigator.storage.persist&&navigator.storage.persist()}catch(e){}
 
 /* ---------- navigation ---------- */
 let page='home';
+const MG=['addP','decksP','setP'];
 function go(p){
  page=p;
  ['home','decksP','addP','setP','studyP'].forEach(x=>$(x).hidden=x!==p);
- $('nav').hidden=p==='studyP';
- renderNav();
+ $('mgTop').hidden=!MG.includes(p);
+ document.querySelectorAll('#seg button').forEach(b=>b.classList.toggle('on',b.dataset.go===p));
  if(p==='home')renderHome(); if(p==='decksP')renderDecks(); if(p==='addP')renderAdd(); if(p==='setP')renderSet();
 }
-function renderNav(){
- $('nav').innerHTML=NAV.map(([id,l,i])=>`<button data-go="${id}" class="${id===page?'on':''}"><svg viewBox="0 0 24 24"><path d="${ICON[i]}"/></svg>${l}</button>`).join('');
-}
-$('nav').onclick=e=>{const b=e.target.closest('[data-go]');if(b)go(b.dataset.go)};
+$('seg').onclick=e=>{const b=e.target.closest('[data-go]');if(b)go(b.dataset.go)};
+$('mgBack').onclick=()=>go('home');
+$('gear').onclick=()=>go('addP');
 
 function ask(btn,label,fn){
  if(btn.dataset.armed){clearTimeout(+btn.dataset.armed);delete btn.dataset.armed;btn.textContent=btn.dataset.orig;fn();return}
@@ -323,27 +445,77 @@ function ask(btn,label,fn){
 /* ---------- decks ---------- */
 const inDeck=id=>S.cards.filter(c=>c.deck===id);
 const learned=id=>{const a=inDeck(id);return a.length?Math.round(a.filter(c=>c.next>Date.now()).length/a.length*100):0};
+const HOUR=3600000;
+// newest group = every card added within an hour of the most recent addition
+function newestGroup(){
+ const a=S.cards.filter(c=>c.added);if(!a.length)return[];
+ const last=Math.max(...a.map(c=>c.added));
+ return a.filter(c=>c.added>=last-HOUR);
+}
+const dueNewest=()=>newestGroup().filter(c=>c.next<=Date.now());
 const plural=n=>n===1?'karta':(n%10>=2&&n%10<=4&&(n%100<10||n%100>=20))?'karty':'kart';
 function deckRow(d){
  const n=inDeck(d.id).length;
  return `<button class="deck" data-deck="${d.id}"><div class="ico" style="background-image:url(${ASSET[d.img]||ASSET.books})"></div>
  <div class="nm"><b>${esc(d.name)}</b><span>${esc(d.pair)} · ${n} ${plural(n)}</span></div><div class="pc">${learned(d.id)}%</div></button>`;
 }
-function renderHome(){$('homeDecks').innerHTML=S.decks.map(deckRow).join('')}
+const deckBlock=d=>`${deckRow(d)}<div style="padding:4px 0 10px 8px">${inDeck(d.id).map(c=>`<div class="cardrow"><div><b>${esc(c.front)}</b><small>${esc(c.kind==='conj'?c.tense+(c.back?' · '+c.back:''):c.back)}</small></div><button class="x" data-del="${c.id}" aria-label="Usuń">×</button></div>`).join('')||'<small class="lead">Brak kart.</small>'}</div>`;
+function byUnit(fn){
+ const known=new Set(S.units.map(u=>u.id)),orphans=S.decks.filter(d=>!known.has(d.unit));
+ return S.units.map(u=>fn(u,S.decks.filter(d=>d.unit===u.id))).join('')+(orphans.length?fn({id:'',name:'Inne'},orphans):'');
+}
+const noTopics='<small class="lead">Brak tematów.</small>';
+function renderHome(){
+ renderWarn();
+ const n=dueNewest().length;$('startSub').textContent=n?`Najnowsze karty · ${n}`:'Powtórka ogólna';
+ $('homeDecks').innerHTML=byUnit((u,ds)=>`<div class="uh"><h6>${esc(u.name)}</h6>${u.id?`<button class="outline sm" data-test="${u.id}">Sprawdzian</button>`:''}</div>${ds.map(deckRow).join('')||noTopics}`);
+}
 function renderDecks(){
- $('deckList').innerHTML=S.decks.map(d=>`${deckRow(d)}<div style="padding:4px 0 10px 8px">${inDeck(d.id).map(c=>`<div class="cardrow"><div><b>${esc(c.front)}</b><small>${esc(c.back)}</small></div><button class="x" data-del="${c.id}" aria-label="Usuń">×</button></div>`).join('')||'<small class="lead">Brak kart.</small>'}</div>`).join('');
+ $('deckList').innerHTML=byUnit((u,ds)=>`<div class="uh"><h6>${esc(u.name)}</h6>${u.id&&!ds.length?`<button class="x" data-delunit="${u.id}" aria-label="Usuń unit">×</button>`:''}</div>${ds.map(deckBlock).join('')||noTopics}`);
 }
 document.addEventListener('click',e=>{
  const d=e.target.closest('[data-deck]');if(d){magic(e,{n:12,dist:70});startSession(d.dataset.deck);return}
+ const ts=e.target.closest('[data-test]');if(ts){magic(e,{n:22,dist:120});startSession(null,ts.dataset.test);return}
+ const du=e.target.closest('[data-delunit]');if(du){ask(du,'?',()=>{S.units=S.units.filter(u=>u.id!==du.dataset.delunit);save();renderDecks()});return}
  const x=e.target.closest('[data-del]');if(x)ask(x,'?',()=>{S.cards=S.cards.filter(c=>c.id!==x.dataset.del);save();renderDecks()})
 });
-$('startAll').onclick=e=>{magic(e,{n:22,dist:120});startSession(null)};
+$('startAll').onclick=e=>{magic(e,{n:22,dist:120});startSession(null,null,true)};
 
 /* ---------- add ---------- */
 function renderAdd(){
+ const uids=['bUnit','rUnit','ndUnit'],keep=uids.map(i=>$(i).value);
  const o=S.decks.map(d=>`<option value="${d.id}">${esc(d.name)}</option>`).join('');
  $('fDeck').innerHTML=o;$('bDeck').innerHTML=o+'<option value="__new">+ Nowy zestaw…</option>';
- $('bNewWrap').hidden=$('bDeck').value!=='__new';countBatch();
+ const uo=S.units.map(u=>`<option value="${u.id}">${esc(u.name)}</option>`).join('');
+ uids.forEach((i,k)=>{$(i).innerHTML=uo;if(S.units.some(u=>u.id===keep[k]))$(i).value=keep[k]});
+ $('nuLang').innerHTML=KID_LANGS.map(k=>`<option>${k}</option>`).join('');
+ countBatch();
+ const rl=$('rLang').value;
+ $('rDeck').innerHTML=o+'<option value="__new">+ Nowy zestaw…</option>';
+ $('rLang').innerHTML=Object.keys(LABELS).map(k=>`<option>${k}</option>`).join('')+'<option value="">Własne (zaimek=forma)</option>';
+ if(rl!=null&&$('rLang').querySelector(`option[value="${rl}"]`))$('rLang').value=rl;else syncRLang();
+ showNew();countRitual();
+}
+function showNew(){
+ const b=$('bDeck').value==='__new',r=$('rDeck').value==='__new';
+ $('bNewWrap').hidden=$('bUnitWrap').hidden=!b;$('rNewWrap').hidden=$('rUnitWrap').hidden=!r;
+}
+function mkDeck(name,unitId){
+ const u=S.units.find(x=>x.id===unitId)||{},id='d'+Date.now()+Math.random().toString(36).slice(2,5);
+ const pair=u.lang==='Niemiecki'?'DE → PL':u.lang==='Angielski'?'EN → PL':'—';
+ S.decks.push({id,name,pair,lang:u.lang||'',unit:unitId,img:['books','scroll','cauldron'][S.decks.length%3]});
+ return id;
+}
+function syncRLang(){const d=S.decks.find(x=>x.id===$('rDeck').value);if(d&&LABELS[d.lang])$('rLang').value=d.lang}
+function parseRitual(txt,lang){
+ const lab=LABELS[lang]||[];
+ return txt.split(/\r?\n/).map(l=>l.trim()).filter(Boolean).map(l=>{
+  const p=l.split(/\s*\|\s*/).map(x=>x.trim());
+  if(p[0].includes('___'))return p[1]?{kind:'cloze',front:p[0],back:p[1],ex:p[2]||''}:null;
+  if(p.length<3)return null;
+  const forms=p[2].split(/\s*,\s*/).filter(Boolean).map((it,i)=>{const m=it.split(/\s*=\s*/);return m.length>1?{l:m[0],a:m.slice(1).join('=')}:{l:lab[i]||String(i+1),a:it}});
+  return forms.length?{kind:'conj',front:p[0],tense:p[1],back:p[3]||'',forms,ex:''}:null;
+ });
 }
 function parseBatch(txt){
  return txt.split(/\r?\n/).map(l=>l.trim()).filter(Boolean).map(l=>{
@@ -356,50 +528,132 @@ function countBatch(){
  $('bCount').textContent=a.length?`Gotowe do dodania: ${ok}`+(bad?` · pominięte linie bez tłumaczenia: ${bad}`:''):'';
 }
 $('bText').oninput=countBatch;
-$('bDeck').onchange=()=>{$('bNewWrap').hidden=$('bDeck').value!=='__new'};
+$('bDeck').onchange=showNew;
 $('saveBatch').onclick=e=>{
  const rows=parseBatch($('bText').value).filter(Boolean);
  if(!rows.length){toast('Wpisz karty: słowo — tłumaczenie');return}
  let id=$('bDeck').value;
  if(id==='__new'){
   const name=$('bNew').value.trim();if(!name){toast('Wpisz nazwę zestawu');return}
-  id='d'+Date.now();S.decks.push({id,name,pair:'—',lang:'',img:['books','scroll','cauldron'][S.decks.length%3]});
+  if(!$('bUnit').value){toast('Najpierw utwórz unit');return}
+  id=mkDeck(name,$('bUnit').value);
  }
- S.cards.unshift(...rows.map(r=>({id:crypto.randomUUID(),deck:id,front:r.front,ipa:'',back:r.back,ex:r.ex,reps:0,next:0})));
+ S.cards.unshift(...rows.map(r=>({id:crypto.randomUUID(),deck:id,front:r.front,ipa:'',back:r.back,ex:r.ex,reps:0,next:0,added:Date.now()})));
  save();$('bText').value='';$('bNew').value='';renderAdd();$('bDeck').value=id;
+ magic(e,{n:24,dist:110});toast(`Dodano ${rows.length} ✦`);
+};
+function countRitual(){
+ const a=parseRitual($('rText').value,$('rLang').value),ok=a.filter(Boolean).length,bad=a.length-ok;
+ $('rCount').textContent=a.length?`Gotowe do dodania: ${ok}`+(bad?` · pominięte linie w złym formacie: ${bad}`:''):'';
+}
+$('rText').oninput=countRitual;$('rLang').onchange=countRitual;
+$('rDeck').onchange=()=>{showNew();syncRLang();countRitual()};
+$('saveRitual').onclick=e=>{
+ const rows=parseRitual($('rText').value,$('rLang').value).filter(Boolean);
+ if(!rows.length){toast('Wpisz ćwiczenia w podanym formacie');return}
+ let id=$('rDeck').value;
+ if(id==='__new'){
+  const name=$('rNew').value.trim();if(!name){toast('Wpisz nazwę zestawu');return}
+  if(!$('rUnit').value){toast('Najpierw utwórz unit');return}
+  id=mkDeck(name,$('rUnit').value);
+ }
+ S.cards.unshift(...rows.map(r=>({id:crypto.randomUUID(),deck:id,ipa:'',reps:0,next:0,added:Date.now(),...r})));
+ save();$('rText').value='';$('rNew').value='';renderAdd();$('rDeck').value=id;
  magic(e,{n:24,dist:110});toast(`Dodano ${rows.length} ✦`);
 };
 function toast(t){const el=document.createElement('div');el.className='toast';el.textContent=t;$('app').appendChild(el);setTimeout(()=>el.remove(),1800)}
 $('saveCard').onclick=e=>{
  const front=$('fFront').value.trim(),back=$('fBack').value.trim();
  if(!front||!back){toast('Wpisz słowo i tłumaczenie');return}
- S.cards.unshift({id:crypto.randomUUID(),deck:$('fDeck').value,front,ipa:$('fIpa').value.trim(),back,ex:$('fEx').value.trim(),reps:0,next:0});
+ S.cards.unshift({id:crypto.randomUUID(),deck:$('fDeck').value,front,ipa:$('fIpa').value.trim(),back,ex:$('fEx').value.trim(),reps:0,next:0,added:Date.now()});
  save();['fFront','fIpa','fBack','fEx'].forEach(i=>$(i).value='');magic(e,{n:18,dist:90});toast('Dodano ✦');
 };
 $('addDeck').onclick=()=>{
  const name=$('newDeck').value.trim();if(!name)return;
- S.decks.push({id:'d'+Date.now(),name,pair:'—',lang:'',img:['books','scroll','cauldron'][S.decks.length%3]});
+ if(!$('ndUnit').value){toast('Najpierw utwórz unit');return}
+ mkDeck(name,$('ndUnit').value);
  $('newDeck').value='';save();renderAdd();toast('Zestaw utworzony ✦');
 };
+$('addUnit').onclick=()=>{
+ const name=$('newUnit').value.trim();if(!name)return;
+ S.units.push({id:'u'+Date.now(),name,lang:$('nuLang').value});
+ $('newUnit').value='';save();renderAdd();toast('Unit utworzony ✦');
+};
+
+/* ---------- backup ---------- */
+const BK_DAYS=14;
+const bkAge=()=>S.lastBackup?Math.floor((Date.now()-S.lastBackup)/DAY):null;
+function renderBk(){const a=bkAge();$('bkInfo').textContent=a===null?'Kopii jeszcze nie robiono.':a===0?'Ostatnia kopia: dziś.':`Ostatnia kopia: ${a} d. temu.`}
+function renderWarn(){
+ const a=bkAge(),stale=a===null?Date.now()-S.since>3*DAY:a>=BK_DAYS;
+ $('bkWarn').hidden=!stale;
+ $('bkWarn').textContent=a===null?'✦ Zrób kopię zapasową — dotknij':`✦ Ostatnia kopia ${a} d. temu — dotknij`;
+}
+$('bkWarn').onclick=()=>go('setP');
+$('bkSave').onclick=async e=>{
+ const prev=S.lastBackup;S.lastBackup=Date.now();
+ const name=`${KEY}-${new Date().toISOString().slice(0,10)}.json`;
+ const body=JSON.stringify({app:KEY,exported:S.lastBackup,data:S});
+ let done=false;
+ try{
+  const file=new File([body],name,{type:'application/json'});
+  if(navigator.canShare&&navigator.canShare({files:[file]})){await navigator.share({files:[file],title:name});done=true}
+ }catch(err){if(err&&err.name==='AbortError'){S.lastBackup=prev;return}}
+ if(!done){
+  const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([body],{type:'application/json'}));a.download=name;
+  document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(a.href),4000);
+ }
+ save();renderBk();magic(e,{n:20,dist:100});toast('Kopia zapisana ✦');
+};
+let pendingBk=null;
+$('bkLoad').onclick=()=>{$('bkFile').value='';$('bkFile').click()};
+$('bkFile').onchange=async()=>{
+ const f=$('bkFile').files[0];if(!f)return;
+ try{
+  const o=JSON.parse(await f.text());
+  if(!o||o.app!==KEY||!o.data||!Array.isArray(o.data.cards)||!Array.isArray(o.data.decks)){toast(o&&o.app&&o.app!==KEY?'To kopia innej osoby':'To nie jest plik kopii');return}
+  pendingBk=o.data;
+  const b=$('bkApply');b.textContent=`Zastąp dane kopią (${o.data.cards.length} kart)`;b.hidden=false;
+ }catch(err){toast('Nie można odczytać pliku')}
+};
+$('bkApply').onclick=function(){ask(this,'Na pewno? Dotknij ponownie',()=>{
+ try{localStorage.setItem(KEY+'_prev',JSON.stringify(S))}catch(e){}   // safety net: current data stays under *_prev
+ try{localStorage.setItem(KEY,JSON.stringify(pendingBk))}catch(e){toast('Nie udało się zapisać');return}
+ S=load();fixS();pendingBk=null;this.hidden=true;renderSet();toast('Przywrócono ✦');
+})};
 
 /* ---------- settings ---------- */
-function renderSet(){$('dir').value=S.settings.dir;$('size').value=S.settings.size}
+function renderSet(){renderBk();$('mode').value=S.settings.mode;$('dir').value=S.settings.dir;$('size').value=S.settings.size}
+$('mode').onchange=()=>{S.settings.mode=$('mode').value;save()};
 $('dir').onchange=()=>{S.settings.dir=$('dir').value;save()};
 $('size').onchange=()=>{S.settings.size=+$('size').value;save()};
 $('reset').onclick=function(){ask(this,'Na pewno? Dotknij ponownie',()=>{S=seed();save();renderSet();toast('Gotowe ✦')})};
 
 /* ---------- study ---------- */
-let Q=[],total=0,finished=0,flipped=false,tallyN=[0,0,0,0],curDeck=null,cur=null;
-function startSession(deckId){
- curDeck=deckId;
- let pool=S.cards.filter(c=>!deckId||c.deck===deckId);
- const now=Date.now();
- let due=pool.filter(c=>c.next<=now).sort((a,b)=>a.next-b.next);
- if(due.length<S.settings.size)due=due.concat(pool.filter(c=>c.next>now).sort((a,b)=>a.next-b.next));
- // light shuffle within the chosen slice so order is not always the same
- Q=due.slice(0,S.settings.size).sort(()=>Math.random()-.5);
- if(!Q.length){toast('Ten zestaw jest pusty');return}
- total=Q.length;finished=0;tallyN=[0,0,0,0];
+let Q=[],total=0,finished=0,flipped=false,tallyN=[0,0,0,0],curDeck=null,curUnit=null,curNewest=false,cur=null,testMode=false,testRes={ok:0,bad:[]};
+function startSession(deckId,unitId,newest){
+ curDeck=deckId;curUnit=unitId||null;testMode=!!unitId;curNewest=!!newest&&!testMode;
+ if(testMode){
+  // unit test: every card of every topic in the unit, no scheduling side effects
+  const ids=new Set(S.decks.filter(d=>d.unit===unitId).map(d=>d.id));
+  Q=S.cards.filter(c=>ids.has(c.deck)).sort(()=>Math.random()-.5);
+  if(!Q.length){toast('Ten unit nie ma jeszcze kart');return}
+ }else{
+  if(curNewest){   // "Zacznij naukę": the whole newest group, only cards that are due
+   Q=dueNewest().sort(()=>Math.random()-.5);
+   if(!Q.length){curNewest=false;if(S.cards.some(c=>c.added))toast('Najnowsze karty opanowane — powtórka ogólna')}
+  }
+  if(!curNewest){
+  let pool=S.cards.filter(c=>!deckId||c.deck===deckId);
+  const now=Date.now();
+  let due=pool.filter(c=>c.next<=now).sort((a,b)=>a.next-b.next);
+  if(due.length<S.settings.size)due=due.concat(pool.filter(c=>c.next>now).sort((a,b)=>a.next-b.next));
+  // light shuffle within the chosen slice so order is not always the same
+  Q=due.slice(0,S.settings.size).sort(()=>Math.random()-.5);
+  if(!Q.length){toast('Ten zestaw jest pusty');return}
+  }
+ }
+ total=Q.length;finished=0;tallyN=[0,0,0,0];testRes={ok:0,bad:[]};
  go('studyP');showCard(true);
 }
 function deckOf(c){return S.decks.find(d=>d.id===c.deck)||{}}
@@ -423,14 +677,117 @@ function showCard(first){
  $('pos').textContent=Math.min(finished+1,total)+' / '+total;
  $('pbar').style.width=(finished/total*100)+'%';
  setFlip(false,false);
+ const dk=isDrill(cur);
+ $('flipwrap').hidden=dk;$('drill').hidden=!dk;$('flipBtn').hidden=dk;$('checkBtn').hidden=!dk;$('nextBtn').hidden=true;
+ document.querySelectorAll('.grade.sug').forEach(b=>b.classList.remove('sug'));
+ if(dk)renderDrill();
  if(!first)void $('flipper').offsetWidth;
 }
+
+/* ---------- rituals: gap-fill and conjugation ---------- */
+// a "single word" is one token, optionally with an article / "to"; those can be typed in write mode and in unit tests
+const isSingle=c=>/^((der|die|das|to|the|a|an)\s+)?\S+$/i.test(c.front.trim());
+const typed=c=>!c.kind&&isSingle(c)&&(testMode||S.settings.mode==='type');
+const isDrill=c=>c.kind==='cloze'||c.kind==='conj'||typed(c);
+const strictFor=c=>deckOf(c).lang==='Niemiecki';   // German: exact case, umlauts, articles
+const IATTR='autocomplete="off" autocapitalize="off" autocorrect="off" spellcheck="false" enterkeyhint="next"';
+const answersOf=c=>c.kind==='conj'?c.forms.map(f=>f.a):c.kind==='cloze'?c.back.split(/\s*;\s*/):[c.front];
+const strip=s=>s.normalize('NFD').replace(/[\u0300-\u036f]/g,'');
+const norm=s=>s.trim().toLowerCase().replace(/\s+/g,' ');
+// 2 = exact, 1 = right up to diacritics (lenient only), 0 = wrong; with alts, "a/b" in the key accepts either
+function judge(val,key,strict,alts=true){
+ const fix=strict?s=>s.trim().replace(/\s+/g,' '):norm;
+ const v=fix(val);if(!v)return 0;
+ const opts=(alts?key.split('/'):[key]).map(fix);
+ if(opts.includes(v))return 2;
+ return !strict&&opts.some(o=>strip(o)===strip(v))?1:0;
+}
+function why(val,key){
+ const l=s=>s.trim().toLowerCase(),w=s=>l(s).split(/\s+/),a=w(val),b=w(key);
+ if(l(val)===l(key))return 'wielka / mała litera';
+ if(strip(l(val))===strip(l(key)))return 'umlauty i ß';
+ if(a.length===2&&b.length===2&&a[1]===b[1])return 'rodzajnik';
+ if(a.length===1&&b.length===2&&a[0]===b[1])return 'brakuje rodzajnika';
+ return '';
+}
+const UML=[['ä','Ä'],['ö','Ö'],['ü','Ü'],['ß','ß']];
+let caps=false,lastGap=null;
+function renderUml(){
+ $('uml').innerHTML=UML.map(([l,u])=>`<button type="button" data-ch="${caps?u:l}">${caps?u:l}</button>`).join('')+`<button type="button" data-caps class="${caps?'on':''}" aria-label="Wielkie litery">⇧</button>`;
+}
+$('uml').addEventListener('pointerdown',e=>{
+ const b=e.target.closest('button');if(!b)return;e.preventDefault();
+ if(b.hasAttribute('data-caps')){caps=!caps;renderUml();return}
+ const el=lastGap&&document.body.contains(lastGap)?lastGap:$('g0');
+ if(!el||el.readOnly)return;
+ const s=el.selectionStart??el.value.length,en=el.selectionEnd??s;
+ el.setRangeText(b.dataset.ch,s,en,'end');el.focus({preventScroll:true});
+ if(caps){caps=false;renderUml()}   // shift is one-shot
+});
+$('dBody').addEventListener('focusin',e=>{if(e.target.matches&&e.target.matches('input.gap'))lastGap=e.target});
+let drillDone=false;
+function renderDrill(){
+ const c=cur;drillDone=false;
+ $('dRoman').textContent=ROMAN[Math.min(finished,ROMAN.length-1)];
+ $('dTag').textContent=c.kind==='conj'?(c.tense||'Odmiana'):c.kind==='cloze'?'Luka':(deckOf(c).lang||'Pisanie');
+ lastGap=null;caps=false;$('uml').hidden=!strictFor(c);if(!$('uml').hidden)renderUml();
+ if(!c.kind){
+  $('dBody').innerHTML=`<div><div class="dr-t">${esc(c.back)}</div><input class="gap wide" id="g0" ${IATTR}><small class="ans" id="a0"></small><div class="ans-line" id="ansLine"></div></div>`;
+ }else if(c.kind==='conj'){
+  $('dBody').innerHTML=`<div><div class="dr-t">${esc(c.front)}</div>${c.back?`<div class="dr-s">${esc(c.back)}</div>`:''}<div class="conj">${c.forms.map((f,i)=>`<label for="g${i}">${esc(f.l)}</label><div><input class="gap" id="g${i}" ${IATTR}><small class="ans" id="a${i}"></small></div>`).join('')}</div></div>`;
+ }else{
+  const parts=c.front.split('___');
+  $('dBody').innerHTML=`<div><div class="dr-sent">${parts.map((s,i)=>esc(s)+(i<parts.length-1?`<input class="gap" id="g${i}" ${IATTR}>`:'')).join('')}</div>${c.ex?`<div class="dr-s">${esc(c.ex.split(' — ')[0])}</div>`:''}<div class="ans-line" id="ansLine"></div></div>`;
+ }
+ $('dBody').scrollTop=0;
+ setTimeout(()=>{const g=$('g0');if(g&&!drillDone)try{g.focus({preventScroll:true})}catch(e){}},60);
+}
+function checkDrill(e){
+ if(drillDone)return;drillDone=true;
+ const key=answersOf(cur),strict=strictFor(cur),alts=!!cur.kind;let ok=0,perfect=0,miss=[];
+ key.forEach((a,i)=>{
+  const el=$('g'+i);if(!el)return;
+  const r=judge(el.value,a,strict,alts);el.readOnly=true;el.classList.add(r===2?'ok':r===1?'near':'no');
+  if(r)ok++;if(r===2)perfect++;
+  if(r<2){const s=$('a'+i),n=strict&&!alts&&r===0?why(el.value,a):'';if(s)s.textContent='→ '+a+(n?' ('+n+')':'');else miss.push(a)}
+ });
+ if(miss.length)$('ansLine').textContent='Poprawnie: '+key.join(' · ');
+ if(!cur.kind&&cur.ex){const l=$('ansLine');l.textContent=cur.ex;l.style.cssText='color:var(--n700);font-style:italic;font-weight:400'}
+ if(cur.kind==='cloze'&&cur.ex.includes(' — '))$('ansLine').textContent=($('ansLine').textContent?$('ansLine').textContent+'\n':'')+cur.ex.split(' — ').slice(1).join(' — ');
+ document.activeElement&&document.activeElement.blur&&document.activeElement.blur();
+ const n=key.length,sug=perfect===n?2:ok===n?1:ok*2>=n?1:0;
+ $('uml').hidden=true;
+ if(testMode){
+  if(perfect===n)testRes.ok++;
+  else testRes.bad.push(cur.kind==='conj'?`${cur.front} · ${cur.tense}`:cur.kind==='cloze'?`${cur.front.replace('___','…')} → ${key.join(' · ')}`:`${cur.back} → ${cur.front}`);
+  $('checkBtn').hidden=true;$('nextBtn').hidden=false;
+  magic(e,perfect===n?{n:30,dist:160,glow:true}:{n:8,dist:60});
+  return;
+ }
+ const g=document.querySelector(`.grade[data-g="${sug}"]`);if(g)g.classList.add('sug');
+ $('checkBtn').hidden=true;$('grades').hidden=false;
+ magic(e,perfect===n?{n:30,dist:160,glow:true}:{n:8,dist:60});
+ if(perfect===n)toast('Bezbłędnie ✦');
+}
+$('checkBtn').onclick=checkDrill;
+$('nextBtn').onclick=()=>{Q.shift();finished++;$('nextBtn').hidden=true;if(Q.length)showCard();else finish()};
+$('dBody').addEventListener('keydown',e=>{
+ if(e.key!=='Enter')return;e.preventDefault();
+ const ins=[...$('dBody').querySelectorAll('input.gap')],i=ins.indexOf(e.target);
+ if(i<0||drillDone)return;
+ if(i<ins.length-1)ins[i+1].focus({preventScroll:false});
+ else checkDrill({currentTarget:$('checkBtn'),clientX:0,clientY:0});
+});
 function flip(e){magic(e,{n:26,dist:150,glow:true});setFlip(!flipped,true)}
 $('flipwrap').onclick=flip;$('flipBtn').onclick=flip;
 $('grades').innerHTML=GR.map(([l,t,,h],j)=>`<button class="grade" data-g="${j}"><span class="gem-b" style="--h:${h}">${j+1}</span><b>${l}</b><small>${t}</small></button>`).join('');
 $('grades').onclick=e=>{
  const b=e.target.closest('[data-g]');if(!b)return;
  const j=+b.dataset.g;magic(e,{n:10,dist:60});
+ if(testMode){   // phrases in a test are self-graded; "Znowu" counts as a miss, no scheduling change
+  if(j===0)testRes.bad.push(`${cur.front} → ${cur.back}`);else testRes.ok++;
+  Q.shift();finished++;if(Q.length)showCard();else finish();return;
+ }
  const [, ,days]=GR[j];
  cur.reps=(cur.reps||0)+1;
  if(j===0){Q.push(Q.shift())}          // "Znowu": comes back later in this session
@@ -442,13 +799,20 @@ $('grades').onclick=e=>{
 function finish(){
  $('studyBox').hidden=true;$('doneBox').hidden=false;
  $('pbar').style.width='100%';$('pos').textContent=total+' / '+total;
+ if(testMode){
+  const bad=testRes.bad,h=n=>60+n/Math.max(1,total)*70;
+  $('tally').innerHTML=`<div><div style="height:${h(testRes.ok)}px"><b>${testRes.ok}</b><span>Dobrze</span></div></div><div><div style="height:${h(bad.length)}px"><b>${bad.length}</b><span>Błędy</span></div></div>`;
+  $('summary').innerHTML=`Wynik: ${testRes.ok} / ${total}.`+(bad.length?`<br><br>Do powtórki:<br>${bad.map(esc).join('<br>')}`:'');
+  magic({currentTarget:$('tally'),clientX:0,clientY:0},{n:30,dist:160});
+  return;
+ }
  const mx=Math.max(1,...tallyN);
  $('tally').innerHTML=GR.map(([l],j)=>`<div><div style="height:${60+tallyN[j]/mx*70}px"><b>${tallyN[j]}</b><span>${l}</span></div></div>`).join('');
  const ok=tallyN[1]+tallyN[2]+tallyN[3];
  $('summary').textContent=`Powtórzono ${total} ${plural(total)}, ${ok} z nich poprawnie. Najbliższa powtórka jutro.`;
  magic({currentTarget:$('tally'),clientX:0,clientY:0},{n:30,dist:160});
 }
-$('again').onclick=e=>{magic(e,{n:22,dist:120});startSession(curDeck)};
+$('again').onclick=e=>{magic(e,{n:22,dist:120});startSession(curDeck,curUnit,curNewest)};
 $('back2decks').onclick=()=>go('home');
 $('closeStudy').onclick=()=>go('home');
 
