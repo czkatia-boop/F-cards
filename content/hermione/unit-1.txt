@@ -1,0 +1,126 @@
+@unit Unit 1
+@lang Angielski
+
+# dopisane: zaimki i odmiana to be (wg ramek ze str. 13 i 15)
+@topic Zaimki
+@words
+I — ja — I am ten. — Mam dziesięć lat.
+you — ty, wy — You are ready. — Jesteś gotowy.
+he — on — He is my brother. — On jest moim bratem.
+she — ona — She is my sister. — Ona jest moją siostrą.
+it — ono, to — It is a cake. — To jest ciasto.
+we — my — We are friends. — Jesteśmy przyjaciółmi.
+they — oni, one — They are at home. — Oni są w domu.
+my — mój, moja — It's my birthday. — To moje urodziny.
+your — twój, wasz — It's your birthday. — To twoje urodziny.
+her — jej — It's her birthday. — To jej urodziny.
+his — jego — It's his birthday. — To jego urodziny.
+
+@topic Czasownik to be (być)
+@rituals
+to be | Present | am, are, is, are, are, are | być
+to be | Present (skrót) | 'm, 're, 's, 're, 're, 're | być
+to be | Present (przeczenie) | am not, are not, is not, are not, are not, are not | nie być
+to be | Present (przeczenie skrót) | 'm not, aren't, isn't, aren't, aren't, aren't | nie być
+I ___ ten. | am | Mam dziesięć lat. — I am
+You ___ ready. | are | Jesteś gotowy. — you are
+He ___ twelve. | is | On ma dwanaście lat. — he is
+She ___ my sister. | is | Ona jest moją siostrą. — she is
+It ___ a present for you. | is | To prezent dla ciebie. — it is
+We ___ friends. | are | Jesteśmy przyjaciółmi. — we are
+They ___ at home. | are | Oni są w domu. — they are
+Jason ___ in Spain. | is | Jason jest w Hiszpanii. — Jason = he, więc is
+Jen and Alex ___ at the house. | are | Jen i Alex są w domu. — dwie osoby = they, więc are
+I ___ Spanish. (nie) | am not | Nie jestem Hiszpanem. — I am not
+You ___ Spanish. (nie) | are not | Nie jesteś Hiszpanem. — you are not
+He ___ French. (nie) | is not | On nie jest Francuzem. — he is not
+We ___ Spanish. (nie, skrót) | aren't | Nie jesteśmy Hiszpanami. — are + not = aren't
+She ___ Polish. (nie, skrót) | isn't | Ona nie jest Polką. — is + not = isn't
+They ___ hungry. (nie, skrót) | aren't | Oni nie są głodni. — are + not = aren't
+
+@topic Mój, twój, jej, jego
+@rituals
+'Granny, here's ___ birthday card!' (ty) | your | Babciu, oto twoja kartka urodzinowa! — you → your
+'It's Sophie's birthday. We are at ___ house.' (ona) | her | To urodziny Sophie. Jesteśmy w jej domu. — she → her
+'I'm very happy! ___ family is here!' (ja) | My | Jestem bardzo szczęśliwa! Moja rodzina jest tutaj! — I → my
+'Jason is in Spain with ___ class.' (on) | his | Jason jest w Hiszpanii ze swoją klasą. — he → his
+'___ birthday cake is in this box, Granny.' (ty) | Your | Twój tort urodzinowy jest w tym pudełku, babciu. — you → your
+Alex is twelve. ___ sister is ten. (on) | His | Alex ma dwanaście lat. Jego siostra ma dziesięć. — he → his
+Jen is ten. ___ brother is twelve. (ona) | Her | Jen ma dziesięć lat. Jej brat ma dwanaście. — she → her
+I'm ten. It's ___ birthday. (ja) | my | Mam dziesięć lat. To moje urodziny. — I → my
+
+@topic Rodzina (1.1)
+@words
+aunt — ciocia
+brother — brat
+cousin — kuzyn, kuzynka
+dad — tata
+daughter — córka
+father — ojciec
+grandad — dziadek
+grandfather — dziadek
+grandmother — babcia
+granny — babcia
+mother — matka
+mum — mama
+parents — rodzice
+sister — siostra
+son — syn
+uncle — wujek
+
+@topic Kraje i narodowości (1.3)
+@words
+American — amerykański
+British — brytyjski
+China — Chiny
+Chinese — chiński
+France — Francja
+French — francuski
+Italian — włoski
+Italy — Włochy
+Poland — Polska
+Polish — polski
+Spain — Hiszpania
+Spanish — hiszpański
+the UK — Wielka Brytania
+the USA — Stany Zjednoczone
+
+@topic Rodzinny album (1.3)
+@words
+Bye now! — Do zobaczenia!
+family album — rodzinny album ze zdjęciami
+Help! — Pomocy!
+hungry — głodny
+in the photo — na zdjęciu
+name — imię
+No idea. — Nie mam pojęcia.
+Sorry. — Przepraszam.
+superhero — superbohater
+What about you? — A co z tobą?
+You're right. — Masz rację.
+
+@topic Przedstawianie (1.4)
+@words
+He is my classmate. — To mój kolega z klasy.
+Hello, Lucas. — Cześć, Lucas.
+Lucas, this is my mum. — Lucas, to jest moja mama.
+Nice to meet you. — Miło cię poznać.
+Nice to meet you too. — Ciebie także miło poznać.
+bag — plecak, torba
+famous — sławny
+kids — dzieciaki
+Let's go. — Chodźmy.
+neighbour — sąsiad, sąsiadka
+
+@topic Miejsca (1.5)
+@words
+at a party — na przyjęciu
+at home — w domu
+at school — w szkole
+in the garden — w ogrodzie
+in the park — w parku
+on holiday — na wakacjach
+favourite — ulubiony
+great-grandmother — prababcia
+near — blisko
+too — też
