@@ -78,6 +78,42 @@ She ___ to school every day. | goes | Ona chodzi do szkoły codziennie.
 - One clear answer per gap. Prefer gaps for grammar the textbook page is teaching (case, preposition, verb form, word order) and put the needed hint in brackets if the answer is otherwise ambiguous, e.g. `Ich sehe ___ Hund. (der Hund)`.
 - No `|` inside the sentence.
 
+## Delivering the cards: content pack (default) or paste blocks
+
+**Default: a content pack.** One chapter = one file `content/<child>/<chapter-id>.txt` (child = `harry` or `hermione`). `build/build.py` embeds it into that child's app, which imports it once and automatically the next time it is opened. Nothing has to be pasted on the phone. Commit it on a branch, run the build (see below), open a PR; after it is merged the child gets the unit.
+
+File format (the lines inside a section are exactly the lines of formats 1-3 above):
+
+```
+@unit Kapitel 1 — Hallo! Wie geht's?
+@lang Niemiecki
+
+@topic Begrüßung und Abschied
+@words
+Guten Morgen — Dzień dobry (rano)
+
+@topic Verben im Präsens
+@rituals
+gehen | Präsens | gehe, gehst, geht, gehen, geht, gehen | iść
+Ich ___ Lena. (heißen) | heiße | Nazywam się Lena.
+```
+
+- `@words` sections use format 1; `@rituals` sections use formats 2 and 3 (a topic may mix conjugation and gap-fill lines). Lines starting with `#` are comments.
+- **List topics in the order they should be learned**: the home button "Zacznij naukę" walks through the topics in file order (the first topic is treated as the newest).
+- **Pack id = file name.** Never rename a published pack, the app would import it a second time. For corrections after publishing, edit the file only if nobody has used it yet; otherwise add a new pack or tell the user to fix the card in Dodaj/Karty.
+- An existing unit with the same `@unit` name (made by hand) makes the app skip the import, so a pack never duplicates hand-made cards.
+- `@lang` must be a language the child studies (Hermione: Angielski only).
+
+Build and check before committing (from the repo root; the third argument is any file that contains the tear-edge `clip-path` polygons, e.g. the current `harry.html`):
+
+```
+cp harry.html /tmp/design.html && python3 build/build.py . /tmp/design.html
+```
+
+The build fails with an assertion if a topic is empty or `@unit`/`@lang` are missing. Then open `harry.html` in a browser and check: the unit appears once, topic card counts match your announcement, and a Sprawdzian over the unit with all answers correct scores 100%.
+
+**Alternative: paste blocks.** If the user wants to type the material in themselves, or it is a few cards, give blocks for the Dodaj forms as described in the workflow below.
+
 ## Workflow for a photo
 
 1. **Read the page carefully.** Transcribe vocabulary exactly as printed. If something is unreadable or you are unsure, say so and ask; never guess a word silently.
@@ -85,11 +121,8 @@ She ___ to school every day. | goes | Ona chodzi do szkoły codziennie.
 3. **Stay on the page.** Use the words and verbs the textbook gives. When you add something the page does not contain (an article, a plural, a missing form, an extra example), mark it as "dopisane" in your note so the user can check it.
 4. **Make your own sentences**; keep entries short (words, forms, short sentences). Do not transcribe whole textbook exercises.
 5. **Level**: match the child. Hermione is younger, so simple sentences and basic words.
-6. **Output**, in this order, in Russian:
-   - one line: for whom (app), language, suggested unit and topic name;
-   - each format as a separate code block, with one line above it saying where to paste it (Dodaj → which section, which *Zestaw*/*Unit* to select, which *Zaimki* if conjugation);
-   - a short note: what you added yourself, what was unclear, how many cards in each block.
-7. **Reminders worth one line**: add a whole topic in one sitting (the home button "Zacznij naukę" then trains everything added within an hour of the last addition); after a big import make a backup (Ustawienia → Zapisz kopię).
+6. **Output**, in Russian: first show the user the unit and topic names with card counts per topic, and a short note: what you added yourself ("dopisane"), what was unclear. Then either create the pack file and branch (default), or give each format as a separate code block with one line above it saying where to paste it (Dodaj → which section, which *Zestaw*/*Unit* to select, which *Zaimki* if conjugation). Open a PR only when the user asks.
+7. **Reminders worth one line**: when pasting by hand, add a topic in one sitting (the home button "Zacznij naukę" trains everything still due that was added within an hour of the last addition, then moves on to older additions); after a big hand import make a backup (Ustawienia → Zapisz kopię).
 
 ## Self-check before sending
 

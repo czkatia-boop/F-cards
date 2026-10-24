@@ -304,6 +304,7 @@ button{cursor:pointer}
 
 <script>
 const KEY='spellbook_harry';
+const PACKS=[{"id": "kapitel-1", "unit": "Kapitel 1 — Hallo! Wie geht's?", "lang": "Niemiecki", "topics": [{"name": "Begrüßung und Abschied", "type": "words", "text": "Guten Morgen — Dzień dobry (rano)\nGuten Tag — Dzień dobry\nGuten Abend — Dobry wieczór\nGute Nacht — Dobranoc\nMorgen — Cześć (rano, potocznie)\nTag — Cześć (skrót od Guten Tag)\nHallo — Cześć\nHi — Hej\nGrüß dich — Witaj (potocznie)\nGrüezi (Schweiz) — Dzień dobry (w Szwajcarii)\nGrüß Gott — Dzień dobry (regionalnie)\n'n Abend — Wieczór (potocznie)\nAuf Wiedersehen — Do widzenia\nWiedersehen — Do widzenia (potocznie)\nWiederschauen — Do zobaczenia (potocznie)\nTschüs — Pa\nCiao — Ciao (na pożegnanie)\nBis bald — Na razie\nSchlaf gut — Śpij dobrze\nWie geht's — Jak się masz\nDanke, gut — Dziękuję, dobrze\nEs geht — Może być\nUnd dir — A tobie\nDanke — Dziękuję"}, {"name": "Sich vorstellen", "type": "words", "text": "Ich heiße Lena — Nazywam się Lena\nIch bin Leon — Jestem Leon\nMein Name ist Peter — Mam na imię Peter\nIch komme aus Dresden — Pochodzę z Drezna\nIch wohne in Bremen — Mieszkam w Bremie\nIch bin dreizehn Jahre alt — Mam trzynaście lat\nIch mag Musik — Lubię muzykę\nIch bin zu Besuch bei Wojtek — Jestem z wizytą u Wojtka"}, {"name": "Länder und Städte", "type": "words", "text": "Deutschland — Niemcy\nSchweden — Szwecja\nSchweiz — Szwajcaria\nPolen — Polska\nMünchen — Monachium\nKöln — Kolonia\nBremen — Brema\nDresden — Drezno\nRegensburg — Ratyzbona"}, {"name": "Hobbys", "type": "words", "text": "die Musik — muzyka\ndas Kino — kino\nder Sport — sport\nder Computer — komputer\ndas Internet — internet\nTennis — tenis\nKarate — karate\nJudo — judo\nFlamenco — flamenco\nSalsa — salsa\nTango — tango\ndie Katze — kot\nder Kaktus — kaktus\ndie Fremdsprachen — języki obce"}, {"name": "Eigenschaften", "type": "words", "text": "schlank — szczupły\nsportlich — wysportowany\nattraktiv — atrakcyjny\nhübsch — ładny\ngroß — wysoki\nwitzig — dowcipny\nintelligent — inteligentny\nnett — miły\nlangweilig — nudny"}, {"name": "Kleine Wörter und Zahlen", "type": "words", "text": "sehr — bardzo\netwas — trochę\ngern — chętnie\nviel — dużo\nauch — też\nund — i\naber — ale\nalt — stary\ndreizehn — trzynaście\nvierzehn — czternaście"}, {"name": "Verben im Präsens", "type": "rituals", "text": "heißen | Präsens | heiße, heißt, heißt, heißen, heißt, heißen | nazywać się\nmachen | Präsens | mache, machst, macht, machen, macht, machen | robić\nfotografieren | Präsens | fotografiere, fotografierst, fotografiert, fotografieren, fotografiert, fotografieren | fotografować\nhaben | Präsens | habe, hast, hat, haben, habt, haben | mieć\nsein | Präsens | bin, bist, ist, sind, seid, sind | być\ntanzen | Präsens | tanze, tanzt, tanzt, tanzen, tanzt, tanzen | tańczyć\nwohnen | Präsens | wohne, wohnst, wohnt, wohnen, wohnt, wohnen | mieszkać\nkommen | Präsens | komme, kommst, kommt, kommen, kommt, kommen | przychodzić, przyjeżdżać\nsurfen | Präsens | surfe, surfst, surft, surfen, surft, surfen | surfować\nlernen | Präsens | lerne, lernst, lernt, lernen, lernt, lernen | uczyć się\nspielen | Präsens | spiele, spielst, spielt, spielen, spielt, spielen | grać, bawić się\nreisen | Präsens | reise, reist, reist, reisen, reist, reisen | podróżować\nleben | Präsens | lebe, lebst, lebt, leben, lebt, leben | żyć\nhören | Präsens | höre, hörst, hört, hören, hört, hören | słuchać\nsagen | Präsens | sage, sagst, sagt, sagen, sagt, sagen | mówić\nfinden | Präsens | finde, findest, findet, finden, findet, finden | znajdować, uważać"}, {"name": "Sätze mit Lücken", "type": "rituals", "text": "Ich ___ Lena. (heißen) | heiße | Nazywam się Lena.\nDu ___ Peter. (heißen) | heißt | Nazywasz się Peter. — po ß końcówka -t\nWie ___ du? (heißen) | heißt | Jak się nazywasz? — po ß końcówka -t\nEr ___ Karsten. (sein) | ist | On jest Karsten.\nWir ___ aus Deutschland. (sein) | sind | Jesteśmy z Niemiec.\nIhr ___ dreizehn Jahre alt. (sein) | seid | Macie trzynaście lat.\nIch ___ aus Köln. (kommen) | komme | Pochodzę z Kolonii.\nDu ___ aus Berlin. (kommen) | kommst | Pochodzisz z Berlina.\nAnna ___ aus Berlin. (kommen) | kommt | Anna pochodzi z Berlina.\nWir ___ in Bremen. (wohnen) | wohnen | Mieszkamy w Bremie.\nIhr ___ in Dresden. (wohnen) | wohnt | Mieszkacie w Dreźnie.\nKerstin ___ in Hamburg. (wohnen) | wohnt | Kerstin mieszka w Hamburgu.\nDu ___ gern. (tanzen) | tanzt | Chętnie tańczysz. — po z końcówka -t\nDu ___ viel. (reisen) | reist | Dużo podróżujesz. — po s końcówka -t\nEr ___ im Internet. (surfen) | surft | On surfuje w internecie.\nWir ___ gern Tennis. (spielen) | spielen | Chętnie gramy w tenisa.\nIch ___ Kino und Sport. (mögen) | mag | Lubię kino i sport. — ich mag, er mag\nKarsten ___ Computer. (mögen) | mag | Karsten lubi komputery. — ich mag, er mag\nGuten ___! (rano) | Morgen | Dzień dobry! (rano)\nGuten ___! (w ciągu dnia) | Tag | Dzień dobry! (w ciągu dnia)\nGuten ___! (wieczorem) | Abend | Dobry wieczór!\n___ Nacht! (przed snem) | Gute | Dobranoc!\nWie geht's? – Danke, ___. | gut | Jak się masz? – Dziękuję, dobrze.\nWie geht's? – Danke, gut. Und ___? | dir | A tobie?\nTschüs, Anja! Bis ___! | bald | Na razie!\nSchlaf ___! | gut | Śpij dobrze!\nHallo! Ich ___ Lena. Ich ___ aus Dresden. Ich ___ in Bremen. | heiße; komme; wohne | Cześć! Nazywam się Lena. Pochodzę z Drezna. Mieszkam w Bremie.\nIch ___ dreizehn Jahre ___. | bin; alt | Mam trzynaście lat."}]}];       // content packs for this child (content/<name>/*.txt), imported once each
 const KID_LANGS=['Angielski','Niemiecki'];   // languages this child studies; decks in other languages are not offered
 const ASSET={books:'assets/books.webp',scroll:'assets/scroll.webp',cauldron:'assets/cauldron.webp'};
 const GR=[['Znowu','< 1 min',0,22],['Trudne','1 d',1,60],['Dobre','3 d',3,150],['Łatwe','6 d',6,255]];
@@ -434,12 +435,13 @@ const inDeck=id=>S.cards.filter(c=>c.deck===id);
 const learned=id=>{const a=inDeck(id);return a.length?Math.round(a.filter(c=>c.next>Date.now()).length/a.length*100):0};
 const HOUR=3600000;
 // newest group = every card added within an hour of the most recent addition
+// (cards already learned drop out, so the group moves on to older additions as the newest ones are learned)
 function newestGroup(){
- const a=S.cards.filter(c=>c.added);if(!a.length)return[];
+ const a=S.cards.filter(c=>c.added&&c.next<=Date.now());if(!a.length)return[];
  const last=Math.max(...a.map(c=>c.added));
  return a.filter(c=>c.added>=last-HOUR);
 }
-const dueNewest=()=>newestGroup().filter(c=>c.next<=Date.now());
+const dueNewest=newestGroup;
 const plural=n=>n===1?'karta':(n%10>=2&&n%10<=4&&(n%100<10||n%100>=20))?'karty':'kart';
 function deckRow(d){
  const n=inDeck(d.id).length;
@@ -487,9 +489,10 @@ function showNew(){
  const b=$('bDeck').value==='__new',r=$('rDeck').value==='__new';
  $('bNewWrap').hidden=$('bUnitWrap').hidden=!b;$('rNewWrap').hidden=$('rUnitWrap').hidden=!r;
 }
+const pairOf=lang=>lang==='Niemiecki'?'DE → PL':lang==='Angielski'?'EN → PL':'—';
 function mkDeck(name,unitId){
  const u=S.units.find(x=>x.id===unitId)||{},id='d'+Date.now()+Math.random().toString(36).slice(2,5);
- const pair=u.lang==='Niemiecki'?'DE → PL':u.lang==='Angielski'?'EN → PL':'—';
+ const pair=pairOf(u.lang);
  S.decks.push({id,name,pair,lang:u.lang||'',unit:unitId,img:['books','scroll','cauldron'][S.decks.length%3]});
  return id;
 }
@@ -567,6 +570,31 @@ $('addUnit').onclick=()=>{
  $('newUnit').value='';save();renderAdd();toast('Unit utworzony ✦');
 };
 
+/* ---------- content packs ---------- */
+// A pack becomes one unit with its topics. It is imported once (remembered in S.packs), so cards the child
+// deleted do not come back. Topic n is stamped 2 h older than topic n-1, so "Zacznij naukę" walks through
+// the topics in file order.
+function importPacks(){
+ if(!Array.isArray(S.packs))S.packs=[];
+ const got=[];let changed=false;
+ PACKS.forEach(pk=>{
+  if(S.packs.includes(pk.id)||!KID_LANGS.includes(pk.lang))return;
+  S.packs.push(pk.id);changed=true;
+  if(S.units.some(u=>u.name===pk.unit))return;   // same unit was already added by hand: do not duplicate
+  const unit={id:'u_'+pk.id,name:pk.unit,lang:pk.lang},t0=Date.now();
+  S.units.push(unit);
+  pk.topics.forEach((tp,n)=>{
+   const id='d_'+pk.id+'_'+n;
+   S.decks.push({id,name:tp.name,pair:pairOf(pk.lang),lang:pk.lang,unit:unit.id,img:['books','scroll','cauldron'][S.decks.length%3]});
+   const rows=(tp.type==='rituals'?parseRitual(tp.text,pk.lang):parseBatch(tp.text)).filter(Boolean);
+   S.cards.push(...rows.map((r,i)=>({id:`p_${pk.id}_${n}_${i}`,deck:id,front:'',ipa:'',back:'',ex:'',reps:0,next:0,added:t0-n*2*HOUR,...r})));
+  });
+  got.push(pk.unit);
+ });
+ if(changed)save();
+ return got;
+}
+
 /* ---------- backup ---------- */
 const BK_DAYS=14;
 const bkAge=()=>S.lastBackup?Math.floor((Date.now()-S.lastBackup)/DAY):null;
@@ -606,7 +634,7 @@ $('bkFile').onchange=async()=>{
 $('bkApply').onclick=function(){ask(this,'Na pewno? Dotknij ponownie',()=>{
  try{localStorage.setItem(KEY+'_prev',JSON.stringify(S))}catch(e){}   // safety net: current data stays under *_prev
  try{localStorage.setItem(KEY,JSON.stringify(pendingBk))}catch(e){toast('Nie udało się zapisać');return}
- S=load();fixS();pendingBk=null;this.hidden=true;renderSet();toast('Przywrócono ✦');
+ S=load();fixS();importPacks();pendingBk=null;this.hidden=true;renderSet();toast('Przywrócono ✦');
 })};
 
 /* ---------- settings ---------- */
@@ -614,7 +642,7 @@ function renderSet(){renderBk();$('mode').value=S.settings.mode;$('dir').value=S
 $('mode').onchange=()=>{S.settings.mode=$('mode').value;save()};
 $('dir').onchange=()=>{S.settings.dir=$('dir').value;save()};
 $('size').onchange=()=>{S.settings.size=+$('size').value;save()};
-$('reset').onclick=function(){ask(this,'Na pewno? Dotknij ponownie',()=>{S=seed();save();renderSet();toast('Gotowe ✦')})};
+$('reset').onclick=function(){ask(this,'Na pewno? Dotknij ponownie',()=>{S=seed();fixS();importPacks();save();renderSet();toast('Gotowe ✦')})};
 
 /* ---------- study ---------- */
 let Q=[],total=0,finished=0,flipped=false,tallyN=[0,0,0,0],curDeck=null,curUnit=null,curNewest=false,cur=null,testMode=false,testRes={ok:0,bad:[]};
@@ -822,5 +850,7 @@ function magic(ev,{n=16,dist=90,glow=false,flash=true}={}){
  }catch(e){}
 }
 
+const NEW_PACKS=importPacks();
 go('home');
+if(NEW_PACKS.length)toast('Nowy materiał: '+NEW_PACKS.join(', ')+' ✦');
 </script>
