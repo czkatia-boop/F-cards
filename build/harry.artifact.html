@@ -258,6 +258,7 @@ button{cursor:pointer}
  <div class="top">
   <button class="circ" id="closeStudy" aria-label="Zamknij"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg></button>
   <div class="bar"><i id="pbar" style="width:0"></i></div>
+  <button class="circ" id="undo" hidden aria-label="Cofnij ostatnią odpowiedź"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 14 4 9l5-5"/><path d="M4 9h10.5a5.5 5.5 0 0 1 0 11H11"/></svg></button>
   <span class="pos" id="pos"></span>
  </div>
  <div class="study" id="studyBox">
@@ -645,6 +646,7 @@ $('size').onchange=()=>{S.settings.size=+$('size').value;save()};
 $('reset').onclick=function(){ask(this,'Na pewno? Dotknij ponownie',()=>{S=seed();fixS();importPacks();save();renderSet();toast('Gotowe ✦')})};
 
 /* ---------- study ---------- */
+let hist=[];
 let Q=[],total=0,finished=0,flipped=false,tallyN=[0,0,0,0],curDeck=null,curUnit=null,curNewest=false,cur=null,testMode=false,testRes={ok:0,bad:[]};
 function startSession(deckId,unitId,newest){
  curDeck=deckId;curUnit=unitId||null;testMode=!!unitId;curNewest=!!newest&&!testMode;
@@ -668,7 +670,7 @@ function startSession(deckId,unitId,newest){
   if(!Q.length){toast('Ten zestaw jest pusty');return}
   }
  }
- total=Q.length;finished=0;tallyN=[0,0,0,0];testRes={ok:0,bad:[]};
+ total=Q.length;finished=0;tallyN=[0,0,0,0];testRes={ok:0,bad:[]};hist=[];$('undo').hidden=true;
  go('studyP');showCard(true);
 }
 function deckOf(c){return S.decks.find(d=>d.id===c.deck)||{}}
@@ -785,7 +787,20 @@ function checkDrill(e){
  if(perfect===n)toast('Bezbłędnie ✦');
 }
 $('checkBtn').onclick=checkDrill;
-$('nextBtn').onclick=()=>{Q.shift();finished++;$('nextBtn').hidden=true;if(Q.length)showCard();else finish()};
+// undo: snapshot taken just before an answer is recorded (grade button or "Dalej"), restored by the ↶ button
+function snap(){
+ hist.push({Q:[...Q],finished,tallyN:[...tallyN],ok:testRes.ok,bad:[...testRes.bad],card:cur,reps:cur.reps,next:cur.next});
+ $('undo').hidden=false;
+}
+$('undo').onclick=()=>{
+ const h=hist.pop();if(!h)return;
+ Q=h.Q;finished=h.finished;tallyN=h.tallyN;testRes={ok:h.ok,bad:h.bad};
+ h.card.reps=h.reps;h.card.next=h.next;
+ if(!testMode)save();
+ $('undo').hidden=!hist.length;
+ showCard();toast('Cofnięto ↶');
+};
+$('nextBtn').onclick=()=>{snap();Q.shift();finished++;$('nextBtn').hidden=true;if(Q.length)showCard();else finish()};
 $('dBody').addEventListener('keydown',e=>{
  if(e.key!=='Enter')return;e.preventDefault();
  const ins=[...$('dBody').querySelectorAll('input.gap')],i=ins.indexOf(e.target);
@@ -798,7 +813,7 @@ $('flipwrap').onclick=flip;$('flipBtn').onclick=flip;
 $('grades').innerHTML=GR.map(([l,t,,h],j)=>`<button class="grade" data-g="${j}"><span class="gem-b" style="--h:${h}">${j+1}</span><b>${l}</b><small>${t}</small></button>`).join('');
 $('grades').onclick=e=>{
  const b=e.target.closest('[data-g]');if(!b)return;
- const j=+b.dataset.g;magic(e,{n:10,dist:60});
+ const j=+b.dataset.g;magic(e,{n:10,dist:60});snap();
  if(testMode){   // phrases in a test are self-graded; "Znowu" counts as a miss, no scheduling change
   if(j===0)testRes.bad.push(`${cur.front} → ${cur.back}`);else testRes.ok++;
   Q.shift();finished++;if(Q.length)showCard();else finish();return;
