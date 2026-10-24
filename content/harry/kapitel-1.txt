@@ -1,0 +1,149 @@
+# Pack format (read by build/build.py, parsed in the app with the same parsers as the Dodaj forms):
+#   @unit   unit name shown in the app        @lang  language of the unit
+#   @topic  starts a topic (zestaw)           @words  lines are "word — translation — example"
+#   @rituals  lines are conjugation tables / gap-fill sentences ("a | b | c")
+# Topics are listed in the order they should be learned: the first topic is the "newest" one.
+@unit Kapitel 1 — Hallo! Wie geht's?
+@lang Niemiecki
+
+@topic Begrüßung und Abschied
+@words
+Guten Morgen — Dzień dobry (rano)
+Guten Tag — Dzień dobry
+Guten Abend — Dobry wieczór
+Gute Nacht — Dobranoc
+Morgen — Cześć (rano, potocznie)
+Tag — Cześć (skrót od Guten Tag)
+Hallo — Cześć
+Hi — Hej
+Grüß dich — Witaj (potocznie)
+Grüezi (Schweiz) — Dzień dobry (w Szwajcarii)
+Grüß Gott — Dzień dobry (regionalnie)
+'n Abend — Wieczór (potocznie)
+Auf Wiedersehen — Do widzenia
+Wiedersehen — Do widzenia (potocznie)
+Wiederschauen — Do zobaczenia (potocznie)
+Tschüs — Pa
+Ciao — Ciao (na pożegnanie)
+Bis bald — Na razie
+Schlaf gut — Śpij dobrze
+Wie geht's — Jak się masz
+Danke, gut — Dziękuję, dobrze
+Es geht — Może być
+Und dir — A tobie
+Danke — Dziękuję
+
+@topic Sich vorstellen
+@words
+Ich heiße Lena — Nazywam się Lena
+Ich bin Leon — Jestem Leon
+Mein Name ist Peter — Mam na imię Peter
+Ich komme aus Dresden — Pochodzę z Drezna
+Ich wohne in Bremen — Mieszkam w Bremie
+Ich bin dreizehn Jahre alt — Mam trzynaście lat
+Ich mag Musik — Lubię muzykę
+Ich bin zu Besuch bei Wojtek — Jestem z wizytą u Wojtka
+
+@topic Länder und Städte
+@words
+Deutschland — Niemcy
+Schweden — Szwecja
+Schweiz — Szwajcaria
+Polen — Polska
+München — Monachium
+Köln — Kolonia
+Bremen — Brema
+Dresden — Drezno
+Regensburg — Ratyzbona
+
+@topic Hobbys
+@words
+die Musik — muzyka
+das Kino — kino
+der Sport — sport
+der Computer — komputer
+das Internet — internet
+Tennis — tenis
+Karate — karate
+Judo — judo
+Flamenco — flamenco
+Salsa — salsa
+Tango — tango
+die Katze — kot
+der Kaktus — kaktus
+die Fremdsprachen — języki obce
+
+@topic Eigenschaften
+@words
+schlank — szczupły
+sportlich — wysportowany
+attraktiv — atrakcyjny
+hübsch — ładny
+groß — wysoki
+witzig — dowcipny
+intelligent — inteligentny
+nett — miły
+langweilig — nudny
+
+@topic Kleine Wörter und Zahlen
+@words
+sehr — bardzo
+etwas — trochę
+gern — chętnie
+viel — dużo
+auch — też
+und — i
+aber — ale
+alt — stary
+dreizehn — trzynaście
+vierzehn — czternaście
+
+@topic Verben im Präsens
+@rituals
+heißen | Präsens | heiße, heißt, heißt, heißen, heißt, heißen | nazywać się
+machen | Präsens | mache, machst, macht, machen, macht, machen | robić
+fotografieren | Präsens | fotografiere, fotografierst, fotografiert, fotografieren, fotografiert, fotografieren | fotografować
+haben | Präsens | habe, hast, hat, haben, habt, haben | mieć
+sein | Präsens | bin, bist, ist, sind, seid, sind | być
+tanzen | Präsens | tanze, tanzt, tanzt, tanzen, tanzt, tanzen | tańczyć
+wohnen | Präsens | wohne, wohnst, wohnt, wohnen, wohnt, wohnen | mieszkać
+kommen | Präsens | komme, kommst, kommt, kommen, kommt, kommen | przychodzić, przyjeżdżać
+surfen | Präsens | surfe, surfst, surft, surfen, surft, surfen | surfować
+lernen | Präsens | lerne, lernst, lernt, lernen, lernt, lernen | uczyć się
+spielen | Präsens | spiele, spielst, spielt, spielen, spielt, spielen | grać, bawić się
+reisen | Präsens | reise, reist, reist, reisen, reist, reisen | podróżować
+leben | Präsens | lebe, lebst, lebt, leben, lebt, leben | żyć
+hören | Präsens | höre, hörst, hört, hören, hört, hören | słuchać
+sagen | Präsens | sage, sagst, sagt, sagen, sagt, sagen | mówić
+finden | Präsens | finde, findest, findet, finden, findet, finden | znajdować, uważać
+
+@topic Sätze mit Lücken
+@rituals
+Ich ___ Lena. (heißen) | heiße | Nazywam się Lena.
+Du ___ Peter. (heißen) | heißt | Nazywasz się Peter. — po ß końcówka -t
+Wie ___ du? (heißen) | heißt | Jak się nazywasz? — po ß końcówka -t
+Er ___ Karsten. (sein) | ist | On jest Karsten.
+Wir ___ aus Deutschland. (sein) | sind | Jesteśmy z Niemiec.
+Ihr ___ dreizehn Jahre alt. (sein) | seid | Macie trzynaście lat.
+Ich ___ aus Köln. (kommen) | komme | Pochodzę z Kolonii.
+Du ___ aus Berlin. (kommen) | kommst | Pochodzisz z Berlina.
+Anna ___ aus Berlin. (kommen) | kommt | Anna pochodzi z Berlina.
+Wir ___ in Bremen. (wohnen) | wohnen | Mieszkamy w Bremie.
+Ihr ___ in Dresden. (wohnen) | wohnt | Mieszkacie w Dreźnie.
+Kerstin ___ in Hamburg. (wohnen) | wohnt | Kerstin mieszka w Hamburgu.
+Du ___ gern. (tanzen) | tanzt | Chętnie tańczysz. — po z końcówka -t
+Du ___ viel. (reisen) | reist | Dużo podróżujesz. — po s końcówka -t
+Er ___ im Internet. (surfen) | surft | On surfuje w internecie.
+Wir ___ gern Tennis. (spielen) | spielen | Chętnie gramy w tenisa.
+Ich ___ Kino und Sport. (mögen) | mag | Lubię kino i sport. — ich mag, er mag
+Karsten ___ Computer. (mögen) | mag | Karsten lubi komputery. — ich mag, er mag
+Guten ___! (rano) | Morgen | Dzień dobry! (rano)
+Guten ___! (w ciągu dnia) | Tag | Dzień dobry! (w ciągu dnia)
+Guten ___! (wieczorem) | Abend | Dobry wieczór!
+___ Nacht! (przed snem) | Gute | Dobranoc!
+Wie geht's? – Danke, ___. | gut | Jak się masz? – Dziękuję, dobrze.
+Wie geht's? – Danke, gut. Und ___? | dir | A tobie?
+Tschüs, Anja! Bis ___! | bald | Na razie!
+Schlaf ___! | gut | Śpij dobrze!
+Hallo! Ich ___ Lena. Ich ___ aus Dresden. Ich ___ in Bremen. | heiße; komme; wohne | Cześć! Nazywam się Lena. Pochodzę z Drezna. Mieszkam w Bremie.
+Ich ___ dreizehn Jahre ___. | bin; alt | Mam trzynaście lat.

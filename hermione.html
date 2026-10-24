@@ -317,6 +317,7 @@ button{cursor:pointer}
 
 <script>
 const KEY='spellbook_hermione';
+const PACKS=[];       // content packs for this child (content/<name>/*.txt), imported once each
 const KID_LANGS=['Angielski'];   // languages this child studies; decks in other languages are not offered
 const ASSET={books:'assets/books.webp',scroll:'assets/scroll.webp',cauldron:'assets/cauldron.webp'};
 const GR=[['Znowu','< 1 min',0,22],['Trudne','1 d',1,60],['Dobre','3 d',3,150],['Łatwe','6 d',6,255]];
@@ -447,12 +448,13 @@ const inDeck=id=>S.cards.filter(c=>c.deck===id);
 const learned=id=>{const a=inDeck(id);return a.length?Math.round(a.filter(c=>c.next>Date.now()).length/a.length*100):0};
 const HOUR=3600000;
 // newest group = every card added within an hour of the most recent addition
+// (cards already learned drop out, so the group moves on to older additions as the newest ones are learned)
 function newestGroup(){
- const a=S.cards.filter(c=>c.added);if(!a.length)return[];
+ const a=S.cards.filter(c=>c.added&&c.next<=Date.now());if(!a.length)return[];
  const last=Math.max(...a.map(c=>c.added));
  return a.filter(c=>c.added>=last-HOUR);
 }
-const dueNewest=()=>newestGroup().filter(c=>c.next<=Date.now());
+const dueNewest=newestGroup;
 const plural=n=>n===1?'karta':(n%10>=2&&n%10<=4&&(n%100<10||n%100>=20))?'karty':'kart';
 function deckRow(d){
  const n=inDeck(d.id).length;
@@ -500,9 +502,10 @@ function showNew(){
  const b=$('bDeck').value==='__new',r=$('rDeck').value==='__new';
  $('bNewWrap').hidden=$('bUnitWrap').hidden=!b;$('rNewWrap').hidden=$('rUnitWrap').hidden=!r;
 }
+const pairOf=lang=>lang==='Niemiecki'?'DE → PL':lang==='Angielski'?'EN → PL':'—';
 function mkDeck(name,unitId){
  const u=S.units.find(x=>x.id===unitId)||{},id='d'+Date.now()+Math.random().toString(36).slice(2,5);
- const pair=u.lang==='Niemiecki'?'DE → PL':u.lang==='Angielski'?'EN → PL':'—';
+ const pair=pairOf(u.lang);
  S.decks.push({id,name,pair,lang:u.lang||'',unit:unitId,img:['books','scroll','cauldron'][S.decks.length%3]});
  return id;
 }
@@ -580,6 +583,31 @@ $('addUnit').onclick=()=>{
  $('newUnit').value='';save();renderAdd();toast('Unit utworzony ✦');
 };
 
+/* ---------- content packs ---------- */
+// A pack becomes one unit with its topics. It is imported once (remembered in S.packs), so cards the child
+// deleted do not come back. Topic n is stamped 2 h older than topic n-1, so "Zacznij naukę" walks through
+// the topics in file order.
+function importPacks(){
+ if(!Array.isArray(S.packs))S.packs=[];
+ const got=[];let changed=false;
+ PACKS.forEach(pk=>{
+  if(S.packs.includes(pk.id)||!KID_LANGS.includes(pk.lang))return;
+  S.packs.push(pk.id);changed=true;
+  if(S.units.some(u=>u.name===pk.unit))return;   // same unit was already added by hand: do not duplicate
+  const unit={id:'u_'+pk.id,name:pk.unit,lang:pk.lang},t0=Date.now();
+  S.units.push(unit);
+  pk.topics.forEach((tp,n)=>{
+   const id='d_'+pk.id+'_'+n;
+   S.decks.push({id,name:tp.name,pair:pairOf(pk.lang),lang:pk.lang,unit:unit.id,img:['books','scroll','cauldron'][S.decks.length%3]});
+   const rows=(tp.type==='rituals'?parseRitual(tp.text,pk.lang):parseBatch(tp.text)).filter(Boolean);
+   S.cards.push(...rows.map((r,i)=>({id:`p_${pk.id}_${n}_${i}`,deck:id,front:'',ipa:'',back:'',ex:'',reps:0,next:0,added:t0-n*2*HOUR,...r})));
+  });
+  got.push(pk.unit);
+ });
+ if(changed)save();
+ return got;
+}
+
 /* ---------- backup ---------- */
 const BK_DAYS=14;
 const bkAge=()=>S.lastBackup?Math.floor((Date.now()-S.lastBackup)/DAY):null;
@@ -619,7 +647,7 @@ $('bkFile').onchange=async()=>{
 $('bkApply').onclick=function(){ask(this,'Na pewno? Dotknij ponownie',()=>{
  try{localStorage.setItem(KEY+'_prev',JSON.stringify(S))}catch(e){}   // safety net: current data stays under *_prev
  try{localStorage.setItem(KEY,JSON.stringify(pendingBk))}catch(e){toast('Nie udało się zapisać');return}
- S=load();fixS();pendingBk=null;this.hidden=true;renderSet();toast('Przywrócono ✦');
+ S=load();fixS();importPacks();pendingBk=null;this.hidden=true;renderSet();toast('Przywrócono ✦');
 })};
 
 /* ---------- settings ---------- */
@@ -627,7 +655,7 @@ function renderSet(){renderBk();$('mode').value=S.settings.mode;$('dir').value=S
 $('mode').onchange=()=>{S.settings.mode=$('mode').value;save()};
 $('dir').onchange=()=>{S.settings.dir=$('dir').value;save()};
 $('size').onchange=()=>{S.settings.size=+$('size').value;save()};
-$('reset').onclick=function(){ask(this,'Na pewno? Dotknij ponownie',()=>{S=seed();save();renderSet();toast('Gotowe ✦')})};
+$('reset').onclick=function(){ask(this,'Na pewno? Dotknij ponownie',()=>{S=seed();fixS();importPacks();save();renderSet();toast('Gotowe ✦')})};
 
 /* ---------- study ---------- */
 let Q=[],total=0,finished=0,flipped=false,tallyN=[0,0,0,0],curDeck=null,curUnit=null,curNewest=false,cur=null,testMode=false,testRes={ok:0,bad:[]};
@@ -835,7 +863,9 @@ function magic(ev,{n=16,dist=90,glow=false,flash=true}={}){
  }catch(e){}
 }
 
+const NEW_PACKS=importPacks();
 go('home');
+if(NEW_PACKS.length)toast('Nowy materiał: '+NEW_PACKS.join(', ')+' ✦');
 if('serviceWorker' in navigator&&location.protocol.startsWith('http'))navigator.serviceWorker.register('sw.js').catch(()=>{});
 </script>
 </body>
