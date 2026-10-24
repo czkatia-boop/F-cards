@@ -11,43 +11,73 @@ she — ona — She is my sister. — Ona jest moją siostrą.
 it — ono, to — It is a cake. — To jest ciasto.
 we — my — We are friends. — Jesteśmy przyjaciółmi.
 they — oni, one — They are at home. — Oni są w domu.
-my — mój, moja — It's my birthday. — To moje urodziny.
-your — twój, wasz — It's your birthday. — To twoje urodziny.
-her — jej — It's her birthday. — To jej urodziny.
-his — jego — It's his birthday. — To jego urodziny.
+my — mój, moja — It is my birthday. — To moje urodziny.
+your — twój, wasz — It is your birthday. — To twoje urodziny.
+her — jej — It is her birthday. — To jej urodziny.
+his — jego — It is his birthday. — To jego urodziny.
 
-@topic Czasownik to be (być)
+@topic To be: jestem, jesteś…
 @rituals
 to be | Present | am, are, is, are, are, are | być
-to be | Present (skrót) | 'm, 're, 's, 're, 're, 're | być
 to be | Present (przeczenie) | am not, are not, is not, are not, are not, are not | nie być
-to be | Present (przeczenie skrót) | 'm not, aren't, isn't, aren't, aren't, aren't | nie być
+I ___ (być) | am | ja jestem — I am
+you ___ (być) | are | ty jesteś — you are
+he ___ (być) | is | on jest — he is
+she ___ (być) | is | ona jest — she is
+it ___ (być) | is | ono jest — it is
+we ___ (być) | are | my jesteśmy — we are
+you ___ (być, wy) | are | wy jesteście — you are
+they ___ (być) | are | oni są — they are
 I ___ ten. | am | Mam dziesięć lat. — I am
+I ___ at home. | am | Jestem w domu. — I am
 You ___ ready. | are | Jesteś gotowy. — you are
+You ___ my best friend. | are | Jesteś moim najlepszym przyjacielem. — you are
 He ___ twelve. | is | On ma dwanaście lat. — he is
+He ___ at school. | is | On jest w szkole. — he is
 She ___ my sister. | is | Ona jest moją siostrą. — she is
+She ___ happy. | is | Ona jest szczęśliwa. — she is
 It ___ a present for you. | is | To prezent dla ciebie. — it is
+It ___ my cake. | is | To jest mój tort. — it is
 We ___ friends. | are | Jesteśmy przyjaciółmi. — we are
+We ___ in the park. | are | Jesteśmy w parku. — we are
 They ___ at home. | are | Oni są w domu. — they are
+They ___ classmates. | are | Oni są kolegami z klasy. — they are
 Jason ___ in Spain. | is | Jason jest w Hiszpanii. — Jason = he, więc is
+My mum ___ Polish. | is | Moja mama jest Polką. — mum = she, więc is
 Jen and Alex ___ at the house. | are | Jen i Alex są w domu. — dwie osoby = they, więc are
-I ___ Spanish. (nie) | am not | Nie jestem Hiszpanem. — I am not
-You ___ Spanish. (nie) | are not | Nie jesteś Hiszpanem. — you are not
-He ___ French. (nie) | is not | On nie jest Francuzem. — he is not
-We ___ Spanish. (nie, skrót) | aren't | Nie jesteśmy Hiszpanami. — are + not = aren't
-She ___ Polish. (nie, skrót) | isn't | Ona nie jest Polką. — is + not = isn't
-They ___ hungry. (nie, skrót) | aren't | Oni nie są głodni. — are + not = aren't
+My brother and I ___ friends. | are | Mój brat i ja jesteśmy przyjaciółmi. — brat i ja = we, więc are
+I ___ not Spanish. | am | Nie jestem Hiszpanem. — I am not
+I ___ not hungry. | am | Nie jestem głodny. — I am not
+You ___ not Spanish. | are | Nie jesteś Hiszpanem. — you are not
+You ___ not ready. | are | Nie jesteś gotowy. — you are not
+He ___ not French. | is | On nie jest Francuzem. — he is not
+He ___ not at home. | is | Jego nie ma w domu. — he is not
+She ___ not Polish. | is | Ona nie jest Polką. — she is not
+She ___ not happy. | is | Ona nie jest szczęśliwa. — she is not
+It ___ not a cake. | is | To nie jest ciasto. — it is not
+It ___ not my present. | is | To nie jest mój prezent. — it is not
+We ___ not Spanish. | are | Nie jesteśmy Hiszpanami. — we are not
+We ___ not at school. | are | Nie jesteśmy w szkole. — we are not
+They ___ not hungry. | are | Oni nie są głodni. — they are not
+They ___ not in the garden. | are | Ich nie ma w ogrodzie. — they are not
 
 @topic Mój, twój, jej, jego
 @rituals
-'Granny, here's ___ birthday card!' (ty) | your | Babciu, oto twoja kartka urodzinowa! — you → your
-'It's Sophie's birthday. We are at ___ house.' (ona) | her | To urodziny Sophie. Jesteśmy w jej domu. — she → her
-'I'm very happy! ___ family is here!' (ja) | My | Jestem bardzo szczęśliwa! Moja rodzina jest tutaj! — I → my
+'Granny, here is ___ birthday card!' (ty) | your | Babciu, oto twoja kartka urodzinowa! — you → your
+'It is Sophie's birthday. We are at ___ house.' (ona) | her | To urodziny Sophie. Jesteśmy w jej domu. — she → her
+'I am very happy! ___ family is here!' (ja) | My | Jestem bardzo szczęśliwa! Moja rodzina jest tutaj! — I → my
 'Jason is in Spain with ___ class.' (on) | his | Jason jest w Hiszpanii ze swoją klasą. — he → his
 '___ birthday cake is in this box, Granny.' (ty) | Your | Twój tort urodzinowy jest w tym pudełku, babciu. — you → your
 Alex is twelve. ___ sister is ten. (on) | His | Alex ma dwanaście lat. Jego siostra ma dziesięć. — he → his
 Jen is ten. ___ brother is twelve. (ona) | Her | Jen ma dziesięć lat. Jej brat ma dwanaście. — she → her
-I'm ten. It's ___ birthday. (ja) | my | Mam dziesięć lat. To moje urodziny. — I → my
+I am ten. It is ___ birthday. (ja) | my | Mam dziesięć lat. To moje urodziny. — I → my
+You are eleven. It is ___ birthday. (ty) | your | Masz jedenaście lat. To twoje urodziny. — you → your
+She is nine. It is ___ birthday. (ona) | her | Ona ma dziewięć lat. To jej urodziny. — she → her
+He is twelve. It is ___ birthday. (on) | his | On ma dwanaście lat. To jego urodziny. — he → his
+I → ___ (mój) | my | ja → mój
+you → ___ (twój) | your | ty → twój
+she → ___ (jej) | her | ona → jej
+he → ___ (jego) | his | on → jego
 
 @topic Rodzina (1.1)
 @words
