@@ -1,0 +1,184 @@
+@unit Unit 2
+@lang Angielski
+
+# Sprawdzian: Test unit 2 (SB p.18, 20-25, 123). Kolejnosc = kolejnosc nauki.
+# dopisane: przykłady zdań, czasowniki do tabel odmiany (wg ramek p.20 i p.123), wyrażenia czasu, przyimki w zdaniach
+
+@topic Ubrania i akcesoria (str. 18)
+@words
+boots — kozaki, buty za kostkę
+dress — sukienka
+fancy-dress costume — przebranie, kostium (na bal przebierańców)
+hoodie — bluza z kapturem
+jacket — kurtka, marynarka
+jeans — dżinsy
+pyjamas — piżama
+shirt — koszula
+shoes — buty
+shorts — szorty, krótkie spodenki
+sweater — sweter
+T-shirt — koszulka, t-shirt
+tracksuit — dres
+trainers — buty sportowe
+underwear — bielizna
+baseball cap — czapka z daszkiem
+belt — pasek
+earrings — kolczyki
+glasses — okulary
+handbag — torebka
+necklace — naszyjnik
+piercings — piercing, kolczyki w ciele
+scarf — szalik
+tattoo — tatuaż
+
+@topic Opisy ubrań (Word Friends, str. 18)
+@words
+baggy jeans — workowate dżinsy
+leather boots — skórzane buty
+a woolly hat — wełniana czapka
+a plain T-shirt — gładka koszulka
+a tight skirt — obcisła spódnica
+a checked shirt — koszula w kratę
+striped pyjamas — piżama w paski
+a cotton top with a Batman logo on it — bawełniany top z logo Batmana
+casual clothes — ubrania na co dzień
+
+@topic Present Continuous (str. 20 i 123)
+@rituals
+to go | Present Continuous | am going, are going, is going, are going, are going, are going | iść
+to go | Present Continuous (przeczenie) | am not going, aren't going, isn't going, aren't going, aren't going, aren't going | iść
+to brush | Present Continuous | am brushing, are brushing, is brushing, are brushing, are brushing, are brushing | szczotkować
+to eat | Present Continuous | am eating, are eating, is eating, are eating, are eating, are eating | jeść
+to wait | Present Continuous | am waiting, are waiting, is waiting, are waiting, are waiting, are waiting | czekać
+to live | Present Continuous | am living, are living, is living, are living, are living, are living | mieszkać, żyć
+to sit | Present Continuous | am sitting, are sitting, is sitting, are sitting, are sitting, are sitting | siedzieć
+to lie | Present Continuous | am lying, are lying, is lying, are lying, are lying, are lying | leżeć
+Amy ___ (brush) her hair. | is brushing | Amy szczotkuje włosy. — is + czasownik z -ing
+The girls ___ (eat) breakfast now. | are eating | Dziewczyny jedzą teraz śniadanie. — they = are
+I ___ (not sleep). | am not sleeping/'m not sleeping | Nie śpię. — I am not
+Mum and Aunty ___ (wait) for Amy. | are waiting | Mama i ciocia czekają na Amy. — dwie osoby = are
+___ she coming? | Is | Czy ona idzie? — pytanie: Is na początku
+___ you coming? | Are | Czy ty idziesz? — pytanie: Are na początku
+What ___ you doing? | are | Co robisz? — What + are/is + osoba + -ing
+Where ___ he going? | is | Dokąd on idzie? — Where + is + he + -ing
+We ___ (sit) on the sofa. | are sitting | Siedzimy na sofie. — sit → sitting (podwajamy t)
+Leo ___ (read) a book at the moment. | is reading | Leo czyta teraz książkę. — at the moment = Present Continuous
+Gran ___ (cut) a pizza. | is cutting | Babcia kroi pizzę. — cut → cutting (podwajamy t)
+It ___ (not rain) now. | isn't raining/is not raining | Teraz nie pada. — now = Present Continuous
+
+@topic Przymiotniki -ing i -ed (str. 21)
+@words
+annoying — denerwujący
+annoyed — zdenerwowany
+boring — nudny
+bored — znudzony
+exciting — ekscytujący
+excited — podekscytowany
+embarrassing — żenujący
+embarrassed — zawstydzony
+frightening — przerażający
+frightened — przestraszony
+interesting — interesujący
+interested — zainteresowany
+irritating — irytujący
+irritated — poirytowany
+relaxing — relaksujący
+relaxed — zrelaksowany
+shocking — szokujący
+shocked — zszokowany
+tiring — męczący
+tired — zmęczony
+worrying — niepokojący
+worried — zmartwiony
+
+@topic -ing czy -ed? (ćwiczenia)
+@rituals
+This film is very ___ (bore). | boring | Ten film jest bardzo nudny. — rzecz → -ing
+I am ___ (bore) in this lesson. | bored | Nudzę się na tej lekcji. — osoba czuje → -ed
+Mum is ___ (worry) about my dog. | worried | Mama martwi się o mojego psa. — osoba czuje → -ed
+The news is ___ (shock). | shocking | Te wiadomości są szokujące. — rzecz → -ing
+I'm ___ (excite) about the party. | excited | Jestem podekscytowana przyjęciem. — osoba czuje → -ed
+Football is ___ (interest) for me. | interesting | Piłka nożna jest dla mnie interesująca. — rzecz → -ing
+I'm always ___ (tire) on Mondays. | tired | W poniedziałki zawsze jestem zmęczona. — osoba czuje → -ed
+The loud music is ___ (annoy). | annoying | Głośna muzyka jest denerwująca. — rzecz → -ing
+My sister is ___ (embarrass) in a hat. | embarrassed | Moja siostra jest zawstydzona w kapeluszu. — osoba czuje → -ed
+A walk in the park is very ___ (relax). | relaxing | Spacer po parku jest bardzo relaksujący. — rzecz → -ing
+
+@topic Present Simple i Present Continuous (str. 22 i 123)
+@words
+now — teraz
+right now — w tej chwili
+at the moment — w tej chwili, obecnie
+today — dzisiaj
+these days — obecnie, w tych czasach
+this week — w tym tygodniu
+this month — w tym miesiącu
+usually — zwykle
+always — zawsze
+often — często
+every day — codziennie
+@rituals
+I usually ___ (go) straight home after school. | go | Zwykle idę prosto do domu po szkole. — zwykle = Present Simple
+My team ___ (play) in a tournament this week. | is playing | Moja drużyna gra w tym tygodniu w turnieju. — this week = Present Continuous
+We ___ (study) Algebra this semester. | are studying | W tym semestrze uczymy się algebry. — Present Continuous
+Leo ___ (save) money to buy trainers. | is saving | Leo oszczędza pieniądze na buty sportowe. — Present Continuous
+Sam is two, so he ___ (not go) to school. | doesn't go/does not go | Sam ma dwa lata, więc nie chodzi do szkoły. — fakt = Present Simple
+How often ___ you play football? | do | Jak często grasz w piłkę nożną? — how often = Present Simple
+You ___ (not watch) this. Can I change the channel? | aren't watching/are not watching | Nie oglądasz tego. Mogę zmienić kanał? — dzieje się teraz
+Lauryn usually ___ (play) a game after school. | plays | Lauryn zwykle gra po szkole w grę. — usually = Present Simple
+Today she ___ (wear) a funny costume. | is wearing | Dzisiaj ma na sobie zabawny kostium. — today = Present Continuous
+Lee ___ (play) his guitar every day. | plays | Lee gra na gitarze codziennie. — every day = Present Simple
+It ___ (not rain) now. | isn't raining/is not raining | Teraz nie pada. — now = Present Continuous
+Amy ___ (not tidy) her room. | doesn't tidy/does not tidy | Amy nie sprząta swojego pokoju. — fakt = Present Simple
+
+@topic Przymiotniki osobowości (str. 23)
+@words
+big-headed — zarozumiały
+bossy — apodyktyczny, rozkazujący
+chatty — gadatliwy
+cheerful — pogodny, wesoły
+hard-working — pracowity
+helpful — pomocny
+moody — humorzasty
+outgoing — otwarty, towarzyski
+quiet — cichy, małomówny
+rude — niegrzeczny, nieuprzejmy
+untidy — nieporządny, niechlujny
+selfish — samolubny, egoistyczny
+lazy — leniwy
+polite — uprzejmy, grzeczny
+shy — nieśmiały
+talkative — rozmowny
+tidy — uporządkowany, schludny
+@rituals
+Anna always says 'please' and 'thank you'. She is very ___. (p...) | polite | Anna zawsze mówi „proszę” i „dziękuję”. Jest bardzo grzeczna.
+Ben's room is always a mess. He is ___. (u...) | untidy | Pokój Bena to zawsze bałagan. On jest niechlujny.
+Sue doesn't speak much in class. She is ___. (q...) | quiet | Sue mało mówi na lekcji. Jest cicha.
+Dan works a lot every day. He is ___-working. | hard | Dan dużo pracuje każdego dnia. Jest pracowity.
+Carl says 'I am the best!' He is ___-headed. | big | Carl mówi „Jestem najlepszy!”. Jest zarozumiały.
+Tom does nothing all day. He is ___. (l...) | lazy | Tom nic nie robi cały dzień. Jest leniwy.
+Mia loves talking. She is very ___. (t...) | talkative | Mia uwielbia rozmawiać. Jest bardzo rozmowna.
+Max gives me his notes. He is ___. (h...) | helpful | Max daje mi swoje notatki. Jest pomocny.
+
+@topic Przyimki czasu: in, on, at (str. 25)
+@rituals
+I get up ___ 7 o'clock. | at | Wstaję o siódmej. — at + godzina
+We have a test ___ Thursday. | on | Mamy sprawdzian w czwartek. — on + dzień tygodnia
+My birthday is ___ 3 April. | on | Moje urodziny są 3 kwietnia. — on + data
+I was born ___ 2015. | in | Urodziłam się w 2015 roku. — in + rok
+It is cold ___ the winter. | in | Zimą jest zimno. — in + pora roku
+We go skiing ___ January. | in | W styczniu jeździmy na nartach. — in + miesiąc
+I do my homework ___ the evening. | in | Odrabiam lekcje wieczorem. — in the morning/evening
+We have a party ___ Saturday evening. | on | Mamy przyjęcie w sobotni wieczór. — on + dzień + evening
+We give presents ___ Christmas Day. | on | W Boże Narodzenie dajemy prezenty. — on + święto (konkretny dzień)
+We visit Granny ___ Christmas. | at | Odwiedzamy babcię w Boże Narodzenie. — at + okres świąt
+I don't play games ___ night. | at | Nie gram w gry w nocy. — at night
+We don't have school ___ the weekend. | at | W weekend nie ma szkoły. — at the weekend
+I go swimming ___ Fridays. | on | Chodzę na basen w piątki. — on + dni tygodnia
+We want to visit London ___ the summer. | in | Chcemy zwiedzić Londyn latem. — in + pora roku
+
+@topic Zwroty (str. 24)
+@words
+How are things? — Jak leci? Co słychać?
+How's life? — Jak życie?
+I don't believe it! — Nie wierzę!
