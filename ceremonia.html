@@ -1,0 +1,515 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Ceremonia Przydziału</title>
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Ceremonia">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700&family=EB+Garamond:ital,wght@0,400;0,600;1,400&family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#EADCB9; --bg2:#E0CC9E; --card:#F6ECD2; --ink:#2A1D14; --soft:#6B5640;
+  --gold:#A87A1F; --wine:#7A1F2B; --line:#C9AE78; --btn:#5A3A22; --btnInk:#F6ECD2;
+  --star:rgba(168,122,31,.0);
+  color-scheme:light;
+  box-sizing:border-box;
+  padding-top:env(safe-area-inset-top,0px);
+  padding-bottom:env(safe-area-inset-bottom,0px);
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --bg:#110D1E; --bg2:#1B1530; --card:#1F1934; --ink:#EFE3C6; --soft:#B5A78A;
+    --gold:#E0B84A; --wine:#D0586A; --line:#4B3F68; --btn:#3A2A1C; --btnInk:#F2DFAE;
+    --star:rgba(240,220,160,.75);
+    color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#110D1E; --bg2:#1B1530; --card:#1F1934; --ink:#EFE3C6; --soft:#B5A78A;
+  --gold:#E0B84A; --wine:#D0586A; --line:#4B3F68; --btn:#3A2A1C; --btnInk:#F2DFAE;
+  --star:rgba(240,220,160,.75);
+  color-scheme:dark;
+}
+*,*::before,*::after{box-sizing:border-box}
+html{height:100%;scroll-padding-top:env(safe-area-inset-top,0px)}
+body{
+  margin:0;min-height:100%;
+  background:
+    radial-gradient(1.5px 1.5px at 12% 18%,var(--star),transparent 60%),
+    radial-gradient(1px 1px at 28% 72%,var(--star),transparent 60%),
+    radial-gradient(1.5px 1.5px at 47% 12%,var(--star),transparent 60%),
+    radial-gradient(1px 1px at 66% 40%,var(--star),transparent 60%),
+    radial-gradient(2px 2px at 84% 22%,var(--star),transparent 60%),
+    radial-gradient(1px 1px at 91% 78%,var(--star),transparent 60%),
+    radial-gradient(1.5px 1.5px at 7% 88%,var(--star),transparent 60%),
+    radial-gradient(ellipse at 50% 0%,var(--bg2),var(--bg) 70%);
+  background-attachment:fixed;
+  color:var(--ink);
+  font-family:"EB Garamond",Georgia,"Times New Roman",serif;
+  font-size:clamp(18px,1.6vw + 10px,30px);
+  line-height:1.45;
+}
+button,input{font:inherit;color:inherit}
+.screen{display:none;min-height:100vh;min-height:100dvh;padding:clamp(16px,3vw,48px);flex-direction:column;align-items:center;justify-content:center}
+.screen.on{display:flex}
+.top{position:fixed;top:calc(env(safe-area-inset-top,0px) + 10px);right:12px;display:flex;gap:8px;z-index:20}
+.icon{width:2.2em;height:2.2em;border-radius:50%;border:1.5px solid var(--line);background:var(--card);cursor:pointer;font-size:clamp(14px,1vw + 8px,22px);display:grid;place-items:center}
+.icon:focus-visible,.btn:focus-visible,.ans:focus-visible,input:focus-visible{outline:3px solid var(--gold);outline-offset:3px}
+
+/* the book page */
+.book{
+  position:relative;width:min(100%,1100px);
+  background:var(--card);border:2px solid var(--line);border-radius:6px;
+  padding:clamp(24px,4vw,72px) clamp(20px,5vw,88px);
+  box-shadow:0 0 0 6px var(--card),0 0 0 7.5px var(--line),0 20px 60px rgba(0,0,0,.25);
+  text-align:center;
+}
+.book::before,.book::after{content:"✦";position:absolute;color:var(--gold);font-size:.9em}
+.book::before{top:10px;left:14px}
+.book::after{bottom:10px;right:14px}
+h1{font-family:"Cinzel",Georgia,serif;font-weight:600;letter-spacing:.06em;margin:0 0 .2em;font-size:clamp(34px,5vw,96px);line-height:1.05;color:var(--wine)}
+.lead{font-style:italic;color:var(--soft);margin:0 auto 1.4em;max-width:34em}
+.seal{width:clamp(56px,6vw,100px);height:clamp(56px,6vw,100px);margin:0 auto .6em;border-radius:50%;background:radial-gradient(circle at 35% 30%,#C24A55,var(--wine) 65%);display:grid;place-items:center;color:#F6D98A;font-family:"Cinzel",serif;font-size:clamp(22px,2.4vw,42px);box-shadow:inset 0 -4px 8px rgba(0,0,0,.3)}
+.row{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;align-items:center}
+input[type=text]{
+  width:min(100%,14em);padding:.45em .8em;border-radius:999px;border:2px solid var(--line);
+  background:transparent;font-family:"Nunito",system-ui,sans-serif;font-size:1em;text-align:center
+}
+.btn{
+  font-family:"Nunito",system-ui,sans-serif;font-weight:700;cursor:pointer;
+  padding:.5em 1.3em;border-radius:999px;border:2px solid var(--gold);
+  background:var(--btn);color:var(--btnInk);font-size:.95em
+}
+.btn.ghost{background:transparent;color:var(--ink);border-color:var(--line);font-weight:600}
+.btn:disabled{opacity:.45;cursor:not-allowed}
+.small{font-size:.75em}
+.hint{font-family:"Nunito",system-ui,sans-serif;font-size:.65em;color:var(--soft);margin-top:1em}
+
+/* sorted list */
+.sorted{margin-top:1.6em;border-top:1px solid var(--line);padding-top:1em}
+.sorted h2{font-family:"Cinzel",serif;font-weight:500;font-size:.85em;margin:0 0 .6em;color:var(--soft);letter-spacing:.04em}
+.chips{display:flex;flex-wrap:wrap;gap:10px;justify-content:center}
+.chip{display:inline-flex;align-items:center;gap:.4em;padding:.25em .8em;border-radius:999px;font-family:"Nunito",sans-serif;font-weight:600;font-size:.7em}
+
+/* quiz */
+.who{font-family:"Cinzel",serif;color:var(--gold);font-size:.85em;letter-spacing:.05em;margin:0}
+.dots{display:flex;gap:8px;justify-content:center;margin:.6em 0 1.2em}
+.dot{width:.5em;height:.5em;border-radius:50%;border:1.5px solid var(--gold)}
+.dot.done{background:var(--gold)}
+.dot.extra{border-style:dashed}
+.q{font-size:clamp(26px,2.6vw + 10px,56px);line-height:1.2;margin:0 auto 1em;max-width:22em;font-weight:600}
+.answers{display:grid;grid-template-columns:1fr;gap:14px;width:100%}
+@media (min-width:720px){.answers{grid-template-columns:1fr 1fr}}
+.ans{
+  text-align:left;display:flex;gap:.7em;align-items:flex-start;cursor:pointer;
+  padding:.8em 1em;border-radius:14px;border:2px solid var(--line);background:transparent;
+  font-family:"Nunito",system-ui,sans-serif;font-size:.85em;line-height:1.3;
+  transition:border-color .15s,transform .15s
+}
+.ans:hover{border-color:var(--gold)}
+.ans:active{transform:scale(.98)}
+.ans.picked{border-color:var(--gold);background:color-mix(in srgb,var(--gold) 18%,transparent)}
+.key{flex:none;width:1.6em;height:1.6em;border-radius:50%;border:1.5px solid var(--gold);display:grid;place-items:center;font-size:.8em;color:var(--gold);font-weight:700}
+
+/* thinking */
+#think .msg{font-style:italic;font-size:clamp(28px,3vw + 10px,64px);min-height:2.6em;max-width:18em;text-align:center;transition:opacity .5s}
+.orbit{width:clamp(90px,10vw,170px);height:clamp(90px,10vw,170px);position:relative;margin-bottom:1em}
+.orbit span{position:absolute;inset:0;animation:spin 3s linear infinite;color:var(--gold);font-size:1.4em}
+.orbit span:nth-child(2){animation-duration:4.5s;animation-direction:reverse;font-size:1em}
+.orbit span:nth-child(3){animation-duration:6s;font-size:.8em}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+/* reveal: the one bold moment */
+#reveal{background:var(--hbg);color:var(--hink);text-align:center;overflow:hidden;position:relative}
+#reveal .burst{position:absolute;inset:0;pointer-events:none}
+#reveal .burst i{position:absolute;top:50%;left:50%;width:6px;height:6px;border-radius:50%;background:var(--hink);opacity:0;animation:fly 1.6s ease-out forwards}
+@keyframes fly{0%{opacity:1;transform:translate(-50%,-50%)}100%{opacity:0;transform:translate(calc(-50% + var(--x)),calc(-50% + var(--y)))}}
+.hname{font-family:"Cinzel",serif;font-weight:700;letter-spacing:.08em;font-size:clamp(44px,min(11vw,20vh),220px);line-height:1;margin:.1em 0 .15em;animation:rise 1.1s cubic-bezier(.2,.8,.2,1) both}
+@keyframes rise{from{opacity:0;transform:scale(.6);letter-spacing:.4em}to{opacity:1;transform:scale(1)}}
+.hemoji{font-size:clamp(40px,min(7vw,12vh),130px);animation:rise 1s .2s both}
+.hgreet{font-size:clamp(22px,min(2.4vw + 10px,6vh),52px);margin:0 0 .3em;animation:fade .8s .7s both}
+.htraits{font-style:italic;opacity:.85;max-width:26em;margin:0 auto .9em;animation:fade .8s 1s both}
+@keyframes fade{from{opacity:0}to{opacity:1}}
+.bars{display:grid;gap:4px;width:min(100%,520px);margin:0 auto 1em;font-family:"Nunito",sans-serif;font-size:.6em;animation:fade .8s 1.3s both}
+.bar{display:grid;grid-template-columns:7.5em 1fr 1.6em;gap:8px;align-items:center;text-align:left}
+.bar b{height:.7em;border-radius:99px;background:color-mix(in srgb,var(--hink) 25%,transparent);overflow:hidden;display:block}
+.bar b span{display:block;height:100%;background:var(--hink)}
+#reveal .btn{background:transparent;color:var(--hink);border-color:var(--hink)}
+#reveal .btn.main{background:var(--hink);color:var(--hbg)}
+#reveal .row{animation:fade .6s 1.5s both}
+
+/* board */
+.houses{display:grid;grid-template-columns:1fr;gap:14px;width:100%;margin-top:1em}
+@media (min-width:720px){.houses{grid-template-columns:1fr 1fr}}
+.house{border-radius:12px;padding:.8em 1em;text-align:left}
+.house h3{font-family:"Cinzel",serif;margin:0 0 .3em;font-size:1em;letter-spacing:.05em}
+.house p{margin:0;font-family:"Nunito",sans-serif;font-size:.75em;min-height:1.4em}
+
+@media (max-height:600px){.bars{display:none}}
+@media (prefers-reduced-motion:reduce){
+  *{animation:none!important;transition:none!important}
+}
+</style>
+</head>
+<body>
+
+<div class="top">
+  <button class="icon" id="soundBtn" aria-label="Dźwięk" title="Dźwięk">🔊</button>
+  <button class="icon" id="fsBtn" aria-label="Pełny ekran" title="Pełny ekran">⛶</button>
+</div>
+
+<!-- START -->
+<section class="screen on" id="start">
+  <div class="book">
+    <div class="seal">✦</div>
+    <h1>Ceremonia Przydziału</h1>
+    <p class="lead">Odpowiadaj szczerze, bez zastanawiania się, która odpowiedź jest „najlepsza”. Magia sama zdecyduje, do którego domu należysz.</p>
+    <div class="row">
+      <input type="text" id="nameIn" placeholder="Jak masz na imię?" maxlength="24" autocomplete="off">
+      <button class="btn" id="goBtn" disabled>Zaczynamy</button>
+    </div>
+    <p class="hint">Na komputerze możesz odpowiadać klawiszami 1–4.</p>
+    <div class="sorted" id="sortedBox" hidden>
+      <h2>Już przydzielone</h2>
+      <div class="chips" id="chips"></div>
+      <div class="row" style="margin-top:1em">
+        <button class="btn ghost small" id="boardBtn">Zobacz wszystkie domy</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- QUIZ -->
+<section class="screen" id="quiz">
+  <div class="book">
+    <p class="who" id="who"></p>
+    <div class="dots" id="dots" aria-hidden="true"></div>
+    <p class="q" id="qText"></p>
+    <div class="answers" id="answers"></div>
+  </div>
+</section>
+
+<!-- THINKING -->
+<section class="screen" id="think">
+  <div class="orbit" aria-hidden="true"><span>✦</span><span>✧</span><span>✦</span></div>
+  <p class="msg" id="thinkMsg" aria-live="polite"></p>
+</section>
+
+<!-- REVEAL -->
+<section class="screen" id="reveal">
+  <div class="burst" id="burst"></div>
+  <div class="hemoji" id="hEmoji"></div>
+  <p class="hname" id="hName"></p>
+  <p class="hgreet" id="hGreet"></p>
+  <p class="htraits" id="hTraits"></p>
+  <div class="bars" id="bars"></div>
+  <div class="row">
+    <button class="btn main" id="nextBtn">Następna osoba</button>
+    <button class="btn" id="board2Btn">Wszystkie domy</button>
+  </div>
+</section>
+
+<!-- BOARD -->
+<section class="screen" id="board">
+  <div class="book">
+    <h1 style="font-size:clamp(30px,4vw,72px)">Cztery domy</h1>
+    <div class="houses" id="houses"></div>
+    <div class="row" style="margin-top:1.4em">
+      <button class="btn" id="backBtn">Następna osoba</button>
+      <button class="btn ghost small" id="resetBtn">Zacznij od nowa</button>
+    </div>
+  </div>
+</section>
+
+<script>
+const HOUSES = {
+  G:{name:"Gryffindor",emoji:"🦁",bg:"#7F1416",ink:"#F3C552",gen:"odwagi",
+     traits:"Odwaga, śmiałość i wielkie serce. Tu trafiają ci, którzy stają w obronie innych.",
+     greet:n=>`${n}, witamy wśród odważnych!`},
+  H:{name:"Hufflepuff",emoji:"🦡",bg:"#E9B730",ink:"#231A10",gen:"lojalności",
+     traits:"Lojalność, uczciwość i ciepło. Tu każdy przyjaciel jest jak rodzina.",
+     greet:n=>`${n}, witamy wśród wiernych przyjaciół!`},
+  R:{name:"Ravenclaw",emoji:"🦅",bg:"#1C2F5E",ink:"#D9B47A",gen:"mądrości",
+     traits:"Mądrość, ciekawość i wyobraźnia. Tu pytania są ważniejsze niż odpowiedzi.",
+     greet:n=>`${n}, witamy wśród mądrych głów!`},
+  S:{name:"Slytherin",emoji:"🐍",bg:"#17432A",ink:"#DCE3E0",gen:"ambicji",
+     traits:"Ambicja, spryt i determinacja. Tu rodzą się wielkie plany.",
+     greet:n=>`${n}, witamy wśród ambitnych!`}
+};
+const ORDER = ["G","H","R","S"];
+
+// Each question: text + answers keyed by house
+const Q = [
+ ["W lesie znajdujesz tajemnicze drzwi w pniu drzewa. Co robisz?",
+  {G:"Otwieram je od razu — przygoda czeka!",H:"Wołam przyjaciół, żebyśmy weszły razem.",R:"Najpierw oglądam dziwne znaki na drzwiach i próbuję je odczytać.",S:"Sprawdzam, czy za drzwiami jest coś, co może mi się przydać."}],
+ ["Którą lekcję w szkole magii wybierasz?",
+  {G:"Pojedynki na zaklęcia",H:"Magiczne rośliny i zielarstwo",R:"Astronomia i tajemnice gwiazd",S:"Mikstury o wielkiej mocy"}],
+ ["Koleżanka ściąga na sprawdzianie. Co robisz?",
+  {G:"Mówię jej prosto w oczy, że to nie fair.",H:"Po lekcji proponuję, że pomogę jej się uczyć.",R:"Zastanawiam się, czemu nie umiała — może zadania były za trudne?",S:"Nic nie mówię, ale zapamiętuję to sobie."}],
+ ["Jaką magiczną moc chcesz mieć?",
+  {G:"Latanie bez miotły",H:"Leczenie ludzi i zwierząt jednym dotykiem",R:"Przeczytanie wszystkich książek świata w minutę",S:"Czytanie w myślach"}],
+ ["Co najbardziej lubisz na urodzinach?",
+  {G:"Zabawy, w których trzeba wykazać się odwagą",H:"Żeby wszyscy bawili się razem i nikt nie był sam",R:"Zagadki, quizy i łamigłówki",S:"Konkursy, w których można wygrać nagrodę"}],
+ ["Wybierz magiczne zwierzę na towarzysza.",
+  {G:"Odważny gryf",H:"Łagodny jednorożec",R:"Mądra sowa",S:"Tajemniczy smok"}],
+ ["Przed tobą cztery kielichy. Z którego pijesz?",
+  {G:"Ze złotego, który iskrzy jak ogień",H:"Z ciepłego, pachnącego miodem i cynamonem",R:"Z kryształowego, w którym widać gwiazdy",S:"Ze szmaragdowego, który podobno daje moc"}],
+ ["Twoja przyjaciółka jest smutna. Co robisz?",
+  {G:"Pytam, kto ją zdenerwował — i idę to wyjaśnić!",H:"Przytulam ją i siedzę z nią, ile trzeba.",R:"Pytam, co się stało, i razem szukamy rozwiązania.",S:"Wymyślam sprytny plan, jak to naprawić."}],
+ ["Którą porę dnia lubisz najbardziej?",
+  {G:"Południe, gdy słońce świeci najmocniej",H:"Ranek i wspólne śniadanie",R:"Noc, kiedy widać gwiazdy",S:"Wieczór, gdy wszystko robi się tajemnicze"}],
+ ["Co zabierasz na bezludną wyspę?",
+  {G:"Miecz — do obrony przed piratami!",H:"Nasiona, żeby założyć ogród",R:"Stos książek",S:"Mapę skarbów"}],
+ ["Jak chcesz, żeby ludzie cię zapamiętali?",
+  {G:"Jako odważną bohaterkę",H:"Jako dobrą i uczciwą przyjaciółkę",R:"Jako mądrą wynalazczynię",S:"Jako kogoś wielkiego i sławnego"}],
+ ["W zaczarowanym lesie są cztery ścieżki. Którą idziesz?",
+  {G:"Ciemną, z której dochodzą dziwne dźwięki",H:"Słoneczną, przez łąkę pełną kwiatów",R:"Tę z tabliczką: tylko dla tych, którzy rozwiążą zagadkę",S:"Ukrytą, o której nikt nie wie"}],
+ ["Dostajesz pracę domową z zaklęć. Kiedy ją robisz?",
+  {G:"W ostatniej chwili — ale z pełną mocą!",H:"Od razu, krok po kroku, porządnie",R:"Robię więcej, niż trzeba, bo to ciekawe",S:"Tak, żeby dostać najlepszą ocenę w klasie"}],
+ ["Co cię najbardziej złości?",
+  {G:"Gdy ktoś krzywdzi słabszych",H:"Kłamstwo i oszukiwanie",R:"Gdy ktoś nie chce słuchać rozsądnych argumentów",S:"Gdy ktoś mnie lekceważy"}],
+ ["Jaki prezent ucieszy cię najbardziej?",
+  {G:"Lot balonem albo skok na bungee",H:"Szczeniaczek albo kotek",R:"Teleskop albo zestaw małego naukowca",S:"Coś wyjątkowego, czego nikt inny nie ma"}],
+ ["Jaką rolę bierzesz w szkolnym przedstawieniu?",
+  {G:"Bohaterki, która walczy ze smokiem",H:"Pomagam za kulisami, żeby wszystko się udało",R:"Piszę scenariusz",S:"Jestem reżyserką i wszystkim kieruję"}],
+ ["Znajdujesz na ulicy zgubiony portfel. Co robisz?",
+  {G:"Biegnę za kimś, kto mógł go zgubić",H:"Od razu oddaję go dorosłym albo na policję",R:"Szukam w środku wskazówek, czyj jest",S:"Oddaję — może właściciel da nagrodę?"}],
+ ["Czego najbardziej nie lubisz?",
+  {G:"Nudy",H:"Samotności",R:"Gdy czegoś nie rozumiem",S:"Gdy nikt mnie nie zauważa"}],
+ ["Wybierz magiczny przedmiot.",
+  {G:"Miecz, który świeci w ciemności",H:"Kocyk, który zawsze ogrzewa i pociesza",R:"Książkę, która odpowiada na każde pytanie",S:"Pierścień, dzięki któremu wszyscy cię słuchają"}],
+ ["Ktoś prosi cię o dochowanie tajemnicy. Co myślisz?",
+  {G:"Dotrzymam — chyba że trzeba będzie kogoś ratować",H:"Nikomu nie powiem, słowo!",R:"Najpierw pytam, dlaczego to taka tajemnica",S:"Dotrzymam — tajemnice to też rodzaj mocy"}],
+ ["Gracie w grę planszową. Jak grasz?",
+  {G:"Ryzykuję — wszystko albo nic!",H:"Najważniejsze, żeby wszyscy dobrze się bawili",R:"Obmyślam strategię kilka ruchów do przodu",S:"Gram, żeby wygrać, i znam wszystkie triki"}],
+ ["Gdzie chcesz mieszkać?",
+  {G:"W wieży zamku, wysoko nad chmurami",H:"W przytulnym domku z ogrodem i kominkiem",R:"W latarni z obserwatorium na szczycie",S:"W podwodnym pałacu na dnie jeziora"}],
+ ["Wybierz żywioł.",
+  {G:"Ogień",H:"Ziemia",R:"Powietrze",S:"Woda"}],
+ ["Do klasy przychodzi nowa uczennica. Co robisz?",
+  {G:"Od razu zapraszam ją do zabawy",H:"Siadam obok i pokazuję jej szkołę",R:"Zadaję mnóstwo pytań — skąd jest, co lubi?",S:"Najpierw obserwuję, zanim zdecyduję, czy się zaprzyjaźnić"}],
+ ["Na moście stoi troll i nie chce cię przepuścić. Co robisz?",
+  {G:"Wyzywam go na pojedynek!",H:"Częstuję go kanapką i się zaprzyjaźniamy",R:"Zadaję mu zagadkę, której nie rozwiąże",S:"Proponuję mu układ, na którym oboje zyskamy"}],
+ ["Jaki dźwięk lubisz najbardziej?",
+  {G:"Grzmot burzy",H:"Śmiech przyjaciół",R:"Szelest kartek w książce",S:"Brawa publiczności"}],
+ ["Twoje wymarzone wakacje to…",
+  {G:"Wspinaczka na wulkan",H:"Wieś pełna zwierząt i domowych ciast",R:"Zwiedzanie starych zamków i muzeów",S:"Rejs dookoła świata własnym jachtem"}],
+ ["Co najbardziej cenisz w przyjaciółce?",
+  {G:"Że zawsze stanie w mojej obronie",H:"Że zawsze dotrzymuje słowa",R:"Że zna mnóstwo ciekawostek",S:"Że ma wielkie plany i marzenia"}],
+ ["W szkole jest konkurs. Dlaczego bierzesz udział?",
+  {G:"Dla dreszczyku emocji",H:"Żeby moja drużyna była ze mnie dumna",R:"Żeby sprawdzić, ile wiem",S:"Dla pucharu i sławy!"}],
+ ["Co jesz na magicznej uczcie?",
+  {G:"Pieczone udko z ognistym sosem",H:"Domowe ciasto z jabłkami",R:"Kolorowe owoce, których nigdy nie próbowałaś",S:"Czekoladki z tajemniczym nadzieniem"}],
+ ["Zaczarowane lustro pokazuje twoje marzenie. Co widzisz?",
+  {G:"Siebie ratującą świat",H:"Całą rodzinę i przyjaciół, szczęśliwych i razem",R:"Siebie odkrywającą wielką tajemnicę nauki",S:"Siebie z koroną na głowie"}],
+ ["Mapa pokazuje cztery skarby. Po który idziesz?",
+  {G:"Po ten pilnowany przez smoka",H:"Po ten, który pomoże całej wiosce",R:"Po ten ukryty za najtrudniejszą zagadką",S:"Po ten najcenniejszy"}],
+ ["Zgasło światło w całym zamku. Co robisz?",
+  {G:"Idę sprawdzić, co się stało",H:"Szukam świeczek dla wszystkich",R:"Zastanawiam się, jakie zaklęcie da światło",S:"Wykorzystuję ciemność, żeby kogoś przestraszyć dla żartu"}],
+ ["Jaka pogoda jest najlepsza?",
+  {G:"Burza z piorunami",H:"Ciepłe słońce",R:"Mgła, w której wszystko jest tajemnicze",S:"Śnieg, który skrzy się jak srebro"}]
+];
+const PER_PERSON = 8;
+const STORE = "ceremonia-przydzialu.v1";
+
+let state = {results:[], used:{}};
+try{ const s = JSON.parse(localStorage.getItem(STORE)||"null"); if(s && Array.isArray(s.results)) state = {results:s.results, used:s.used||{}}; }catch(e){}
+function save(){ try{ localStorage.setItem(STORE, JSON.stringify(state)); }catch(e){} }
+
+let sound = true;
+let round = null; // {name, qs:[idx], i, scores, asked:Set, extra}
+
+const $ = id => document.getElementById(id);
+function show(id){ document.querySelectorAll(".screen").forEach(s=>s.classList.toggle("on", s.id===id)); window.scrollTo(0,0); }
+function shuffle(a){ for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];} return a; }
+
+function pickQuestions(n){
+  // least-used first, random among equals, so guests rarely get the same questions
+  const idx = shuffle(Q.map((_,i)=>i));
+  idx.sort((a,b)=>(state.used[a]||0)-(state.used[b]||0));
+  return idx.slice(0,n);
+}
+
+/* ---------- start ---------- */
+const nameIn = $("nameIn");
+nameIn.addEventListener("input",()=>{ $("goBtn").disabled = !nameIn.value.trim(); });
+nameIn.addEventListener("keydown",e=>{ if(e.key==="Enter" && nameIn.value.trim()) begin(); });
+$("goBtn").onclick = begin;
+
+function renderChips(){
+  const box=$("sortedBox"), chips=$("chips");
+  chips.innerHTML="";
+  box.hidden = !state.results.length;
+  state.results.forEach(r=>{
+    const h=HOUSES[r.house], c=document.createElement("span");
+    c.className="chip"; c.style.background=h.bg; c.style.color=h.ink;
+    c.textContent=`${h.emoji} ${r.name}`;
+    chips.appendChild(c);
+  });
+}
+
+function begin(){
+  const name = nameIn.value.trim(); if(!name) return;
+  round = {name, qs:pickQuestions(PER_PERSON), i:0, scores:{G:0,H:0,R:0,S:0}, asked:new Set(), extra:0, tied:null};
+  round.qs.forEach(q=>round.asked.add(q));
+  ask();
+  show("quiz");
+}
+
+/* ---------- quiz ---------- */
+function ask(){
+  const qi = round.qs[round.i];
+  const [text, ans] = Q[qi];
+  $("who").textContent = round.name;
+  const dots=$("dots"); dots.innerHTML="";
+  round.qs.forEach((_,k)=>{ const d=document.createElement("span"); d.className="dot"+(k<round.i?" done":"")+(k>=PER_PERSON?" extra":""); dots.appendChild(d); });
+  $("qText").textContent = text;
+  const box=$("answers"); box.innerHTML="";
+  const keys = shuffle((round.tied||ORDER).slice());
+  keys.forEach((h,k)=>{
+    const b=document.createElement("button");
+    b.className="ans"; b.dataset.h=h;
+    b.innerHTML=`<span class="key">${k+1}</span><span></span>`;
+    b.lastChild.textContent = ans[h];
+    b.onclick=()=>choose(b);
+    box.appendChild(b);
+  });
+  if(round.tied){ $("who").textContent = `${round.name} — pytanie rozstrzygające`; }
+}
+
+let locked=false;
+function choose(btn){
+  if(locked) return; locked=true;
+  btn.classList.add("picked");
+  round.scores[btn.dataset.h]++;
+  const qi = round.qs[round.i];
+  state.used[qi]=(state.used[qi]||0)+1;
+  setTimeout(()=>{
+    locked=false;
+    round.i++;
+    if(round.i < round.qs.length){ ask(); return; }
+    // all asked: check for a tie
+    const max = Math.max(...ORDER.map(h=>round.scores[h]));
+    const top = ORDER.filter(h=>round.scores[h]===max);
+    if(top.length>1 && round.extra<3){
+      const left = pickQuestions(Q.length).filter(q=>!round.asked.has(q));
+      if(left.length){
+        round.extra++; round.tied=top;
+        round.qs.push(left[0]); round.asked.add(left[0]);
+        ask(); return;
+      }
+    }
+    finish(top[Math.floor(Math.random()*top.length)]);
+  }, 420);
+}
+
+document.addEventListener("keydown",e=>{
+  if(!$("quiz").classList.contains("on")) return;
+  const n=parseInt(e.key,10);
+  const btns=[...document.querySelectorAll("#answers .ans")];
+  if(n>=1 && n<=btns.length) choose(btns[n-1]);
+});
+
+/* ---------- thinking + reveal ---------- */
+function finish(house){
+  const ranked = ORDER.slice().sort((a,b)=>round.scores[b]-round.scores[a]);
+  const second = ranked[1];
+  const lines = [
+    "Hmm…",
+    `Widzę tu dużo ${HOUSES[house].gen}…`,
+    round.scores[second]>0 ? `…ale też sporo ${HOUSES[second].gen}…` : "…bardzo wyraźnie…",
+    "Trudny wybór…",
+    "Już wiem!"
+  ];
+  show("think");
+  const msg=$("thinkMsg"); let k=0;
+  const step=()=>{
+    if(k>=lines.length){ reveal(house); return; }
+    msg.style.opacity=0;
+    setTimeout(()=>{ msg.textContent=lines[k++]; msg.style.opacity=1; hum(); setTimeout(step, 1500); }, 350);
+  };
+  step();
+}
+
+function reveal(house){
+  const h=HOUSES[house];
+  state.results = state.results.filter(r=>r.name.toLowerCase()!==round.name.toLowerCase());
+  state.results.push({name:round.name, house, scores:round.scores});
+  save();
+  const r=$("reveal");
+  r.style.setProperty("--hbg",h.bg); r.style.setProperty("--hink",h.ink);
+  ["hEmoji","hName","hGreet","hTraits","bars"].forEach(id=>{ const el=$(id); el.style.animation="none"; void el.offsetWidth; el.style.animation=""; });
+  $("hEmoji").textContent=h.emoji;
+  $("hName").textContent=h.name;
+  $("hGreet").textContent=h.greet(round.name);
+  $("hTraits").textContent=h.traits;
+  const total=Object.values(round.scores).reduce((a,b)=>a+b,0)||1;
+  $("bars").innerHTML = ORDER.map(k=>`<div class="bar"><span>${HOUSES[k].name}</span><b><span style="width:${Math.round(round.scores[k]/total*100)}%"></span></b><span>${round.scores[k]}</span></div>`).join("");
+  const burst=$("burst"); burst.innerHTML="";
+  for(let i=0;i<60;i++){
+    const d=document.createElement("i"); const a=Math.random()*Math.PI*2, dist=150+Math.random()*Math.max(innerWidth,innerHeight)*.55;
+    d.style.setProperty("--x",Math.cos(a)*dist+"px"); d.style.setProperty("--y",Math.sin(a)*dist+"px");
+    d.style.animationDelay=(Math.random()*.4)+"s"; const s=3+Math.random()*7; d.style.width=d.style.height=s+"px";
+    burst.appendChild(d);
+  }
+  show("reveal");
+  fanfare();
+}
+
+$("nextBtn").onclick = $("backBtn").onclick = ()=>{ nameIn.value=""; $("goBtn").disabled=true; renderChips(); show("start"); setTimeout(()=>nameIn.focus(),50); };
+$("boardBtn").onclick = $("board2Btn").onclick = ()=>{ renderBoard(); show("board"); };
+$("resetBtn").onclick = ()=>{
+  if(!confirm("Usunąć wszystkie przydziały i zacząć od nowa?")) return;
+  state={results:[],used:{}}; save(); renderChips(); show("start");
+};
+
+function renderBoard(){
+  $("houses").innerHTML = ORDER.map(k=>{
+    const h=HOUSES[k]; const names=state.results.filter(r=>r.house===k).map(r=>r.name);
+    return `<div class="house" style="background:${h.bg};color:${h.ink}"><h3>${h.emoji} ${h.name}</h3><p>${names.length?names.map(esc).join(", "):"Jeszcze nikogo"}</p></div>`;
+  }).join("");
+}
+function esc(s){ return s.replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c])); }
+
+/* ---------- sound ---------- */
+let ac=null;
+function ctx(){ if(!sound) return null; try{ ac = ac || new (window.AudioContext||window.webkitAudioContext)(); if(ac.state==="suspended") ac.resume(); }catch(e){ return null; } return ac; }
+function unlockAudio(){
+  try{ if(navigator.audioSession) navigator.audioSession.type="playback"; }catch(e){}
+  const c=ctx(); if(!c) return;
+  try{ const b=c.createBuffer(1,1,22050), s=c.createBufferSource(); s.buffer=b; s.connect(c.destination); s.start(0); }catch(e){}
+}
+document.addEventListener("pointerdown",unlockAudio);
+document.addEventListener("keydown",unlockAudio);
+function tone(f,t0,dur,vol){
+  const c=ctx(); if(!c) return;
+  const o=c.createOscillator(), g=c.createGain();
+  o.type="sine"; o.frequency.value=f;
+  g.gain.setValueAtTime(0,c.currentTime+t0);
+  g.gain.linearRampToValueAtTime(vol,c.currentTime+t0+.03);
+  g.gain.exponentialRampToValueAtTime(.0001,c.currentTime+t0+dur);
+  o.connect(g).connect(c.destination); o.start(c.currentTime+t0); o.stop(c.currentTime+t0+dur+.05);
+}
+function hum(){ tone(392,0,.6,.05); }
+function fanfare(){ [523,659,784,1047].forEach((f,i)=>tone(f,i*.14,1.2,.12)); tone(1568,.6,1.6,.05); }
+$("soundBtn").onclick=()=>{ sound=!sound; $("soundBtn").textContent=sound?"🔊":"🔇"; if(sound){ unlockAudio(); tone(784,0,.5,.1); } };
+
+/* ---------- fullscreen ---------- */
+$("fsBtn").onclick=()=>{
+  const d=document;
+  if(!d.fullscreenElement && !d.webkitFullscreenElement){
+    const el=d.documentElement; (el.requestFullscreen||el.webkitRequestFullscreen||function(){}).call(el);
+  } else { (d.exitFullscreen||d.webkitExitFullscreen||function(){}).call(d); }
+};
+
+// hide the fullscreen button where the browser can't do it (iPhone Safari)
+if(!(document.documentElement.requestFullscreen||document.documentElement.webkitRequestFullscreen) || !(document.fullscreenEnabled||document.webkitFullscreenEnabled)){ $("fsBtn").style.display="none"; }
+renderChips();
+</script>
+</body>
+</html>
