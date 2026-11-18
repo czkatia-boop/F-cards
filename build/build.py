@@ -27,8 +27,8 @@ def read_pack(path):
 def packs_for(name):
     ps=[read_pack(p) for p in sorted(glob.glob(f'{root}/content/{name}/*.txt'))]
     return json.dumps(ps,ensure_ascii=False).replace('</','<\\/')
-for name,hero,langs in [('harry','assets/harry.jpg',"['Angielski','Niemiecki']"),('hermione','assets/hermione.jpg',"['Angielski']")]:
-    open(f'{root}/{name}.html','w').write(t.replace('__HERO__',hero).replace('__KEY__','spellbook_'+name).replace('__LANGS__',langs).replace('__PACKS__',packs_for(name)).replace('__NAME__',name).replace('<title>Spellbook</title>',f"<title>{name.title()}'s Spellbook</title>"))
+for name,hero,langs,kid in [('harry','assets/harry.jpg',"['Angielski','Niemiecki']",'misha'),('hermione','assets/hermione.jpg',"['Angielski']",'tosia')]:
+    open(f'{root}/{name}.html','w').write(t.replace('__HERO__',hero).replace('__KEY__','spellbook_'+name).replace('__LANGS__',langs).replace('__PACKS__',packs_for(name)).replace('__NAME__',name).replace('__KID__',kid).replace('<title>Spellbook</title>',f"<title>{name.title()}'s Spellbook</title>"))
 # artifact variants: body content only, no document wrapper
 for name in ['harry','hermione']:
     h=open(f'{root}/{name}.html').read()
