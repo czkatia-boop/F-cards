@@ -167,6 +167,49 @@ button{cursor:pointer}
 .uml button.on{background:var(--a300)}
 .done{overflow-y:auto;min-height:0}
 .bkwarn{margin:18px 0 0;padding:10px 14px;border:1px solid var(--a400);border-radius:var(--radius-md);background:color-mix(in srgb,var(--color-accent) 12%,transparent);font:600 16px var(--font-heading);color:var(--a700);text-align:center;cursor:pointer;width:100%}
+/* zeszyt: tasks and chores from the Learning Hub sheet (copy of Tetradka) */
+.ztop{display:flex;align-items:center;gap:12px;padding:calc(env(safe-area-inset-top) + 14px) 18px 6px;flex:none}
+.ztop h3{flex:1;font:400 30px/1 var(--font-heading)}
+.ztop .link{background:none;border:0;font:italic 16px var(--font-heading);color:var(--a700);padding:8px 0}
+.zweek{display:grid;grid-template-columns:repeat(7,1fr);gap:4px;margin:8px 0 4px}
+.zday{text-align:center;font:600 13px var(--font-heading);letter-spacing:.04em;color:var(--n600);padding:6px 0;border-radius:var(--radius-md)}
+.zday b{display:block;font:400 24px/1.1 var(--font-heading);color:var(--n400)}
+.zday.on b{color:var(--a600)}
+.zday.today{background:color-mix(in srgb,var(--color-accent) 12%,transparent);color:var(--a700)}
+.zfacts{display:grid;grid-template-columns:repeat(auto-fit,minmax(96px,1fr));gap:10px;margin:14px 0 4px}
+.zfact{border:1px solid var(--n300);border-radius:var(--radius-md);background:#fbf8f1;padding:4px}
+.zfact>div{border:1px solid var(--a400);border-radius:2px;padding:8px 10px;height:100%}
+.zfact b{display:block;font:400 30px/1 var(--font-heading);font-feature-settings:'tnum';color:var(--a700)}
+.zfact span{font-size:12px;color:var(--n700)}
+.zh{margin:26px 0 6px}
+.zgrp{margin:14px 0 4px;font:600 16px var(--font-heading);color:var(--n800)}
+.zgrp small{font:italic 14px var(--font-heading);color:var(--n600)}
+.zlist{list-style:none;margin:0;padding:0}
+.zlist.extra .zchore{border-bottom-style:dashed}
+.zchore{display:flex;align-items:center;gap:14px;width:100%;padding:12px 0;background:none;border:0;border-bottom:1px solid var(--color-divider);text-align:left}
+.zbox{flex:none;width:30px;height:30px;border:1.5px solid var(--a500);border-radius:50%;display:grid;place-items:center;background:#fbf8f1;color:var(--a100);font-size:15px}
+.zchore[aria-checked="true"] .zbox{background:radial-gradient(circle at 35% 28%,oklch(0.56 0.13 22),oklch(0.41 0.12 22) 55%,oklch(0.3 0.1 22));border-color:var(--a400)}
+.zchore[aria-checked="true"] .zbox::before{content:"✦"}
+.zchore .nm{font:400 19px/1.2 var(--font-heading)}
+.zchore[aria-checked="true"] .nm{color:var(--n600);text-decoration:line-through;text-decoration-color:var(--a500)}
+.zempty{padding:12px 14px;border:1px dashed var(--n300);border-radius:var(--radius-md);color:var(--n700);font-size:14px}
+.zq{font:400 24px/1.35 var(--font-heading);margin:6px 0 18px;white-space:pre-wrap;overflow-wrap:anywhere}
+.zmeta{font:italic 15px var(--font-heading);color:var(--a700)}
+.zopts{display:grid;gap:10px}
+.zopt{text-align:left;padding:13px 16px;background:#fbf8f1;border:1px solid var(--n300);border-radius:var(--radius-lg);box-shadow:var(--shadow-sm);font-size:16px}
+.zopt.wrong{border-color:#8b1e2b;color:#8b1e2b;text-decoration:line-through}
+.zopt.right{border-color:#3d7a4a;background:color-mix(in srgb,#3d7a4a 12%,#fbf8f1)}
+.zrow{display:flex;gap:10px;align-items:stretch}
+.zrow input{flex:1;min-width:0;padding:11px 12px;border:1px solid var(--n300);border-radius:var(--radius-md);background:#fbf8f1;font-size:17px}
+.zhelp{display:flex;flex-wrap:wrap;gap:8px;margin-top:18px}
+.znote{margin-top:14px;padding:12px 14px;background:#fbf8f1;border:1px solid var(--n300);border-left:3px solid var(--color-accent);border-radius:var(--radius-md);white-space:pre-wrap;font-size:15px}
+.znote.hint{border-left-color:var(--a300)}
+.zverd{font:italic 400 34px/1.1 var(--font-heading);margin:18px 0 4px}
+.zverd.ok{color:#3d7a4a}.zverd.no{color:#8b1e2b}
+.zrates{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:14px}
+.zrates .outline{padding:14px;font-size:18px}
+.zshake{animation:zshake .35s}
+@keyframes zshake{25%{transform:translateX(-6px)}50%{transform:translateX(6px)}75%{transform:translateX(-3px)}}
 @media (max-height:640px){.hero{height:340px}.study{padding:18px 26px 20px}.front-w{font-size:40px}}
 @media (prefers-reduced-motion:reduce){.flipper{transition:none!important}}
 </style>
@@ -192,6 +235,7 @@ button{cursor:pointer}
     <span class="st r">✦</span></button>
    <p class="startsub" id="startSub"></p>
    <button class="bkwarn" id="bkWarn" hidden></button>
+   <button class="wine mid" id="zOpen" style="margin-top:16px"><span class="st l">✦</span>Zadania i obowiązki<span class="st r">✦</span></button>
    <div class="decks" id="homeDecks"></div>
    <div style="height:24px"></div>
   </div>
@@ -313,6 +357,23 @@ button{cursor:pointer}
  </div>
 </div>
 
+<!-- ZESZYT: tasks and chores from the Learning Hub sheet -->
+<div id="zeszytP" class="screen" hidden>
+ <div class="ztop">
+  <button class="circ" id="zBack" aria-label="Wróć"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg></button>
+  <h3>Zeszyt</h3>
+ </div>
+ <div class="scroll"><div class="page" id="zBody"></div></div>
+</div>
+<div id="quizP" class="screen" hidden>
+ <div class="top">
+  <button class="circ" id="zQuit" aria-label="Zakończ"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg></button>
+  <div class="bar"><i id="zBar" style="width:0"></i></div>
+  <span class="pos" id="zPos"></span>
+ </div>
+ <div class="scroll"><div class="page" id="qBody"></div></div>
+</div>
+
 </div>
 
 <script>
@@ -429,10 +490,10 @@ let page='home';
 const MG=['addP','decksP','setP'];
 function go(p){
  page=p;
- ['home','decksP','addP','setP','studyP'].forEach(x=>$(x).hidden=x!==p);
+ ['home','decksP','addP','setP','studyP','zeszytP','quizP'].forEach(x=>$(x).hidden=x!==p);
  $('mgTop').hidden=!MG.includes(p);
  document.querySelectorAll('#seg button').forEach(b=>b.classList.toggle('on',b.dataset.go===p));
- if(p==='home')renderHome(); if(p==='decksP')renderDecks(); if(p==='addP')renderAdd(); if(p==='setP')renderSet();
+ if(p==='home')renderHome(); if(p==='decksP')renderDecks(); if(p==='addP')renderAdd(); if(p==='setP')renderSet(); if(p==='zeszytP')Z.render();
 }
 $('seg').onclick=e=>{const b=e.target.closest('[data-go]');if(b)go(b.dataset.go)};
 $('mgBack').onclick=()=>go('home');
@@ -862,6 +923,222 @@ function magic(ev,{n=16,dist=90,glow=false,flash=true}={}){
   setTimeout(()=>layer.remove(),1400);
  }catch(e){}
 }
+
+/* ---------- zeszyt: tasks and chores (copy of Tetradka, same sheet and Apps Script) ---------- */
+// The original Tetradka stays as it is. This copy talks to the same Apps Script, so answers, sessions and chore
+// marks land in the same tabs and the sheet counts money and screen limits as before.
+// Own outbox key: Tetradka lives on the same github.io origin and uses 'outbox'; sharing it could send a mark twice.
+const Z=(()=>{
+const API='https://script.google.com/macros/s/AKfycbzwBSGNbH8aw9kqsn77o2_fJJJQvZAGXoIwdw_wZ92_9wKNS-Te5yt1x8AbfM9t_EwF_w/exec';
+const KID='__KID__';
+const OUTBOX=KEY+'_zeszyt_outbox';
+const SESSION_SIZE=10;
+const NOT_TODAY=/только в тот же день/i;
+let data=null,day=null,loading=false,Qz=null;
+const body=()=>$('zBody'),qb=()=>$('qBody');
+
+async function apiGet(params){
+ const r=await fetch(API+'?'+new URLSearchParams(params).toString());
+ const d=await r.json();if(d.error)throw new Error(d.error);return d;
+}
+// "today" in Warsaw, YYYY-MM-DD: chores can only be marked for this day
+const warsawDay=d=>new Intl.DateTimeFormat('en-CA',{timeZone:'Europe/Warsaw',year:'numeric',month:'2-digit',day:'2-digit'}).format(d||new Date());
+function queue(){try{return JSON.parse(localStorage.getItem(OUTBOX)||'[]')}catch(e){return[]}}
+function saveQueue(q){try{localStorage.setItem(OUTBOX,JSON.stringify(q))}catch(e){}}
+async function send(b){b.at=b.at||new Date().toISOString();const q=queue();q.push(b);saveQueue(q);await flush()}
+let flushing=false;
+async function flush(){
+ if(flushing)return;flushing=true;
+ try{
+  let q=queue();
+  // chore marks from an earlier day (e.g. made offline) are dropped
+  const today=warsawDay(),fresh=q.filter(b=>b.action!=='chore'||b.day===today);
+  if(fresh.length!==q.length){q=fresh;saveQueue(q);toast('Odhaczenia z poprzedniego dnia się nie liczą')}
+  while(q.length){
+   const r=await fetch(API,{method:'POST',body:JSON.stringify(q[0])});
+   const d=await r.json();
+   if(d.error&&!/не найден/i.test(d.error)&&!NOT_TODAY.test(d.error))throw new Error(d.error);
+   q.shift();saveQueue(q);
+  }
+ }catch(e){toast('Brak sieci. Zapisane, wyślę później')}
+ finally{flushing=false}
+}
+window.addEventListener('online',flush);
+
+async function open(){
+ if(loading)return;loading=true;
+ if(!data)body().innerHTML='<p class="lead">Ładuję…</p>';
+ try{data=await apiGet({action:'load',kid:KID});day=warsawDay();if(page==='zeszytP')renderHome()}
+ catch(e){
+  if(page==='zeszytP')body().innerHTML=`<h2>Brak połączenia</h2><p class="lead">Sprawdź internet i spróbuj jeszcze raz.</p><p class="lead">${esc(e.message)}</p><button class="outline" id="zRetry">Spróbuj ponownie</button>`;
+  const b=$('zRetry');if(b)b.onclick=open;
+ }finally{loading=false}
+ flush();
+}
+
+function renderHome(){
+ const d=data,w=d.week||{};
+ const names=['Pn','Wt','Śr','Cz','Pt','So','Nd'],js=[1,2,3,4,5,6,0],todayJs=new Date().getDay();
+ const subjects={};d.tasks.forEach(t=>{(subjects[t.subject]=subjects[t.subject]||[]).push(t)});
+ const money=w['Карманные, зл']||'—',chorePct=w['Дела выполнены, %']||'0%',extraPct=w['Желательные дела, %'];
+ // chore groups: category comes from the «Дела» tab; without one a chore is mandatory
+ const weekend=[0,6].includes(todayJs);
+ const visible=d.chores.filter(c=>!(weekend&&c.weekdaysOnly));
+ const GROUPS=[['Обязательное','Obowiązkowe',''],['Раз в неделю','Raz w tygodniu','wystarczy odhaczyć raz w tygodniu'],['Желательное','Dodatkowe','jeśli zrobisz 70% w tygodniu, limit ekranu o poziom wyżej']];
+ const list=(a,cls)=>`<ul class="zlist ${cls}">${a.map(c=>`<li><button class="zchore" role="checkbox" aria-checked="${c.done}" data-zc="${esc(c.id)}"><span class="zbox"></span><span class="nm">${esc(c.name)}</span></button></li>`).join('')}</ul>`;
+ const groups=GROUPS.map(([cat,title,note])=>{const a=visible.filter(c=>(c.category||'Обязательное')===cat);if(!a.length)return'';
+  return `<div class="zgrp">${esc(title)}${note?` <small>· ${esc(note)}</small>`:''}</div>`+list(a,cat==='Желательное'?'extra':'')}).join('');
+ const subj=Object.keys(subjects);
+ body().innerHTML=`
+  <div class="zweek" aria-label="Dni z nauką w tym tygodniu">${js.map((j,i)=>`<div class="zday ${j===todayJs?'today':''} ${d.studiedDays.includes(j)?'on':''}">${names[i]}<b>${d.studiedDays.includes(j)?'✦':'·'}</b></div>`).join('')}</div>
+  <div class="zfacts">
+   <div class="zfact"><div><b>${esc(money)}</b><span>zł w tym tygodniu</span></div></div>
+   <div class="zfact"><div><b>${esc(chorePct)}</b><span>obowiązków w tygodniu</span></div></div>
+   ${extraPct!==undefined?`<div class="zfact"><div><b>${esc(extraPct)}</b><span>dodatkowych (cel 70%)</span></div></div>`:''}
+  </div>
+  <h6 class="zh">Obowiązki na dziś</h6>
+  ${groups||'<div class="zempty">Na dziś nie ma obowiązków.</div>'}
+  <h6 class="zh">Nauka</h6>
+  ${subj.length?subj.map(s=>{const left=subjects[s].filter(t=>!mastered(t.id)).length;
+    return `<button class="deck" data-zs="${esc(s)}"><div class="ico" style="background-image:url(${ASSET.scroll})"></div><div class="nm"><b>${esc(s)}</b><span>${left?'zostało '+left:'wszystko umiesz, możesz powtórzyć'}</span></div></button>`}).join('')
+   :'<div class="zempty">Na ten tydzień nie ma jeszcze zadań. Powiedz mamie, z czego będą sprawdziany.</div>'}
+  <div style="height:24px"></div>`;
+ body().querySelectorAll('[data-zc]').forEach(b=>b.onclick=()=>toggleChore(b));
+ body().querySelectorAll('[data-zs]').forEach(b=>b.onclick=e=>{magic(e,{n:12,dist:70});startQuiz(b.dataset.zs)});
+}
+
+function toggleChore(btn){
+ // list was loaded on another day (page left open overnight): reload, yesterday cannot be marked
+ if(day!==warsawDay()){toast('Nowy dzień. Odhaczaj dzisiejsze obowiązki');open();return}
+ const c=data.chores.find(x=>x.id===btn.dataset.zc);
+ c.done=!c.done;btn.setAttribute('aria-checked',String(c.done));
+ if(c.done)magic({currentTarget:btn.querySelector('.zbox')},{n:10,dist:50,flash:false});
+ send({action:'chore',kid:KID,choreId:c.id,choreName:c.name,done:c.done,day});
+}
+// back to the app: reload, so marks made in Tetradka in the meantime show up here too (and are not sent twice)
+document.addEventListener('visibilitychange',()=>{if(document.visibilityState==='visible'&&page==='zeszytP')open()});
+
+/* picking tasks */
+const hist=id=>data.history[id]||{tries:0,firstTry:0,lastOk:false,last:0};
+const mastered=id=>{const h=hist(id);return h.firstTry>=2&&h.lastOk};
+function buildPool(subject){
+ const a=data.tasks.filter(t=>t.subject===subject);
+ const weak=a.filter(t=>hist(t.id).tries>0&&!mastered(t.id)).sort((x,y)=>hist(x.id).last-hist(y.id).last);
+ const fresh=a.filter(t=>hist(t.id).tries===0);
+ const done=a.filter(t=>mastered(t.id)).sort(()=>Math.random()-.5);
+ const main=[...weak,...fresh].slice(0,SESSION_SIZE);
+ const rc=Math.min(main.length?2:5,SESSION_SIZE-main.length);   // review: 2 mastered tasks, or 5 when nothing is new
+ return [...main,...done.slice(0,rc)];
+}
+function startQuiz(subject){
+ const items=buildPool(subject);
+ if(!items.length){toast('Brak zadań z tego przedmiotu');return}
+ Qz={subject,remaining:items.slice(),total:items.length,done:0,target:1,streakOk:0,streakBad:0,requeued:new Set(),started:Date.now()};
+ go('quizP');next();
+}
+function pick(){
+ // adapt difficulty: 3 right in a row harder, 2 wrong in a row easier
+ const r=Qz.remaining;
+ if(Qz.streakOk>=3)Qz.target=Math.min(3,Qz.target+1),Qz.streakOk=0;
+ if(Qz.streakBad>=2)Qz.target=Math.max(1,Qz.target-1),Qz.streakBad=0;
+ let idx=0,best=99;r.forEach((t,i)=>{const d=Math.abs(t.level-Qz.target);if(d<best){best=d;idx=i}});
+ if(r[0]&&hist(r[0].id).tries>0&&!mastered(r[0].id))idx=0;
+ return r.splice(idx,1)[0];
+}
+function next(){
+ if(!Qz.remaining.length)return finish();
+ Qz.q={t:pick(),attempt:1,hints:0,shown:Date.now(),finished:false,hintStep:0,explainStep:0};
+ renderQ();
+}
+function renderQ(){
+ const {t}=Qz.q;
+ $('zBar').style.width=Math.round(Qz.done/Qz.total*100)+'%';$('zPos').textContent=`${Qz.done+1}/${Qz.total}`;
+ qb().innerHTML=`<div class="zmeta">${esc(t.subject)}${t.topic?' · '+esc(t.topic):''}</div>
+  <p class="zq">${esc(t.question)}</p><div id="zAns"></div><div id="zFb" aria-live="polite"></div><div class="zhelp" id="zHelp"></div><div id="zNotes"></div>`;
+ const box=$('zAns');
+ if(t.type==='choice'&&t.options.length){
+  const opts=Qz.q.order||(Qz.q.order=t.options.slice().sort(()=>Math.random()-.5));
+  box.innerHTML='<div class="zopts">'+opts.map((o,i)=>`<button class="zopt" data-i="${i}">${esc(o)}</button>`).join('')+'</div>';
+  box.querySelectorAll('.zopt').forEach(b=>b.onclick=()=>{if(!Qz.q.finished&&!b.classList.contains('wrong'))check(opts[b.dataset.i],b)});
+ }else{
+  box.innerHTML=`<form class="zrow" id="zF" autocomplete="off"><input id="zInp" aria-label="Odpowiedź" placeholder="Twoja odpowiedź" autocapitalize="off" spellcheck="false"><button class="outline" type="submit">Sprawdź</button></form>`;
+  const inp=$('zInp');setTimeout(()=>inp.focus(),50);
+  $('zF').onsubmit=e=>{e.preventDefault();if(!Qz.q.finished&&inp.value.trim())check(inp.value,inp)};
+ }
+ helpers();
+}
+function helpers(){
+ const {t}=Qz.q,h=$('zHelp');
+ if(Qz.q.finished){h.innerHTML='';return}
+ const b=[];
+ if((Qz.q.hintStep===0&&t.hint1)||(Qz.q.hintStep===1&&t.hint2))b.push('<button class="outline sm" id="zHint">Podpowiedź</button>');
+ if(Qz.q.explainStep===0&&t.explain)b.push('<button class="outline sm" id="zExp">Nie rozumiem, wyjaśnij</button>');
+ if(Qz.q.explainStep===1&&t.explain2)b.push('<button class="outline sm" id="zExp2">Wyjaśnij inaczej</button>');
+ h.innerHTML=b.join('');
+ const x=$('zHint');if(x)x.onclick=hint;
+ const y=$('zExp');if(y)y.onclick=()=>explain(1);
+ const z=$('zExp2');if(z)z.onclick=()=>explain(2);
+}
+function note(text,cls){const n=document.createElement('div');n.className='znote '+(cls||'');n.textContent=text;$('zNotes').appendChild(n)}
+function hint(){const {t}=Qz.q;Qz.q.hintStep++;Qz.q.hints++;note(Qz.q.hintStep===1?t.hint1:t.hint2,'hint');helpers()}
+function explain(n){const {t}=Qz.q;Qz.q.explainStep=n;Qz.q.hints++;note(n===1?t.explain:t.explain2);helpers()}
+const norm=s=>String(s).toLowerCase().replace(/ё/g,'е').replace(/[.,!?;:"«»]/g,'').replace(/\s+/g,' ').trim();
+const correct=(g,a)=>a.split('|').map(norm).includes(norm(g));
+function check(given,el){
+ const {t}=Qz.q,ok=correct(given,t.answer),fb=$('zFb');
+ if(ok){if(el.classList.contains('zopt'))el.classList.add('right');fb.innerHTML='<div class="zverd ok">Dobrze!</div>';magic({currentTarget:el},{n:14,dist:80});done(true);return}
+ if(el.classList.contains('zopt'))el.classList.add('wrong');
+ el.classList.remove('zshake');void el.offsetWidth;el.classList.add('zshake');
+ if(Qz.q.attempt>=3){
+  fb.innerHTML=`<div class="zverd no">Zobaczmy</div><p>Poprawna odpowiedź: <b>${esc(t.answer.split('|')[0])}</b></p>`;
+  document.querySelectorAll('.zopt').forEach(b=>{if(correct(b.textContent,t.answer))b.classList.add('right')});
+  if(Qz.q.explainStep===0&&t.explain)note(t.explain);
+  done(false);return;
+ }
+ Qz.q.attempt++;
+ fb.innerHTML='<div class="zverd no">Prawie</div><p class="lead">Spróbuj jeszcze raz.</p>';
+ if((Qz.q.hintStep===0&&t.hint1)||(Qz.q.hintStep===1&&t.hint2))hint();
+ const inp=$('zInp');if(inp)inp.select();
+}
+function done(ok){
+ const {t}=Qz.q;Qz.q.finished=true;
+ const seconds=Math.round((Date.now()-Qz.q.shown)/1000);
+ send({action:'answer',kid:KID,taskId:t.id,subject:t.subject,topic:t.topic,correct:ok,attempt:Qz.q.attempt,hints:Qz.q.hints,seconds});
+ const h=data.history[t.id]||(data.history[t.id]={tries:0,firstTry:0,lastOk:false,last:0});
+ h.tries++;h.last=Date.now();h.lastOk=ok&&Qz.q.attempt===1;if(h.lastOk)h.firstTry++;
+ if(ok&&Qz.q.attempt===1){Qz.streakOk++;Qz.streakBad=0}else{Qz.streakBad++;Qz.streakOk=0}
+ if(!ok&&!Qz.requeued.has(t.id)){Qz.requeued.add(t.id);Qz.remaining.push(t);Qz.total++}   // a wrong task comes back at the end
+ Qz.done++;
+ $('zBar').style.width=Math.round(Qz.done/Qz.total*100)+'%';
+ const hp=$('zHelp');
+ if(ok&&t.explain&&Qz.q.explainStep===0){hp.innerHTML='<button class="outline sm" id="zWhy">Dlaczego tak?</button>';$('zWhy').onclick=()=>{note(t.explain);hp.innerHTML=''}}
+ else helpers();
+ const b=document.createElement('button');b.className='wine mid';b.style.marginTop='20px';
+ b.innerHTML=`<span class="st l">✦</span>${Qz.remaining.length?'Dalej':'Zakończ'}<span class="st r">✦</span>`;
+ b.onclick=next;$('zNotes').after(b);b.focus();
+ const td=new Date().getDay();if(!data.studiedDays.includes(td))data.studiedDays.push(td);
+}
+// rating is stored in Russian, as Tetradka writes it, so the weekly review reads both apps the same way
+const RATES=[['легко','Łatwo'],['нормально','Normalnie'],['сложно','Trudno'],['скучно','Nudno']];
+function finish(){
+ const minutes=Math.max(1,Math.round((Date.now()-Qz.started)/60000));
+ $('zBar').style.width='100%';$('zPos').textContent='';
+ qb().innerHTML=Qz.done?`<h2>Gotowe!</h2><p class="lead">Zadań: ${Qz.done}. Czas: ${minutes} min.</p><h6 class="zh">Jak było?</h6>
+  <div class="zrates">${RATES.map(([v,l])=>`<button class="outline" data-r="${v}">${l}</button>`).join('')}</div>`
+  :`<h2>Zamknięte</h2><p class="lead">Nie zrobiono żadnego zadania, to się nie liczy.</p><button class="wine mid" id="zHome"><span class="st l">✦</span>Wróć<span class="st r">✦</span></button>`;
+ if(!Qz.done){$('zHome').onclick=()=>go('zeszytP');return}
+ qb().querySelectorAll('[data-r]').forEach(b=>b.onclick=e=>{
+  magic(e,{n:22,dist:120});
+  send({action:'session',kid:KID,subject:Qz.subject,minutes,rating:b.dataset.r});
+  toast('Zapisano. Brawo! ✦');Qz=null;setTimeout(()=>go('zeszytP'),600);
+ });
+}
+$('zOpen').onclick=e=>{magic(e,{n:22,dist:120});go('zeszytP')};
+$('zBack').onclick=()=>go('home');
+$('zQuit').onclick=()=>{if(Qz&&Qz.q&&$('zNotes'))finish();else go('zeszytP')};
+flush();
+return {open,render:()=>{if(data)renderHome();open()}};
+})();
 
 const NEW_PACKS=importPacks();
 go('home');
