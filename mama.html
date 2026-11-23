@@ -101,7 +101,7 @@ async function review(rows,verdict,msg){
  if(!rows.length)return;
  rows.forEach(r=>r.verdict=verdict);render();   // сразу показываем, потом отправляем
  try{
-  const r=await fetch(API,{method:'POST',body:JSON.stringify({action:'review',key,items:rows.map(x=>({row:x.row,choreId:x.choreId,verdict}))})});
+  const r=await fetch(API,{method:'POST',body:JSON.stringify({action:'review',key,items:rows.map(x=>({row:x.row,kid:x.kid,day:x.day,choreId:x.choreId,verdict}))})});
   const d=await r.json();if(d.error)throw new Error(d.error);
   toast(msg);
  }catch(e){toast('Не сохранилось, проверь интернет');load()}
