@@ -209,6 +209,12 @@ button{cursor:pointer}
 .zrates{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:14px}
 .zrates .outline{padding:14px;font-size:18px}
 .zshake{animation:zshake .35s}
+.obw{width:100%;margin-top:16px;padding:12px;font-size:19px;border-radius:999px;background:#fbf8f1}
+.zexam{border:1px solid var(--a400);border-radius:var(--radius-md);background:color-mix(in srgb,var(--color-accent) 12%,transparent);padding:10px 14px;margin:4px 0 6px}
+.zexam b{display:block;font:600 19px var(--font-heading);color:var(--a700)}.zexam span{font-size:13px;color:var(--n700)}
+.zchore .nm small{display:block;font:italic 13px var(--font-heading);color:#8b1e2b;text-decoration:none}
+.zchore.rej .zbox{border-color:#8b1e2b;color:#8b1e2b;background:#fbf8f1}.zchore.rej .zbox::before{content:"✕"}
+.zchore.rej .nm{color:var(--n600)}
 @keyframes zshake{25%{transform:translateX(-6px)}50%{transform:translateX(6px)}75%{transform:translateX(-3px)}}
 @media (max-height:640px){.hero{height:340px}.study{padding:18px 26px 20px}.front-w{font-size:40px}}
 @media (prefers-reduced-motion:reduce){.flipper{transition:none!important}}
@@ -235,7 +241,7 @@ button{cursor:pointer}
     <span class="st r">✦</span></button>
    <p class="startsub" id="startSub"></p>
    <button class="bkwarn" id="bkWarn" hidden></button>
-   <button class="wine mid" id="zOpen" style="margin-top:16px"><span class="st l">✦</span>Zadania i obowiązki<span class="st r">✦</span></button>
+   <button class="outline obw" id="zOpen">✦ Obowiązki ✦</button>
    <div class="decks" id="homeDecks"></div>
    <div style="height:24px"></div>
   </div>
@@ -357,13 +363,15 @@ button{cursor:pointer}
  </div>
 </div>
 
-<!-- ZESZYT: tasks and chores from the Learning Hub sheet -->
-<div id="zeszytP" class="screen" hidden>
- <div class="ztop">
-  <button class="circ" id="zBack" aria-label="Wróć"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg></button>
-  <h3>Zeszyt</h3>
- </div>
- <div class="scroll"><div class="page" id="zBody"></div></div>
+<!-- SUBJECT: tasks from the Learning Hub sheet + flashcards of that language -->
+<div id="subjP" class="screen" hidden>
+ <div class="ztop"><button class="circ" id="sBack" aria-label="Wróć"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg></button><h3 id="sTitle"></h3></div>
+ <div class="scroll"><div class="page" id="sBody"></div></div>
+</div>
+<!-- CHORES -->
+<div id="obowP" class="screen" hidden>
+ <div class="ztop"><button class="circ" id="oBack" aria-label="Wróć"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg></button><h3>Obowiązki</h3></div>
+ <div class="scroll"><div class="page" id="oBody"></div></div>
 </div>
 <div id="quizP" class="screen" hidden>
  <div class="top">
@@ -452,10 +460,11 @@ function seedAll(){
    ...ritualSeed().cards
   ]};
 }
+// the demo decks of the first version (d1–d4, units "… — start") are not seeded any more: material comes in packs
+const STARTER_DECKS=['d1','d2','d3','d4'],STARTER_UNITS=['u_Angielski','u_Niemiecki'];
 function seed(){
- const s=seedAll(),ok=new Set(s.decks.filter(d=>KID_LANGS.includes(d.lang)).map(d=>d.id));
- s.decks=s.decks.filter(d=>ok.has(d.id));s.cards=s.cards.filter(c=>ok.has(c.deck));
- s.units=s.units.filter(u=>KID_LANGS.includes(u.lang));
+ const s=seedAll();
+ s.decks=[];s.cards=[];s.units=[];s.v=4;
  return s;
 }
 function load(){try{const x=JSON.parse(localStorage.getItem(KEY)||'null');if(x&&Array.isArray(x.cards)&&Array.isArray(x.decks)){
@@ -474,6 +483,11 @@ function load(){try{const x=JSON.parse(localStorage.getItem(KEY)||'null');if(x&&
     d.unit=uid;
    });
    x.v=3}
+  if(x.v<4){
+   const gone=new Set(STARTER_DECKS);
+   x.decks=x.decks.filter(d=>!gone.has(d.id));x.cards=x.cards.filter(c=>!gone.has(c.deck));
+   x.units=x.units.filter(u=>!STARTER_UNITS.includes(u.id)||x.decks.some(d=>d.unit===u.id));
+   x.v=4}
   return x}}catch(e){}return seed()}
 let S=load();
 function save(){try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){}}
@@ -490,10 +504,10 @@ let page='home';
 const MG=['addP','decksP','setP'];
 function go(p){
  page=p;
- ['home','decksP','addP','setP','studyP','zeszytP','quizP'].forEach(x=>$(x).hidden=x!==p);
+ ['home','decksP','addP','setP','studyP','subjP','obowP','quizP'].forEach(x=>$(x).hidden=x!==p);
  $('mgTop').hidden=!MG.includes(p);
  document.querySelectorAll('#seg button').forEach(b=>b.classList.toggle('on',b.dataset.go===p));
- if(p==='home')renderHome(); if(p==='decksP')renderDecks(); if(p==='addP')renderAdd(); if(p==='setP')renderSet(); if(p==='zeszytP')Z.render();
+ if(p==='home')renderHome(); if(p==='decksP')renderDecks(); if(p==='addP')renderAdd(); if(p==='setP')renderSet(); if(p==='obowP')Z.chores(); if(p==='subjP')Z.subject();
 }
 $('seg').onclick=e=>{const b=e.target.closest('[data-go]');if(b)go(b.dataset.go)};
 $('mgBack').onclick=()=>go('home');
@@ -530,8 +544,10 @@ function byUnit(fn){
 const noTopics='<small class="lead">Brak tematów.</small>';
 function renderHome(){
  renderWarn();
- const n=dueNewest().length;$('startSub').textContent=n?`Najnowsze karty · ${n}`:'Powtórka ogólna';
- $('homeDecks').innerHTML=byUnit((u,ds)=>`<div class="uh"><h6>${esc(u.name)}</h6>${u.id?`<button class="outline sm" data-test="${u.id}">Sprawdzian</button>`:''}</div>${ds.map(deckRow).join('')||noTopics}`);
+ // subjects (sheet tasks + flashcard languages); each subject opens its topics
+ $('startSub').textContent=Z.homeSub();
+ const rows=Z.subjRows();
+ $('homeDecks').innerHTML=rows?`<div class="uh"><h6>Przedmioty</h6></div>${rows}`:'';
 }
 function renderDecks(){
  $('deckList').innerHTML=byUnit((u,ds)=>`<div class="uh"><h6>${esc(u.name)}</h6>${u.id&&!ds.length?`<button class="x" data-delunit="${u.id}" aria-label="Usuń unit">×</button>`:''}</div>${ds.map(deckBlock).join('')||noTopics}`);
@@ -542,7 +558,7 @@ document.addEventListener('click',e=>{
  const du=e.target.closest('[data-delunit]');if(du){ask(du,'?',()=>{S.units=S.units.filter(u=>u.id!==du.dataset.delunit);save();renderDecks()});return}
  const x=e.target.closest('[data-del]');if(x)ask(x,'?',()=>{S.cards=S.cards.filter(c=>c.id!==x.dataset.del);save();renderDecks()})
 });
-$('startAll').onclick=e=>{magic(e,{n:22,dist:120});startSession(null,null,true)};
+$('startAll').onclick=e=>Z.start(e);
 
 /* ---------- add ---------- */
 function renderAdd(){
@@ -733,7 +749,8 @@ function startSession(deckId,unitId,newest){
    if(!Q.length){curNewest=false;if(S.cards.some(c=>c.added))toast('Najnowsze karty opanowane — powtórka ogólna')}
   }
   if(!curNewest){
-  let pool=S.cards.filter(c=>!deckId||c.deck===deckId);
+  const lang=deckId&&deckId.startsWith('lang:')?deckId.slice(5):null;   // all cards of one language (subject screen)
+  let pool=S.cards.filter(c=>lang?deckOf(c).lang===lang:!deckId||c.deck===deckId);
   const now=Date.now();
   let due=pool.filter(c=>c.next<=now).sort((a,b)=>a.next-b.next);
   if(due.length<S.settings.size)due=due.concat(pool.filter(c=>c.next>now).sort((a,b)=>a.next-b.next));
@@ -924,8 +941,8 @@ function magic(ev,{n=16,dist=90,glow=false,flash=true}={}){
  }catch(e){}
 }
 
-/* ---------- zeszyt: tasks and chores (copy of Tetradka, same sheet and Apps Script) ---------- */
-// The original Tetradka stays as it is. This copy talks to the same Apps Script, so answers, sessions and chore
+/* ---------- school: subjects, tasks and chores from the Learning Hub sheet (same Apps Script as Tetradka) ---------- */
+// The original Tetradka stays as it is. This part talks to the same Apps Script, so answers, sessions and chore
 // marks land in the same tabs and the sheet counts money and screen limits as before.
 // Own outbox key: Tetradka lives on the same github.io origin and uses 'outbox'; sharing it could send a mark twice.
 const Z=(()=>{
@@ -933,9 +950,20 @@ const API='https://script.google.com/macros/s/AKfycbzwBSGNbH8aw9kqsn77o2_fJJJQvZ
 const KID='tosia';
 const OUTBOX=KEY+'_zeszyt_outbox';
 const SESSION_SIZE=10;
+const EXAM_DAYS=14;   // an exam further away than this does not steer "Zacznij naukę"
 const NOT_TODAY=/только в тот же день/i;
-let data=null,day=null,loading=false,Qz=null;
-const body=()=>$('zBody'),qb=()=>$('qBody');
+// subjects as the sheet names them → Polish name in the app, and the flashcard language for language subjects
+const SUBJ={'Английский':['Angielski','Angielski'],'Немецкий':['Niemiecki','Niemiecki'],'Биология':['Biologia'],'География':['Geografia'],
+ 'История':['Historia'],'Химия':['Chemia'],'Математика':['Matematyka'],'Польский':['Polski']};
+const plName=s=>(SUBJ[s]||[s])[0];
+const langOf=s=>(SUBJ[s]||[])[1]||null;
+const subjOfLang=l=>Object.keys(SUBJ).find(s=>SUBJ[s][1]===l)||l;
+const KIND={'справдзян':'Sprawdzian','карткувка':'Kartkówka'};
+let data=null,exams=[],day=null,loading=false,Qz=null,curSubj=null;
+const PRIO={'Немецкий':3,'Английский':2};
+// when each subject was last started from this app (for the "według planu" rotation)
+const lastStudy=()=>{try{return JSON.parse(localStorage.getItem(KEY+'_plan')||'{}')}catch(e){return{}}};
+const markStudy=s=>{try{const o=lastStudy();o[s]=Date.now();localStorage.setItem(KEY+'_plan',JSON.stringify(o))}catch(e){}};
 
 async function apiGet(params){
  const r=await fetch(API+'?'+new URLSearchParams(params).toString());
@@ -943,6 +971,8 @@ async function apiGet(params){
 }
 // "today" in Warsaw, YYYY-MM-DD: chores can only be marked for this day
 const warsawDay=d=>new Intl.DateTimeFormat('en-CA',{timeZone:'Europe/Warsaw',year:'numeric',month:'2-digit',day:'2-digit'}).format(d||new Date());
+const daysTo=iso=>Math.round((Date.parse(iso+'T12:00:00')-Date.parse(warsawDay()+'T12:00:00'))/DAY);
+const whenTxt=n=>n<=0?'dziś':n===1?'jutro':`za ${n} dni`;
 function queue(){try{return JSON.parse(localStorage.getItem(OUTBOX)||'[]')}catch(e){return[]}}
 function saveQueue(q){try{localStorage.setItem(OUTBOX,JSON.stringify(q))}catch(e){}}
 async function send(b){b.at=b.at||new Date().toISOString();const q=queue();q.push(b);saveQueue(q);await flush()}
@@ -965,64 +995,133 @@ async function flush(){
 }
 window.addEventListener('online',flush);
 
+// load tasks, chores and upcoming exams; re-render whichever school screen is open
 async function open(){
  if(loading)return;loading=true;
- if(!data)body().innerHTML='<p class="lead">Ładuję…</p>';
- try{data=await apiGet({action:'load',kid:KID});day=warsawDay();if(page==='zeszytP')renderHome()}
- catch(e){
-  if(page==='zeszytP')body().innerHTML=`<h2>Brak połączenia</h2><p class="lead">Sprawdź internet i spróbuj jeszcze raz.</p><p class="lead">${esc(e.message)}</p><button class="outline" id="zRetry">Spróbuj ponownie</button>`;
-  const b=$('zRetry');if(b)b.onclick=open;
- }finally{loading=false}
+ try{
+  const [d,ex]=await Promise.all([apiGet({action:'load',kid:KID}),apiGet({action:'exams',kid:KID}).catch(()=>null)]);
+  data=d;exams=ex&&Array.isArray(ex.exams)?ex.exams:[];day=warsawDay();
+ }catch(e){if(page==='obowP'&&!data)$('oBody').innerHTML=`<h2>Brak połączenia</h2><p class="lead">Sprawdź internet i spróbuj jeszcze raz.</p><button class="outline" id="zRetry">Spróbuj ponownie</button>`;
+  const b=$('zRetry');if(b)b.onclick=open}
+ finally{loading=false}
+ if(page==='home')renderHome();if(page==='obowP'&&data)renderChores();if(page==='subjP'&&curSubj)renderSubject();
  flush();
 }
 
-function renderHome(){
+/* subjects */
+const tasksOf=(s,topic)=>data?data.tasks.filter(t=>t.subject===s&&(!topic||t.topic===topic)):[];
+const hist=id=>data.history[id]||{tries:0,firstTry:0,lastOk:false,last:0};
+const mastered=id=>{const h=hist(id);return h.firstTry>=2&&h.lastOk};
+const decksOfLang=l=>S.decks.filter(d=>d.lang===l);
+const examFor=s=>exams.find(x=>x.subject===s);
+function subjects(){
+ const set=[];const add=s=>{if(s&&!set.includes(s))set.push(s)};
+ exams.forEach(x=>{if(tasksOf(x.subject).length||(langOf(x.subject)&&decksOfLang(langOf(x.subject)).length))add(x.subject)});
+ KID_LANGS.forEach(l=>{if(decksOfLang(l).length)add(subjOfLang(l))});
+ if(data)data.tasks.forEach(t=>add(t.subject));
+ // nearest exam first, the rest keep their order
+ return set.sort((a,b)=>{const x=examFor(a),y=examFor(b);return x&&y?(x.date<y.date?-1:1):x?-1:y?1:0});
+}
+function subjSub(s){
+ const ex=examFor(s),parts=[];
+ if(ex)parts.push(`${KIND[ex.kind]||'Sprawdzian'} ${whenTxt(daysTo(ex.date))}`);
+ const left=tasksOf(s).filter(t=>!mastered(t.id)).length;if(left)parts.push(`zadań: ${left}`);
+ const l=langOf(s);if(l){const n=S.cards.filter(c=>deckOf(c).lang===l&&c.next<=Date.now()).length;if(n)parts.push(`karty: ${n}`)}
+ return parts.join(' · ')||'wszystko umiesz ✦';
+}
+const ICO={'Angielski':'books','Niemiecki':'scroll'};
+const subjRows=()=>subjects().map(s=>`<button class="deck" data-subj="${esc(s)}"><div class="ico" style="background-image:url(${ASSET[ICO[plName(s)]]||ASSET.cauldron})"></div><div class="nm"><b>${esc(plName(s))}</b><span>${esc(subjSub(s))}</span></div></button>`).join('');
+
+// what "Zacznij naukę" does: nearest exam first, otherwise the subject left alone the longest
+function plan(){
+ if(!data)return null;
+ const ex=exams.find(x=>daysTo(x.date)<=EXAM_DAYS&&(tasksOf(x.subject).length||(langOf(x.subject)&&decksOfLang(langOf(x.subject)).length)));
+ if(ex){
+  const topics=[...new Set(tasksOf(ex.subject).map(t=>t.topic).filter(Boolean))];
+  const want=String(ex.topic||'').toLowerCase().trim();
+  const topic=want?topics.find(t=>{const x=t.toLowerCase();return x.includes(want)||want.includes(x)}):null;
+  return {subject:ex.subject,topic,label:`${plName(ex.subject)}: ${(KIND[ex.kind]||'sprawdzian').toLowerCase()} ${whenTxt(daysTo(ex.date))}`};
+ }
+ // candidates: subjects with tasks still to learn, languages with flashcards due
+ const cand=subjects().filter(s=>tasksOf(s).some(t=>!mastered(t.id))||(langOf(s)&&S.cards.some(c=>deckOf(c).lang===langOf(s)&&c.next<=Date.now())));
+ if(!cand.length)return null;
+ // the subject waiting longest wins; German counts 3x and English 2x, so they come up more often
+ const last=lastStudy(),score=s=>(Date.now()-(last[s]||0))*(PRIO[s]||1);
+ const s=cand.sort((a,b)=>score(b)-score(a))[0];
+ return {subject:s,topic:null,label:`Według planu: ${plName(s)}`};
+}
+function startSubject(s,topic,ev){
+ if(ev)magic(ev,{n:22,dist:120});
+ if(tasksOf(s,topic).length)return startQuiz(s,topic);
+ const l=langOf(s);
+ if(l&&decksOfLang(l).length){markStudy(s);return startSession('lang:'+l)}
+ toast('Brak materiału z tego przedmiotu');
+}
+function start(ev){
+ const p=plan();
+ if(p)return startSubject(p.subject,p.topic,ev);
+ magic(ev,{n:22,dist:120});startSession(null,null,true);   // no sheet (offline) or nothing left: flashcards as before
+}
+function homeSub(){const p=plan();if(p)return p.label;const n=dueNewest().length;return n?`Najnowsze karty · ${n}`:'Powtórka ogólna'}
+
+function renderSubject(){
+ const s=curSubj,ex=examFor(s),l=langOf(s);
+ $('sTitle').textContent=plName(s);
+ const topics=[...new Set(tasksOf(s).map(t=>t.topic||'Inne'))];
+ const units=l?S.units.filter(u=>u.lang===l):[];
+ const loose=l?decksOfLang(l).filter(d=>!units.some(u=>u.id===d.unit)):[];
+ $('sBody').innerHTML=`
+  ${ex?`<div class="zexam"><b>${esc(KIND[ex.kind]||'Sprawdzian')} ${esc(whenTxt(daysTo(ex.date)))}</b><span>${esc(ex.date.slice(8,10)+'.'+ex.date.slice(5,7))}${ex.topic?' · '+esc(ex.topic):''}</span></div>`:''}
+  <button class="wine mid" id="sStart" style="margin-top:10px"><span class="st l">✦</span>Ucz się<span class="st r">✦</span></button>
+  ${topics.length?`<h6 class="zh">Zadania</h6>`+topics.map(tp=>{const a=tasksOf(s).filter(t=>(t.topic||'Inne')===tp),left=a.filter(t=>!mastered(t.id)).length;
+    return `<button class="deck" data-topic="${esc(tp)}"><div class="ico" style="background-image:url(${ASSET.scroll})"></div><div class="nm"><b>${esc(tp)}</b><span>${left?`zostało ${left} z ${a.length}`:'wszystko umiesz, możesz powtórzyć'}</span></div><div class="pc">${a.length?Math.round((a.length-left)/a.length*100):0}%</div></button>`}).join(''):''}
+  ${units.map(u=>{const ds=S.decks.filter(d=>d.unit===u.id);return `<div class="uh"><h6>${esc(u.name)}</h6>${ds.length?`<button class="outline sm" data-test="${u.id}">Sprawdzian</button>`:''}</div>${ds.map(deckRow).join('')||noTopics}`}).join('')}
+  ${loose.length?`<div class="uh"><h6>Karty</h6></div>${loose.map(deckRow).join('')}`:''}
+  ${!topics.length&&!units.length&&!loose.length?'<div class="zempty">Na razie nie ma tu materiału. Powiedz mamie, z czego będą sprawdziany.</div>':''}
+  <div style="height:24px"></div>`;
+ $('sStart').onclick=e=>{const p=plan();startSubject(s,p&&p.subject===s?p.topic:null,e)};
+ $('sBody').querySelectorAll('[data-topic]').forEach(b=>b.onclick=e=>{magic(e,{n:12,dist:70});startQuiz(s,b.dataset.topic==='Inne'&&!tasksOf(s,'Inne').length?'':b.dataset.topic)});
+}
+function openSubject(s){curSubj=s;go('subjP')}
+document.addEventListener('click',e=>{const b=e.target.closest('[data-subj]');if(b){magic(e,{n:12,dist:70});openSubject(b.dataset.subj)}});
+
+/* chores */
+function renderChores(){
  const d=data,w=d.week||{};
- const names=['Pn','Wt','Śr','Cz','Pt','So','Nd'],js=[1,2,3,4,5,6,0],todayJs=new Date().getDay();
- const subjects={};d.tasks.forEach(t=>{(subjects[t.subject]=subjects[t.subject]||[]).push(t)});
  const money=w['Карманные, зл']||'—',chorePct=w['Дела выполнены, %']||'0%',extraPct=w['Желательные дела, %'];
  // chore groups: category comes from the «Дела» tab; without one a chore is mandatory
- const weekend=[0,6].includes(todayJs);
+ const weekend=[0,6].includes(new Date().getDay());
  const visible=d.chores.filter(c=>!(weekend&&c.weekdaysOnly));
  const GROUPS=[['Обязательное','Obowiązkowe',''],['Раз в неделю','Raz w tygodniu','wystarczy odhaczyć raz w tygodniu'],['Желательное','Dodatkowe','jeśli zrobisz 70% w tygodniu, limit ekranu o poziom wyżej']];
- const list=(a,cls)=>`<ul class="zlist ${cls}">${a.map(c=>`<li><button class="zchore" role="checkbox" aria-checked="${c.done}" data-zc="${esc(c.id)}"><span class="zbox"></span><span class="nm">${esc(c.name)}</span></button></li>`).join('')}</ul>`;
+ const list=(a,cls)=>`<ul class="zlist ${cls}">${a.map(c=>`<li><button class="zchore${c.rejected?' rej':''}" role="checkbox" aria-checked="${c.done}" data-zc="${esc(c.id)}"${c.rejected?' aria-disabled="true"':''}><span class="zbox"></span><span class="nm">${esc(c.name)}${c.rejected?'<small>mama nie zatwierdziła</small>':''}</span></button></li>`).join('')}</ul>`;
  const groups=GROUPS.map(([cat,title,note])=>{const a=visible.filter(c=>(c.category||'Обязательное')===cat);if(!a.length)return'';
   return `<div class="zgrp">${esc(title)}${note?` <small>· ${esc(note)}</small>`:''}</div>`+list(a,cat==='Желательное'?'extra':'')}).join('');
- const subj=Object.keys(subjects);
- body().innerHTML=`
-  <div class="zweek" aria-label="Dni z nauką w tym tygodniu">${js.map((j,i)=>`<div class="zday ${j===todayJs?'today':''} ${d.studiedDays.includes(j)?'on':''}">${names[i]}<b>${d.studiedDays.includes(j)?'✦':'·'}</b></div>`).join('')}</div>
+ $('oBody').innerHTML=`
   <div class="zfacts">
    <div class="zfact"><div><b>${esc(money)}</b><span>zł w tym tygodniu</span></div></div>
    <div class="zfact"><div><b>${esc(chorePct)}</b><span>obowiązków w tygodniu</span></div></div>
    ${extraPct!==undefined?`<div class="zfact"><div><b>${esc(extraPct)}</b><span>dodatkowych (cel 70%)</span></div></div>`:''}
   </div>
-  <h6 class="zh">Obowiązki na dziś</h6>
+  <h6 class="zh">Na dziś</h6>
   ${groups||'<div class="zempty">Na dziś nie ma obowiązków.</div>'}
-  <h6 class="zh">Nauka</h6>
-  ${subj.length?subj.map(s=>{const left=subjects[s].filter(t=>!mastered(t.id)).length;
-    return `<button class="deck" data-zs="${esc(s)}"><div class="ico" style="background-image:url(${ASSET.scroll})"></div><div class="nm"><b>${esc(s)}</b><span>${left?'zostało '+left:'wszystko umiesz, możesz powtórzyć'}</span></div></button>`}).join('')
-   :'<div class="zempty">Na ten tydzień nie ma jeszcze zadań. Powiedz mamie, z czego będą sprawdziany.</div>'}
   <div style="height:24px"></div>`;
- body().querySelectorAll('[data-zc]').forEach(b=>b.onclick=()=>toggleChore(b));
- body().querySelectorAll('[data-zs]').forEach(b=>b.onclick=e=>{magic(e,{n:12,dist:70});startQuiz(b.dataset.zs)});
+ $('oBody').querySelectorAll('[data-zc]').forEach(b=>b.onclick=()=>toggleChore(b));
 }
-
 function toggleChore(btn){
  // list was loaded on another day (page left open overnight): reload, yesterday cannot be marked
  if(day!==warsawDay()){toast('Nowy dzień. Odhaczaj dzisiejsze obowiązki');open();return}
  const c=data.chores.find(x=>x.id===btn.dataset.zc);
+ if(c.rejected){toast('Mama nie zatwierdziła tego dziś');return}
  c.done=!c.done;btn.setAttribute('aria-checked',String(c.done));
  if(c.done)magic({currentTarget:btn.querySelector('.zbox')},{n:10,dist:50,flash:false});
  send({action:'chore',kid:KID,choreId:c.id,choreName:c.name,done:c.done,day});
 }
-// back to the app: reload, so marks made in Tetradka in the meantime show up here too (and are not sent twice)
-document.addEventListener('visibilitychange',()=>{if(document.visibilityState==='visible'&&page==='zeszytP')open()});
+// back to the app: reload, so marks made in Tetradka (or mama's checks) in the meantime show up here too
+document.addEventListener('visibilitychange',()=>{if(document.visibilityState==='visible'&&['home','obowP','subjP'].includes(page))open()});
 
-/* picking tasks */
-const hist=id=>data.history[id]||{tries:0,firstTry:0,lastOk:false,last:0};
-const mastered=id=>{const h=hist(id);return h.firstTry>=2&&h.lastOk};
-function buildPool(subject){
- const a=data.tasks.filter(t=>t.subject===subject);
+/* tasks */
+function buildPool(subject,topic){
+ const a=tasksOf(subject,topic);
  const weak=a.filter(t=>hist(t.id).tries>0&&!mastered(t.id)).sort((x,y)=>hist(x.id).last-hist(y.id).last);
  const fresh=a.filter(t=>hist(t.id).tries===0);
  const done=a.filter(t=>mastered(t.id)).sort(()=>Math.random()-.5);
@@ -1030,9 +1129,10 @@ function buildPool(subject){
  const rc=Math.min(main.length?2:5,SESSION_SIZE-main.length);   // review: 2 mastered tasks, or 5 when nothing is new
  return [...main,...done.slice(0,rc)];
 }
-function startQuiz(subject){
- const items=buildPool(subject);
+function startQuiz(subject,topic){
+ const items=buildPool(subject,topic);
  if(!items.length){toast('Brak zadań z tego przedmiotu');return}
+ curSubj=subject;markStudy(subject);
  Qz={subject,remaining:items.slice(),total:items.length,done:0,target:1,streakOk:0,streakBad:0,requeued:new Set(),started:Date.now()};
  go('quizP');next();
 }
@@ -1050,10 +1150,11 @@ function next(){
  Qz.q={t:pick(),attempt:1,hints:0,shown:Date.now(),finished:false,hintStep:0,explainStep:0};
  renderQ();
 }
+const qb=()=>$('qBody');
 function renderQ(){
  const {t}=Qz.q;
  $('zBar').style.width=Math.round(Qz.done/Qz.total*100)+'%';$('zPos').textContent=`${Qz.done+1}/${Qz.total}`;
- qb().innerHTML=`<div class="zmeta">${esc(t.subject)}${t.topic?' · '+esc(t.topic):''}</div>
+ qb().innerHTML=`<div class="zmeta">${esc(plName(t.subject))}${t.topic?' · '+esc(t.topic):''}</div>
   <p class="zq">${esc(t.question)}</p><div id="zAns"></div><div id="zFb" aria-live="polite"></div><div class="zhelp" id="zHelp"></div><div id="zNotes"></div>`;
  const box=$('zAns');
  if(t.type==='choice'&&t.options.length){
@@ -1126,18 +1227,24 @@ function finish(){
  qb().innerHTML=Qz.done?`<h2>Gotowe!</h2><p class="lead">Zadań: ${Qz.done}. Czas: ${minutes} min.</p><h6 class="zh">Jak było?</h6>
   <div class="zrates">${RATES.map(([v,l])=>`<button class="outline" data-r="${v}">${l}</button>`).join('')}</div>`
   :`<h2>Zamknięte</h2><p class="lead">Nie zrobiono żadnego zadania, to się nie liczy.</p><button class="wine mid" id="zHome"><span class="st l">✦</span>Wróć<span class="st r">✦</span></button>`;
- if(!Qz.done){$('zHome').onclick=()=>go('zeszytP');return}
+ if(!Qz.done){$('zHome').onclick=()=>go('subjP');return}
  qb().querySelectorAll('[data-r]').forEach(b=>b.onclick=e=>{
   magic(e,{n:22,dist:120});
   send({action:'session',kid:KID,subject:Qz.subject,minutes,rating:b.dataset.r});
-  toast('Zapisano. Brawo! ✦');Qz=null;setTimeout(()=>go('zeszytP'),600);
+  toast('Zapisano. Brawo! ✦');Qz=null;setTimeout(()=>go('subjP'),600);
  });
 }
-$('zOpen').onclick=e=>{magic(e,{n:22,dist:120});go('zeszytP')};
-$('zBack').onclick=()=>go('home');
-$('zQuit').onclick=()=>{if(Qz&&Qz.q&&$('zNotes'))finish();else go('zeszytP')};
-flush();
-return {open,render:()=>{if(data)renderHome();open()}};
+$('zOpen').onclick=e=>{magic(e,{n:22,dist:120});go('obowP')};
+$('oBack').onclick=()=>go('home');
+$('sBack').onclick=()=>go('home');
+$('zQuit').onclick=()=>{if(Qz&&Qz.q&&$('zNotes'))finish();else go('subjP')};
+flush();open();
+return {
+ start,homeSub,subjRows,
+ chores:()=>{if(data)renderChores();else $('oBody').innerHTML='<p class="lead">Ładuję…</p>';open()},
+ subject:()=>{if(curSubj)renderSubject()},
+ hasData:()=>!!data
+};
 })();
 
 const NEW_PACKS=importPacks();
