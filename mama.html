@@ -101,10 +101,11 @@ async function review(rows,verdict,msg){
  if(!rows.length)return;
  rows.forEach(r=>r.verdict=verdict);render();   // сразу показываем, потом отправляем
  try{
-  const r=await fetch(API,{method:'POST',body:JSON.stringify({action:'review',key,items:rows.map(x=>({row:x.row,choreId:x.choreId,verdict}))})});
+  const r=await fetch(API,{method:'POST',body:JSON.stringify({action:'review',key,items:rows.map(x=>({row:x.row,kid:x.kid,choreId:x.choreId,day:x.day,verdict}))})});
   const d=await r.json();if(d.error)throw new Error(d.error);
+  if(!d.updated)throw new Error('0 строк');   // сервер ничего не записал — не делаем вид, что сохранилось
   toast(msg);
- }catch(e){toast('Не сохранилось, проверь интернет');load()}
+ }catch(e){toast('Не сохранилось, попробуй ещё раз');load()}
 }
 document.addEventListener('visibilitychange',()=>{if(document.visibilityState==='visible'&&key)load()});
 load();
